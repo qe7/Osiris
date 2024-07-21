@@ -619,9 +619,9 @@ public abstract class Minecraft implements Runnable {
             statFileWriter.func_27175_b();
             statFileWriter.syncStats();
 
-            if (mcApplet != null) {
-                mcApplet.clearApplet();
-            }
+//            if (mcApplet != null) {
+//                mcApplet.clearApplet();
+//            }
 
             try {
                 if (downloadResourcesThread != null) {

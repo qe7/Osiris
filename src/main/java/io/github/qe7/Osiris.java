@@ -61,8 +61,6 @@ public final class Osiris {
         this.getModuleManager().initialise();
         this.getCommandManager().initialise();
 
-        Minecraft.getMinecraft().session.username = "popbob";
-
         // register shutdown hook, save configs on shutdown
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             System.out.println("Osiris shutting down!");

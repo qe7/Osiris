@@ -1,11 +1,18 @@
 package net.minecraft.src;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.Enumeration;
+import java.util.Objects;
+import java.util.Properties;
+import java.util.TreeMap;
 
-public class StringTranslate
-{
-    /** Is the private singleton instance of StringTranslate. */
+public class StringTranslate {
+    /**
+     * Is the private singleton instance of StringTranslate.
+     */
     private static StringTranslate instance = new StringTranslate();
 
     /**
@@ -17,8 +24,7 @@ public class StringTranslate
     private String currentLanguage;
     private boolean isUnicode;
 
-    private StringTranslate()
-    {
+    private StringTranslate() {
         translateTable = new Properties();
         loadLanguageList();
         setLanguage("en_US");
@@ -27,111 +33,99 @@ public class StringTranslate
     /**
      * Return the StringTranslate singleton instance
      */
-    public static StringTranslate getInstance()
-    {
+    public static StringTranslate getInstance() {
         return instance;
     }
 
-    private void loadLanguageList()
-    {
+    private void loadLanguageList() {
         TreeMap treemap = new TreeMap();
 
-        try
-        {
-            BufferedReader bufferedreader = new BufferedReader(new InputStreamReader((StringTranslate.class).getResourceAsStream("/lang/languages.txt"), "UTF-8"));
+        /*try {
+            BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(Objects.requireNonNull((StringTranslate.class).getResourceAsStream("/lang/languages.txt")), "UTF-8"));
 
-            for (String s = bufferedreader.readLine(); s != null; s = bufferedreader.readLine())
-            {
+            for (String s = bufferedreader.readLine(); s != null; s = bufferedreader.readLine()) {
                 String as[] = s.split("=");
 
-                if (as != null && as.length == 2)
-                {
+                if (as != null && as.length == 2) {
                     treemap.put(as[0], as[1]);
                 }
             }
-        }
-        catch (IOException ioexception)
-        {
+        } catch (IOException ioexception) {
             ioexception.printStackTrace();
-            return;
+        }*/
+
+        try {
+            BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(Objects.requireNonNull((StringTranslate.class).getResourceAsStream("/lang/languages.txt")), StandardCharsets.UTF_8));
+
+            for (String s = bufferedreader.readLine(); s != null; s = bufferedreader.readLine()) {
+                String[] as = s.split("=");
+
+                if (as.length == 2) {
+                    treemap.put(as[0], as[1]);
+                }
+            }
+        } catch (IOException ioexception) {
+            ioexception.printStackTrace();
         }
 
         languageList = treemap;
     }
 
-    public TreeMap getLanguageList()
-    {
+    public TreeMap getLanguageList() {
         return languageList;
     }
 
-    private void loadLanguage(Properties par1Properties, String par2Str) throws IOException
-    {
-        BufferedReader bufferedreader = new BufferedReader(new InputStreamReader((StringTranslate.class).getResourceAsStream((new StringBuilder()).append("/lang/").append(par2Str).append(".lang").toString()), "UTF-8"));
+    private void loadLanguage(Properties par1Properties, String par2Str) throws IOException {
+        BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(Objects.requireNonNull((StringTranslate.class).getResourceAsStream("/lang/" + par2Str + ".lang")), StandardCharsets.UTF_8));
 
-        for (String s = bufferedreader.readLine(); s != null; s = bufferedreader.readLine())
-        {
+        for (String s = bufferedreader.readLine(); s != null; s = bufferedreader.readLine()) {
             s = s.trim();
 
-            if (s.startsWith("#"))
-            {
+            if (s.startsWith("#")) {
                 continue;
             }
 
             String as[] = s.split("=");
 
-            if (as != null && as.length == 2)
-            {
+            if (as != null && as.length == 2) {
                 par1Properties.setProperty(as[0], as[1]);
             }
         }
     }
 
-    public void setLanguage(String par1Str)
-    {
-        if (!par1Str.equals(this.currentLanguage))
-        {
+    public void setLanguage(String par1Str) {
+        if (!par1Str.equals(this.currentLanguage)) {
             Properties var2 = new Properties();
 
-            try
-            {
+            try {
                 this.loadLanguage(var2, "en_US");
-            }
-            catch (IOException var8)
-            {
+            } catch (IOException var8) {
                 ;
             }
 
             this.isUnicode = false;
 
-            if (!"en_US".equals(par1Str))
-            {
-                try
-                {
+            if (!"en_US".equals(par1Str)) {
+                try {
                     this.loadLanguage(var2, par1Str);
                     Enumeration var3 = var2.propertyNames();
 
-                    while (var3.hasMoreElements() && !this.isUnicode)
-                    {
+                    while (var3.hasMoreElements() && !this.isUnicode) {
                         Object var4 = var3.nextElement();
                         Object var5 = var2.get(var4);
 
-                        if (var5 != null)
-                        {
+                        if (var5 != null) {
                             String var6 = var5.toString();
 
-                            for (int var7 = 0; var7 < var6.length(); ++var7)
-                            {
-                                if (var6.charAt(var7) >= 256)
-                                {
+                            for (int var7 = 0; var7 < var6.length(); ++var7) {
+                                if (var6.charAt(var7) >= 256) {
                                     this.isUnicode = true;
                                     break;
                                 }
                             }
                         }
                     }
-                }
-                catch (IOException var9)
-                {
+                } catch (IOException var9) {
                     var9.printStackTrace();
                     return;
                 }
@@ -142,29 +136,25 @@ public class StringTranslate
         }
     }
 
-    public String getCurrentLanguage()
-    {
+    public String getCurrentLanguage() {
         return currentLanguage;
     }
 
-    public boolean isUnicode()
-    {
+    public boolean isUnicode() {
         return isUnicode;
     }
 
     /**
      * Translate a key to current language.
      */
-    public String translateKey(String par1Str)
-    {
+    public String translateKey(String par1Str) {
         return translateTable.getProperty(par1Str, par1Str);
     }
 
     /**
      * Translate a key to current language applying String.format()
      */
-    public String translateKeyFormat(String par1Str, Object par2ArrayOfObj[])
-    {
+    public String translateKeyFormat(String par1Str, Object par2ArrayOfObj[]) {
         String s = translateTable.getProperty(par1Str, par1Str);
         return String.format(s, par2ArrayOfObj);
     }
@@ -172,13 +162,11 @@ public class StringTranslate
     /**
      * Translate a key with a extra '.name' at end added, is used by blocks and items.
      */
-    public String translateNamedKey(String par1Str)
-    {
+    public String translateNamedKey(String par1Str) {
         return translateTable.getProperty((new StringBuilder()).append(par1Str).append(".name").toString(), "");
     }
 
-    public static boolean isBidrectional(String par0Str)
-    {
+    public static boolean isBidrectional(String par0Str) {
         return "ar_SA".equals(par0Str) || "he_IL".equals(par0Str);
     }
 }
