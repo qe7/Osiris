@@ -1,7 +1,10 @@
 package net.minecraft.src;
 
 import io.github.qe7.Osiris;
+import io.github.qe7.events.impl.render.RenderPortalOverlayEvent;
+import io.github.qe7.events.impl.render.RenderPumpkinOverlayEvent;
 import io.github.qe7.events.impl.render.RenderScreenEvent;
+import io.github.qe7.events.impl.render.RenderWaterOverlayEvent;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -80,14 +83,24 @@ public class GuiIngame extends Gui {
         ItemStack itemstack = mc.thePlayer.inventory.armorItemInSlot(3);
 
         if (mc.gameSettings.thirdPersonView == 0 && itemstack != null && itemstack.itemID == Block.pumpkin.blockID) {
-            renderPumpkinBlur(i, j);
+            final RenderPumpkinOverlayEvent renderPumpkinOverlayEvent = new RenderPumpkinOverlayEvent();
+            Osiris.getInstance().getEventBus().post(renderPumpkinOverlayEvent);
+
+            if (!renderPumpkinOverlayEvent.isCancelled()) {
+                renderPumpkinBlur(i, j);
+            }
         }
 
         if (!mc.thePlayer.isPotionActive(Potion.confusion)) {
             float f = mc.thePlayer.prevTimeInPortal + (mc.thePlayer.timeInPortal - mc.thePlayer.prevTimeInPortal) * par1;
 
             if (f > 0.0F) {
-                renderPortalOverlay(f, i, j);
+                final RenderPortalOverlayEvent renderPortalOverlayEvent = new RenderPortalOverlayEvent();
+                Osiris.getInstance().getEventBus().post(renderPortalOverlayEvent);
+
+                if (!renderPortalOverlayEvent.isCancelled()) {
+                    renderPortalOverlay(f, i, j);
+                }
             }
         }
 
@@ -255,11 +268,16 @@ public class GuiIngame extends Gui {
                     int l11 = (int) Math.ceil(((double) (l10 - 2) * 10D) / 300D);
                     int k12 = (int) Math.ceil(((double) l10 * 10D) / 300D) - l11;
 
-                    for (int i13 = 0; i13 < l11 + k12; i13++) {
-                        if (i13 < l11) {
-                            drawTexturedModalRect(i6 - i13 * 8 - 9, k8, 16, 18, 9, 9);
-                        } else {
-                            drawTexturedModalRect(i6 - i13 * 8 - 9, k8, 25, 18, 9, 9);
+                    final RenderWaterOverlayEvent renderWaterOverlayEvent = new RenderWaterOverlayEvent();
+                    Osiris.getInstance().getEventBus().post(renderWaterOverlayEvent);
+
+                    if (!renderWaterOverlayEvent.isCancelled()) {
+                        for (int i13 = 0; i13 < l11 + k12; i13++) {
+                            if (i13 < l11) {
+                                drawTexturedModalRect(i6 - i13 * 8 - 9, k8, 16, 18, 9, 9);
+                            } else {
+                                drawTexturedModalRect(i6 - i13 * 8 - 9, k8, 25, 18, 9, 9);
+                            }
                         }
                     }
                 }

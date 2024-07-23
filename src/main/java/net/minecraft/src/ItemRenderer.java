@@ -1,6 +1,7 @@
 package net.minecraft.src;
 
 import io.github.qe7.Osiris;
+import io.github.qe7.events.impl.render.RenderInsideBlockOverlayEvent;
 import io.github.qe7.events.impl.render.RenderItemEvent;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
@@ -487,6 +488,13 @@ public class ItemRenderer {
      * Renders the texture of the block the player is inside as an overlay. Args: partialTickTime, blockTextureIndex
      */
     private void renderInsideOfBlock(float par1, int par2) {
+        final RenderInsideBlockOverlayEvent renderInsideBlockOverlayEvent = new RenderInsideBlockOverlayEvent();
+        Osiris.getInstance().getEventBus().post(renderInsideBlockOverlayEvent);
+
+        if (renderInsideBlockOverlayEvent.isCancelled()) {
+            return;
+        }
+
         Tessellator tessellator = Tessellator.instance;
         float f = mc.thePlayer.getBrightness(par1);
         f = 0.1F;

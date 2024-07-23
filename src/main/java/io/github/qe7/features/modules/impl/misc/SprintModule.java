@@ -13,6 +13,7 @@ import org.lwjgl.input.Keyboard;
 public class SprintModule extends Module {
 
     public static final BooleanSetting omniDirectional = new BooleanSetting("Omni-Directional", true);
+    private final BooleanSetting foodCheck = new BooleanSetting("Food Check", true);
 
     public SprintModule() {
         super("Sprint", "Automatically sprints for the player", ModuleCategory.MISC);
@@ -38,6 +39,7 @@ public class SprintModule extends Module {
         if (mc.currentScreen != null) return false;
         if (player.isCollidedHorizontally) return false;
         if (player.isSneaking()) return false;
+        if (foodCheck.getValue() && player.getFoodStats().getFoodLevel() <= 6) return false;
 
         if (omniDirectional.getValue()) {
             return Keyboard.isKeyDown(mc.gameSettings.keyBindForward.keyCode) || Keyboard.isKeyDown(mc.gameSettings.keyBindBack.keyCode) || Keyboard.isKeyDown(mc.gameSettings.keyBindLeft.keyCode) || Keyboard.isKeyDown(mc.gameSettings.keyBindRight.keyCode);

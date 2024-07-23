@@ -4,6 +4,7 @@ import io.github.qe7.events.api.EventLink;
 import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.packet.OutgoingPacketEvent;
 import io.github.qe7.events.impl.player.LivingUpdateEvent;
+import io.github.qe7.events.impl.render.RenderInsideBlockOverlayEvent;
 import io.github.qe7.features.modules.api.Module;
 import io.github.qe7.features.modules.api.enums.ModuleCategory;
 import io.github.qe7.utils.local.MovementUtility;
@@ -41,9 +42,6 @@ public class FreeCamModule extends Module {
         mc.thePlayer.motionX = 0;
         mc.thePlayer.motionY = 0;
         mc.thePlayer.motionZ = 0;
-
-        // create a new entity to render where the player is
-
     }
 
     @Override
@@ -90,5 +88,10 @@ public class FreeCamModule extends Module {
         if (event.getPacket() instanceof Packet10Flying) {
             event.setCancelled(true);
         }
+    };
+
+    @EventLink
+    public final Listener<RenderInsideBlockOverlayEvent> renderInsideBlockOverlayEventListener = event -> {
+        event.setCancelled(true);
     };
 }

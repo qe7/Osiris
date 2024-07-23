@@ -53,6 +53,7 @@ public final class ModuleManager extends TypeManager<Module> {
             ESPModule.class,
             HUDModule.class,
             NameTagsModule.class,
+            NoRenderModule.class,
             XRayModule.class,
     };
 
