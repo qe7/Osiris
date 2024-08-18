@@ -6,15 +6,15 @@ import com.google.gson.JsonObject;
 import io.github.qe7.features.waypoints.Waypoint;
 import io.github.qe7.features.waypoints.enums.WaypointDimension;
 import io.github.qe7.managers.api.Manager;
+import io.github.qe7.managers.api.interfaces.Register;
+import io.github.qe7.managers.api.interfaces.Unregister;
 import io.github.qe7.utils.configs.FileUtility;
 
-public final class WaypointManager extends Manager<Waypoint, String> {
+public final class WaypointManager extends Manager<Waypoint, String> implements Register<Waypoint>, Unregister<Waypoint> {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     public void initialise() {
-        System.out.println("WaypointManager initialising!");
-
         this.loadWaypoints();
 
         System.out.println("WaypointManager initialised!");

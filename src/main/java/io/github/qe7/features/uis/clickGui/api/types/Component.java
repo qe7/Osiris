@@ -1,6 +1,7 @@
-package io.github.qe7.features.clickGui.api.types;
+package io.github.qe7.features.uis.clickGui.api.types;
 
 import io.github.qe7.features.modules.api.settings.api.Setting;
+import io.github.qe7.utils.math.MathUtility;
 
 public abstract class Component {
 
@@ -25,6 +26,7 @@ public abstract class Component {
     }
 
     public boolean isHovering(int mouseX, int mouseY, float x, float y) {
-        return mouseX >= x && mouseX <= x + 106 && mouseY >= y && mouseY <= y + 14;
+//        return mouseX >= x && mouseX <= x + 106 && mouseY >= y && mouseY <= y + 14;
+        return MathUtility.isHovered(x, y, 106, 14, mouseX, mouseY);
     }
 }

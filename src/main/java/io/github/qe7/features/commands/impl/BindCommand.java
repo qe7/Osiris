@@ -18,7 +18,8 @@ public class BindCommand extends Command {
     @Override
     public void execute(String[] args) {
         if (args.length < 3) {
-            ChatUtility.sendPrefixedMessage("!", "Invalid arguments");
+            ChatUtility.addPrefixedMessage("Bind", "Invalid arguments");
+            ChatUtility.addPrefixedMessage("Bind", "Usage: " + this.getUsage());
             return;
         }
 
@@ -29,7 +30,7 @@ public class BindCommand extends Command {
             if (module.getName().replace(" ", "").equalsIgnoreCase(moduleName)) {
                 if (key.equalsIgnoreCase("none")) {
                     module.setKeyCode(-1);
-                    ChatUtility.sendPrefixedMessage("!", "Unbound " + module.getName());
+                    ChatUtility.addPrefixedMessage("Bind", "Unbound " + module.getName());
                     return;
                 }
 
@@ -38,16 +39,16 @@ public class BindCommand extends Command {
                 try {
                     keyCode = Keyboard.getKeyIndex(key.toUpperCase());
                 } catch (NumberFormatException e) {
-                    ChatUtility.sendPrefixedMessage("!", "Invalid key");
+                    ChatUtility.addPrefixedMessage("Bind", "Invalid key");
                     return;
                 }
 
                 module.setKeyCode(keyCode);
-                ChatUtility.sendPrefixedMessage("!", "Bound " + module.getName() + " to " + key);
+                ChatUtility.addPrefixedMessage("Bind", "Bound " + module.getName() + " to " + key);
                 return;
             }
         }
 
-        ChatUtility.sendPrefixedMessage("!", "Module not found");
+        ChatUtility.addPrefixedMessage("Bind", "Module not found");
     }
 }

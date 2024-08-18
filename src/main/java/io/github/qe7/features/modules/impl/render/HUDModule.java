@@ -7,12 +7,14 @@ import io.github.qe7.events.impl.render.RenderScreenEvent;
 import io.github.qe7.features.modules.api.Module;
 import io.github.qe7.features.modules.api.enums.ModuleCategory;
 import io.github.qe7.features.modules.api.settings.impl.BooleanSetting;
-import io.github.qe7.utils.math.ColourUtility;
+import io.github.qe7.features.modules.api.settings.impl.IntSetting;
+import io.github.qe7.utils.render.ColourUtility;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.GuiChat;
 import net.minecraft.src.ScaledResolution;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,13 +23,11 @@ public class HUDModule extends Module {
 
     /* watermark */
     private final BooleanSetting watermark = new BooleanSetting("Watermark", true);
-    private final BooleanSetting showVersion = new BooleanSetting("Show Version", true).supplyIf(watermark::getValue);
+    private final BooleanSetting showVersion = new BooleanSetting("Show Build Version", true).supplyIf(watermark::getValue);
+    private final BooleanSetting showMCVersion = new BooleanSetting("Show MC Version", true).supplyIf(watermark::getValue);
 
     /* modules */
     private final BooleanSetting modules = new BooleanSetting("Modules", true);
-    private final BooleanSetting rainbow = new BooleanSetting("Rainbow", true).supplyIf(this.modules::getValue);
-    private final BooleanSetting modulesExcludeRender = new BooleanSetting("Exclude Render", true).supplyIf(this.modules::getValue);
-    private final BooleanSetting modulesReverse = new BooleanSetting("Reverse", false).supplyIf(this.modules::getValue);
     private final BooleanSetting modulesSuffix = new BooleanSetting("Suffix", true).supplyIf(this.modules::getValue);
 
     /* bottom right */
@@ -40,6 +40,11 @@ public class HUDModule extends Module {
 
     /* misc */
     private final BooleanSetting welcomer = new BooleanSetting("Welcomer", true);
+
+    /* theme color */
+    public static final IntSetting red = new IntSetting("Red", 255, 0, 255, 1);
+    public static final IntSetting green = new IntSetting("Green", 255, 0, 255, 1);
+    public static final IntSetting blue = new IntSetting("Blue", 255, 0, 255, 1);
 
     private final List<Long> fpsCounter = new ArrayList<>();
 
@@ -58,13 +63,17 @@ public class HUDModule extends Module {
         int bottomLeftOffset = (Minecraft.getMinecraft().currentScreen instanceof GuiChat ? 14 : 0);
 
         if (this.watermark.getValue()) {
-            String display = Osiris.getInstance().getName() + "\u00A77";
+            String display = Osiris.getInstance().getName() + "§7";
+
+            if (showMCVersion.getValue()) {
+                display += " (rel 1.2.5)";
+            }
 
             if (showVersion.getValue()) {
                 display += " v" + Osiris.getInstance().getVersion();
             }
 
-            fontRenderer.drawStringWithShadow(display, 2, 2, -1);
+            fontRenderer.drawStringWithShadow(display, 2, 2, new Color(red.getValue(), green.getValue(), blue.getValue()).getRGB());
         }
 
         if (this.coordinates.getValue()) {
@@ -81,7 +90,7 @@ public class HUDModule extends Module {
                 y = Math.round(y * 10.0) / 10.0;
                 z = Math.round(z * 10.0) / 10.0;
 
-                fontRenderer.drawStringWithShadow(String.format("Overworld\u00A77 %.1f %.1f %.1f", x, y, z), 2, scaledResolution.getScaledHeight() - bottomLeftOffset - 10, -1);
+                fontRenderer.drawStringWithShadow(String.format("Overworld§7 %.1f %.1f %.1f", x, y, z), 2, scaledResolution.getScaledHeight() - bottomLeftOffset - 10, new Color(red.getValue(), green.getValue(), blue.getValue()).getRGB());
 
                 // create nether coordinates (if in overworld / 8)
                 double netherX = Minecraft.getMinecraft().thePlayer.posX / (dimension == 0 ? 8 : 1);
@@ -90,7 +99,7 @@ public class HUDModule extends Module {
                 netherX = Math.round(netherX * 10.0) / 10.0;
                 netherZ = Math.round(netherZ * 10.0) / 10.0;
 
-                fontRenderer.drawStringWithShadow(String.format("Nether\u00A77 %.1f %.1f", netherX, netherZ), 2, scaledResolution.getScaledHeight() - bottomLeftOffset  - 20, -1);
+                fontRenderer.drawStringWithShadow(String.format("Nether§7 %.1f %.1f", netherX, netherZ), 2, scaledResolution.getScaledHeight() - bottomLeftOffset - 20, new Color(red.getValue(), green.getValue(), blue.getValue()).getRGB());
             } else {
                 double x = Minecraft.getMinecraft().thePlayer.posX;
                 double y = Minecraft.getMinecraft().thePlayer.posY;
@@ -100,17 +109,16 @@ public class HUDModule extends Module {
                 y = Math.round(y * 10.0) / 10.0;
                 z = Math.round(z * 10.0) / 10.0;
 
-                fontRenderer.drawStringWithShadow(String.format("XYZ\u00A77 %.1f %.1f %.1f", x, y, z), 2, scaledResolution.getScaledHeight() - bottomLeftOffset - 10, -1);
+                fontRenderer.drawStringWithShadow(String.format("XYZ§7 %.1f %.1f %.1f", x, y, z), 2, scaledResolution.getScaledHeight() - bottomLeftOffset - 10, new Color(red.getValue(), green.getValue(), blue.getValue()).getRGB());
             }
         }
 
         if (this.durability.getValue()) {
-            // get the durability of the player's current held item
             if (Minecraft.getMinecraft().thePlayer.inventory.getCurrentItem() != null && Minecraft.getMinecraft().thePlayer.inventory.getCurrentItem().getMaxDamage() != 0) {
                 final int x = scaledResolution.getScaledWidth() - 2 - fontRenderer.getStringWidth("Durability " + (Minecraft.getMinecraft().thePlayer.inventory.getCurrentItem().getMaxDamage() - Minecraft.getMinecraft().thePlayer.inventory.getCurrentItem().getItemDamage()));
                 final int y = scaledResolution.getScaledHeight() - bottomRightOffset - 10;
 
-                fontRenderer.drawStringWithShadow("Durability \u00A77" + (Minecraft.getMinecraft().thePlayer.inventory.getCurrentItem().getMaxDamage() - Minecraft.getMinecraft().thePlayer.inventory.getCurrentItem().getItemDamage()), x, y, -1);
+                fontRenderer.drawStringWithShadow("Durability §7" + (Minecraft.getMinecraft().thePlayer.inventory.getCurrentItem().getMaxDamage() - Minecraft.getMinecraft().thePlayer.inventory.getCurrentItem().getItemDamage()), x, y, new Color(red.getValue(), green.getValue(), blue.getValue()).getRGB());
                 bottomRightOffset += 10;
             }
         }
@@ -123,36 +131,24 @@ public class HUDModule extends Module {
             final int x = scaledResolution.getScaledWidth() - 2 - fontRenderer.getStringWidth("FPS " + fpsCounter.size());
             final int y = scaledResolution.getScaledHeight() - bottomRightOffset - 10;
 
-            fontRenderer.drawStringWithShadow("FPS \u00A77" + fpsCounter.size(), x, y, -1);
+            fontRenderer.drawStringWithShadow("FPS §7" + fpsCounter.size(), x, y, new Color(red.getValue(), green.getValue(), blue.getValue()).getRGB());
             bottomRightOffset += 10;
         }
 
         if (this.modules.getValue()) {
-            final List<Module> modules = Osiris.getInstance().getModuleManager().getMap().values().stream().filter(Module::isEnabled).sorted((module1, module2) -> {
-                final String display1 = module1.getName() + (module1.getSuffix() != null ? " " + module1.getSuffix() : "");
-
-                final String display2 = module2.getName() + (module2.getSuffix() != null ? " " + module2.getSuffix() : "");
-
-                final int width1 = fontRenderer.getStringWidth(display1);
-
-                final int width2 = fontRenderer.getStringWidth(display2);
-
-                return this.modulesReverse.getValue() ? Integer.compare(width1, width2) : Integer.compare(width2, width1);
-            }).collect(Collectors.toList());
+            final List<Module> modules = Osiris.getInstance().getModuleManager().getMap().values().stream().filter(Module::isEnabled).collect(Collectors.toList());
 
             int y = 2;
             for (Module module : modules) {
-                if (this.modulesExcludeRender.getValue() && module.getCategory() == ModuleCategory.RENDER) continue;
-
                 final String name = module.getName();
                 final String suffix = module.getSuffix();
 
                 final float x = scaledResolution.getScaledWidth() - fontRenderer.getStringWidth(name) - 2 - (suffix != null && this.modulesSuffix.getValue() ? fontRenderer.getStringWidth(suffix) : 0);
 
-                fontRenderer.drawStringWithShadow(name, x - (suffix != null && this.modulesSuffix.getValue() ? 4 : 0), y, this.rainbow.getValue() ? ColourUtility.getRainbow(5000, 0.9f, 0.75f, y * 10) : module.getCategory().getColor().getRGB());
+                fontRenderer.drawStringWithShadow(name, x - (suffix != null && this.modulesSuffix.getValue() ? 4 : 0), y, ColourUtility.getMixedColor(new Color(red.getValue(), green.getValue(), blue.getValue()), new Color(red.getValue(), green.getValue(), blue.getValue()).darker(), y * 10).getRGB());
 
                 if (suffix != null && this.modulesSuffix.getValue()) {
-                    fontRenderer.drawStringWithShadow("\u00A77" + suffix, x + fontRenderer.getStringWidth(name), y, -1);
+                    fontRenderer.drawStringWithShadow("§7" + suffix, x + fontRenderer.getStringWidth(name), y, -1);
                 }
 
                 y += 10;
@@ -160,25 +156,27 @@ public class HUDModule extends Module {
         }
 
         if (welcomer.getValue()) {
-            String display;
+            String display = getWelcomeMessage();
 
-            // depending on the time of day (real world), display a different message (morning, afternoon, evening, night)
-            final int hour = java.time.LocalTime.now().getHour();
-
-            if (hour >= 6 && hour < 12) {
-                display = "Good morning";
-            } else if (hour >= 12 && hour < 18) {
-                display = "Good afternoon";
-            } else if (hour >= 18) {
-                display = "Good evening";
-            } else {
-                display = "Good night";
-            }
-
-            fontRenderer.drawStringWithShadow(display + " \u00A77" + Minecraft.getMinecraft().thePlayer.username + "\u00A7r!",
-                    (float) (scaledResolution.getScaledWidth() / 2 - fontRenderer.getStringWidth(display + " \u00A77" + Minecraft.getMinecraft().thePlayer.username + "\u00A7r!") / 2),
-                    (float) 5,
-                    -1);
+            fontRenderer.drawStringWithShadow(display + " §7" + Minecraft.getMinecraft().thePlayer.username + "§r!", (float) (scaledResolution.getScaledWidth() / 2 - fontRenderer.getStringWidth(display + " §7" + Minecraft.getMinecraft().thePlayer.username + "§r!") / 2), (float) 5, new Color(red.getValue(), green.getValue(), blue.getValue()).getRGB());
         }
     };
+
+    private static String getWelcomeMessage() {
+        String display;
+
+        // depending on the time of day (real world), display a different message (morning, afternoon, evening, night)
+        final int hour = java.time.LocalTime.now().getHour();
+
+        if (hour >= 6 && hour < 12) {
+            display = "Good morning";
+        } else if (hour >= 12 && hour < 18) {
+            display = "Good afternoon";
+        } else if (hour >= 18) {
+            display = "Good evening";
+        } else {
+            display = "Good night";
+        }
+        return display;
+    }
 }

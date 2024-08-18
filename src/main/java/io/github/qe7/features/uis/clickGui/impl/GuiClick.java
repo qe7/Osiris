@@ -1,6 +1,6 @@
-package io.github.qe7.features.clickGui.impl;
+package io.github.qe7.features.uis.clickGui.impl;
 
-import io.github.qe7.features.clickGui.impl.panel.Panel;
+import io.github.qe7.features.uis.clickGui.impl.panel.Panel;
 import io.github.qe7.features.modules.api.enums.ModuleCategory;
 import net.minecraft.src.GuiScreen;
 
@@ -12,13 +12,13 @@ public class GuiClick extends GuiScreen {
     private final List<Panel> panels = new ArrayList<>();
 
     public GuiClick() {
-        final float y = 14;
-        float x = 2;
+        final float y = 20;
+        float x = (960 / 2) - (ModuleCategory.values().length * (112 + 5) / 2);
 
         for (ModuleCategory moduleCategory : ModuleCategory.values()) {
             Panel panel = new Panel(moduleCategory, x, y);
             panels.add(panel);
-            x += panel.width + 2;
+            x += panel.width + 5;
         }
     }
 

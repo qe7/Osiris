@@ -6,24 +6,25 @@ import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.packet.OutgoingPacketEvent;
 import io.github.qe7.features.commands.api.Command;
 import io.github.qe7.features.commands.impl.BindCommand;
+import io.github.qe7.features.commands.impl.EnemyCommand;
 import io.github.qe7.features.commands.impl.FriendCommand;
 import io.github.qe7.features.commands.impl.ToggleCommand;
-import io.github.qe7.managers.api.TypeManager;
+import io.github.qe7.managers.api.Manager;
+import io.github.qe7.managers.api.interfaces.Register;
 import io.github.qe7.utils.local.ChatUtility;
 import net.minecraft.src.Packet;
 import net.minecraft.src.Packet3Chat;
 
-public final class CommandManager extends TypeManager<Command> {
+public final class CommandManager extends Manager<Class<? extends Command>, Command> implements Register<Class<? extends Command>> {
 
     private static final Class<Command>[] COMMANDS = new Class[]{
             BindCommand.class,
+            EnemyCommand.class,
             FriendCommand.class,
             ToggleCommand.class,
     };
 
     public void initialise() {
-        System.out.println("Initialising CommandManager!");
-
         for (Class<Command> clazz : COMMANDS) {
             try {
                 register(clazz);
@@ -34,6 +35,17 @@ public final class CommandManager extends TypeManager<Command> {
 
         Osiris.getInstance().getEventBus().register(this);
         System.out.println("CommandManager initialised!");
+    }
+
+    @Override
+    public void register(Class<? extends Command> type) {
+        try {
+            Command command = type.newInstance();
+            getMap().putIfAbsent(type, command);
+            System.out.println("Registered command: " + type.getSimpleName());
+        } catch (Exception e) {
+            System.out.println("Failed to register command: " + type.getSimpleName() + " - " + e.getMessage());
+        }
     }
 
     @EventLink
@@ -63,7 +75,7 @@ public final class CommandManager extends TypeManager<Command> {
                 }
             }
 
-            ChatUtility.sendPrefixedMessage("!", "Unknown command: " + args[0]);
+            ChatUtility.addPrefixedMessage("Command Manager", "Unknown command: " + args[0]);
         }
     };
 }

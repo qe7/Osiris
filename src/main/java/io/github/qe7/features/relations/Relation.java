@@ -1,18 +1,18 @@
-package io.github.qe7.features.friends;
+package io.github.qe7.features.relations;
 
 import com.google.gson.JsonObject;
-import io.github.qe7.features.friends.enums.FriendType;
+import io.github.qe7.features.relations.enums.RelationType;
 import io.github.qe7.utils.configs.Serialized;
 
-public class Friend implements Serialized {
+public class Relation implements Serialized {
 
     private final String name;
 
     private String alias;
 
-    private FriendType type;
+    private RelationType type;
 
-    public Friend(final String name, final String alias, final FriendType type) {
+    public Relation(final String name, final String alias, final RelationType type) {
         this.name = name;
         this.alias = alias;
         this.type = type;
@@ -30,11 +30,11 @@ public class Friend implements Serialized {
         this.alias = alias;
     }
 
-    public FriendType getType() {
+    public RelationType getType() {
         return this.type;
     }
 
-    public void setType(FriendType type) {
+    public void setType(RelationType type) {
         this.type = type;
     }
 
@@ -51,6 +51,6 @@ public class Friend implements Serialized {
     @Override
     public void deserialize(JsonObject object) {
         this.alias = object.get("alias").getAsString();
-        this.type = FriendType.valueOf(object.get("type").getAsString());
+        this.type = RelationType.valueOf(object.get("type").getAsString());
     }
 }

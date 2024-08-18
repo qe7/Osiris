@@ -3,6 +3,7 @@ package net.minecraft.src;
 import io.github.qe7.Osiris;
 import io.github.qe7.events.impl.player.LivingUpdateEvent;
 import io.github.qe7.events.impl.player.SlowdownEvent;
+import io.github.qe7.features.modules.impl.misc.FreeCamModule;
 import io.github.qe7.features.modules.impl.misc.SprintModule;
 import net.minecraft.client.Minecraft;
 
@@ -182,10 +183,12 @@ public class EntityPlayerSP extends EntityPlayer {
             ySize = 0.2F;
         }
 
-        pushOutOfBlocks(posX - (double) width * 0.34999999999999998D, boundingBox.minY + 0.5D, posZ + (double) width * 0.34999999999999998D);
-        pushOutOfBlocks(posX - (double) width * 0.34999999999999998D, boundingBox.minY + 0.5D, posZ - (double) width * 0.34999999999999998D);
-        pushOutOfBlocks(posX + (double) width * 0.34999999999999998D, boundingBox.minY + 0.5D, posZ - (double) width * 0.34999999999999998D);
-        pushOutOfBlocks(posX + (double) width * 0.34999999999999998D, boundingBox.minY + 0.5D, posZ + (double) width * 0.34999999999999998D);
+        if (!Osiris.getInstance().getModuleManager().getMap().get(FreeCamModule.class).isEnabled()) {
+            pushOutOfBlocks(posX - (double) width * 0.34999999999999998D, boundingBox.minY + 0.5D, posZ + (double) width * 0.34999999999999998D);
+            pushOutOfBlocks(posX - (double) width * 0.34999999999999998D, boundingBox.minY + 0.5D, posZ - (double) width * 0.34999999999999998D);
+            pushOutOfBlocks(posX + (double) width * 0.34999999999999998D, boundingBox.minY + 0.5D, posZ - (double) width * 0.34999999999999998D);
+            pushOutOfBlocks(posX + (double) width * 0.34999999999999998D, boundingBox.minY + 0.5D, posZ + (double) width * 0.34999999999999998D);
+        }
         boolean flag2 = (float) getFoodStats().getFoodLevel() > 6F;
 
         if (onGround && !flag1 && movementInput.moveForward >= f && !isSprinting() && flag2 && !isUsingItem() && !isPotionActive(Potion.blindness)) {

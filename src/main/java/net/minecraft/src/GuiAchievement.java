@@ -1,23 +1,32 @@
 package net.minecraft.src;
 
+import io.github.qe7.Osiris;
+import io.github.qe7.events.impl.render.RenderGuiAchievementEvent;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-public class GuiAchievement extends Gui
-{
-    /** Holds the instance of the game (Minecraft) */
+public class GuiAchievement extends Gui {
+    /**
+     * Holds the instance of the game (Minecraft)
+     */
     private Minecraft theGame;
 
-    /** Holds the latest width scaled to fit the game window. */
+    /**
+     * Holds the latest width scaled to fit the game window.
+     */
     private int achievementWindowWidth;
 
-    /** Holds the latest height scaled to fit the game window. */
+    /**
+     * Holds the latest height scaled to fit the game window.
+     */
     private int achievementWindowHeight;
     private String achievementGetLocalText;
     private String achievementStatName;
 
-    /** Holds the achievement that will be displayed on the GUI. */
+    /**
+     * Holds the achievement that will be displayed on the GUI.
+     */
     private Achievement theAchievement;
     private long achievementTime;
 
@@ -27,8 +36,7 @@ public class GuiAchievement extends Gui
     private RenderItem itemRender;
     private boolean haveAchiement;
 
-    public GuiAchievement(Minecraft par1Minecraft)
-    {
+    public GuiAchievement(Minecraft par1Minecraft) {
         theGame = par1Minecraft;
         itemRender = new RenderItem();
     }
@@ -36,8 +44,7 @@ public class GuiAchievement extends Gui
     /**
      * Queue a taken achievement to be displayed.
      */
-    public void queueTakenAchievement(Achievement par1Achievement)
-    {
+    public void queueTakenAchievement(Achievement par1Achievement) {
         achievementGetLocalText = StatCollector.translateToLocal("achievement.get");
         achievementStatName = StatCollector.translateToLocal(par1Achievement.getName());
         achievementTime = System.currentTimeMillis();
@@ -48,8 +55,7 @@ public class GuiAchievement extends Gui
     /**
      * Queue a information about a achievement to be displayed.
      */
-    public void queueAchievementInformation(Achievement par1Achievement)
-    {
+    public void queueAchievementInformation(Achievement par1Achievement) {
         achievementGetLocalText = StatCollector.translateToLocal(par1Achievement.getName());
         achievementStatName = par1Achievement.getDescription();
         achievementTime = System.currentTimeMillis() - 2500L;
@@ -60,8 +66,7 @@ public class GuiAchievement extends Gui
     /**
      * Update the display of the achievement window to match the game window.
      */
-    private void updateAchievementWindowScale()
-    {
+    private void updateAchievementWindowScale() {
         GL11.glViewport(0, 0, theGame.displayWidth, theGame.displayHeight);
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glLoadIdentity();
@@ -84,17 +89,21 @@ public class GuiAchievement extends Gui
     /**
      * Updates the small achievement tooltip window, showing a queued achievement if is needed.
      */
-    public void updateAchievementWindow()
-    {
-        if (theAchievement == null || achievementTime == 0L)
-        {
+    public void updateAchievementWindow() {
+        RenderGuiAchievementEvent event = new RenderGuiAchievementEvent();
+        Osiris.getInstance().getEventBus().post(event);
+
+        if (event.isCancelled()) {
             return;
         }
 
-        double d = (double)(System.currentTimeMillis() - achievementTime) / 3000D;
+        if (theAchievement == null || achievementTime == 0L) {
+            return;
+        }
 
-        if (!haveAchiement && (d < 0.0D || d > 1.0D))
-        {
+        double d = (double) (System.currentTimeMillis() - achievementTime) / 3000D;
+
+        if (!haveAchiement && (d < 0.0D || d > 1.0D)) {
             achievementTime = 0L;
             return;
         }
@@ -104,23 +113,21 @@ public class GuiAchievement extends Gui
         GL11.glDepthMask(false);
         double d1 = d * 2D;
 
-        if (d1 > 1.0D)
-        {
+        if (d1 > 1.0D) {
             d1 = 2D - d1;
         }
 
         d1 *= 4D;
         d1 = 1.0D - d1;
 
-        if (d1 < 0.0D)
-        {
+        if (d1 < 0.0D) {
             d1 = 0.0D;
         }
 
         d1 *= d1;
         d1 *= d1;
         int i = achievementWindowWidth - 160;
-        int j = 0 - (int)(d1 * 36D);
+        int j = 0 - (int) (d1 * 36D);
         int k = theGame.renderEngine.getTexture("/achievement/bg.png");
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -128,12 +135,9 @@ public class GuiAchievement extends Gui
         GL11.glDisable(GL11.GL_LIGHTING);
         drawTexturedModalRect(i, j, 96, 202, 160, 32);
 
-        if (haveAchiement)
-        {
+        if (haveAchiement) {
             theGame.fontRenderer.drawSplitString(achievementStatName, i + 30, j + 7, 120, -1);
-        }
-        else
-        {
+        } else {
             theGame.fontRenderer.drawString(achievementGetLocalText, i + 30, j + 7, -256);
             theGame.fontRenderer.drawString(achievementStatName, i + 30, j + 18, -1);
         }

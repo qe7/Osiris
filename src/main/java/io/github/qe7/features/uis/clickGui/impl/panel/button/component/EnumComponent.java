@@ -1,6 +1,6 @@
-package io.github.qe7.features.clickGui.impl.panel.button.component;
+package io.github.qe7.features.uis.clickGui.impl.panel.button.component;
 
-import io.github.qe7.features.clickGui.api.types.Component;
+import io.github.qe7.features.uis.clickGui.api.types.Component;
 import io.github.qe7.features.modules.api.settings.impl.EnumSetting;
 import io.github.qe7.utils.math.MathUtility;
 import net.minecraft.client.Minecraft;
@@ -15,7 +15,7 @@ public class EnumComponent extends Component {
 
     private float positionX, positionY;
 
-    public int width = 104, height = 14;
+    public int width = 108, height = 14;
 
     public EnumComponent(EnumSetting<?> setting) {
         super(setting);
@@ -33,8 +33,6 @@ public class EnumComponent extends Component {
         if (MathUtility.isHovered(x, y, this.width, this.height, mouseX, mouseY)) {
             Gui.drawRect(x, y, x + width, y + height, new Color(0, 0, 0, 100).getRGB());
         }
-
-        Gui.drawRect(x, y, x + width, y + height, 0x77FB4242);
 
         fontRenderer.drawStringWithShadow(this.setting.getName(), x + 3, y + 3, -1);
         fontRenderer.drawStringWithShadow("\u00A77" + this.setting.getValue().getName(), x + 3 + fontRenderer.getStringWidth(this.setting.getName() + " "), y + 3, -1);

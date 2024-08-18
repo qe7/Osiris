@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import io.github.qe7.Osiris;
+import io.github.qe7.events.impl.render.RenderHurtCamEvent;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
@@ -399,6 +401,13 @@ public class EntityRenderer {
     }
 
     private void hurtCameraEffect(float par1) {
+        final RenderHurtCamEvent event = new RenderHurtCamEvent();
+        Osiris.getInstance().getEventBus().post(event);
+
+        if (event.isCancelled()) {
+            return;
+        }
+
         EntityLiving entityliving = mc.renderViewEntity;
         float f = (float) entityliving.hurtTime - par1;
 

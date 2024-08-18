@@ -1,5 +1,6 @@
 package net.minecraft.src;
 
+import io.github.qe7.features.uis.account.GuiAccountLogin;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
@@ -94,7 +95,7 @@ public class GuiMainMenu extends GuiScreen {
     protected void keyTyped(char c, int i) {
     }
 
-    /** 
+    /**
      * Adds the buttons (and other controls) to the screen in question.
      */
     public void initGui() {
@@ -114,16 +115,21 @@ public class GuiMainMenu extends GuiScreen {
 
         StringTranslate stringtranslate = StringTranslate.getInstance();
         int i = height / 4 + 48;
-        controlList.add(new GuiButton(1, width / 2 - 100, i, stringtranslate.translateKey("menu.singleplayer")));
-        controlList.add(multiplayerButton = new GuiButton(2, width / 2 - 100, i + 24, stringtranslate.translateKey("menu.multiplayer")));
-        controlList.add(new GuiButton(3, width / 2 - 100, i + 48, stringtranslate.translateKey("menu.mods")));
 
-        if (mc.hideQuitButton) {
-            controlList.add(new GuiButton(0, width / 2 - 100, i + 72, stringtranslate.translateKey("menu.options")));
-        } else {
-            controlList.add(new GuiButton(0, width / 2 - 100, i + 72 + 12, 98, 20, stringtranslate.translateKey("menu.options")));
-            controlList.add(new GuiButton(4, width / 2 + 2, i + 72 + 12, 98, 20, stringtranslate.translateKey("menu.quit")));
-        }
+//        controlList.add(new GuiButton(1, width / 2 - 100, i, stringtranslate.translateKey("menu.singleplayer")));
+//        controlList.add(multiplayerButton = new GuiButton(2, width / 2 - 100, i + 24, stringtranslate.translateKey("menu.multiplayer")));
+//        controlList.add(new GuiButton(3, width / 2 - 100, i + 48, stringtranslate.translateKey("menu.mods")));
+//        controlList.add(new GuiButton(0, width / 2 - 100, i + 72 + 12, 98, 20, stringtranslate.translateKey("menu.options")));
+//        controlList.add(new GuiButton(4, width / 2 + 2, i + 72 + 12, 98, 20, stringtranslate.translateKey("menu.quit")));
+
+        // add buttons in a formal way
+        controlList.add(new GuiButton(1, width / 2 - 100, i, stringtranslate.translateKey("menu.singleplayer")));
+        multiplayerButton = new GuiButton(2, width / 2 - 100, i + 24, stringtranslate.translateKey("menu.multiplayer"));
+        controlList.add(multiplayerButton);
+        controlList.add(new GuiButton(3, width / 2 - 100, i + 48, stringtranslate.translateKey("menu.mods")));
+        controlList.add(new GuiButton(69, width / 2 - 100, i + 72, "Account login"));
+        controlList.add(new GuiButton(0, width / 2 + 2, i + 72 + 24, 98, 20, stringtranslate.translateKey("menu.options")));
+        controlList.add(new GuiButton(4, width / 2 - 100, i + 72 + 24, 98, 20, stringtranslate.translateKey("menu.quit")));
 
         controlList.add(new GuiButtonLanguage(5, width / 2 - 124, i + 72 + 12));
 
@@ -154,6 +160,10 @@ public class GuiMainMenu extends GuiScreen {
 
         if (par1GuiButton.id == 3) {
             mc.displayGuiScreen(new GuiTexturePacks(this));
+        }
+
+        if (par1GuiButton.id == 69) {
+            mc.displayGuiScreen(new GuiAccountLogin(this));
         }
 
         if (par1GuiButton.id == 4) {

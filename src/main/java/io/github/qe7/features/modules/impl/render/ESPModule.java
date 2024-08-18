@@ -103,10 +103,12 @@ public class ESPModule extends Module {
 
     private Color getEntityColor(Entity entity) {
         if (entity instanceof EntityPlayer) {
-            if (Osiris.getInstance().getFriendManager().isFriend(((EntityPlayer) entity).username)) {
+            if (Osiris.getInstance().getRelationManager().isFriend(((EntityPlayer) entity).username)) {
                 return new Color(63, 124, 182);
-            } else {
+            } else if (Osiris.getInstance().getRelationManager().isEnemy(((EntityPlayer) entity).username)) {
                 return new Color(182, 63, 63);
+            } else {
+                return new Color(182, 182, 63);
             }
         }
         if (entity instanceof EntityAnimal) {

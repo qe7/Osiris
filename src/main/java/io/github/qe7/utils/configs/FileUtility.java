@@ -27,8 +27,6 @@ public final class FileUtility extends UtilityBase {
             try {
                 if (directory.mkdirs()) {
                     System.out.println("Created directory");
-                } else {
-                    System.out.println("Failed to create directory");
                 }
             } catch (Exception e) {
                 System.out.println("Failed to create directory - " + e.getMessage());
@@ -50,8 +48,6 @@ public final class FileUtility extends UtilityBase {
             try {
                 if (file.createNewFile()) {
                     System.out.println("Created file: " + fileName);
-                } else {
-                    System.out.println("Failed to create file: " + fileName);
                 }
             } catch (Exception e) {
                 System.out.println("Failed to create file: " + fileName + " - " + e.getMessage());
@@ -71,8 +67,6 @@ public final class FileUtility extends UtilityBase {
             try {
                 if (file.delete()) {
                     System.out.println("Deleted file: " + fileName);
-                } else {
-                    System.out.println("Failed to delete file: " + fileName);
                 }
             } catch (Exception e) {
                 System.out.println("Failed to delete file: " + fileName + " - " + e.getMessage());

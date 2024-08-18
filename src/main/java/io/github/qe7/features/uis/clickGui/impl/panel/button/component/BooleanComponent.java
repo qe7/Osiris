@@ -1,7 +1,8 @@
-package io.github.qe7.features.clickGui.impl.panel.button.component;
+package io.github.qe7.features.uis.clickGui.impl.panel.button.component;
 
-import io.github.qe7.features.clickGui.api.types.Component;
+import io.github.qe7.features.uis.clickGui.api.types.Component;
 import io.github.qe7.features.modules.api.settings.impl.BooleanSetting;
+import io.github.qe7.features.modules.impl.render.HUDModule;
 import io.github.qe7.utils.math.MathUtility;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;
@@ -15,7 +16,7 @@ public class BooleanComponent extends Component {
 
     private float positionX, positionY;
 
-    public int width = 104, height = 14;
+    public int width = 108, height = 14;
 
     public BooleanComponent(BooleanSetting setting) {
         super(setting);
@@ -35,7 +36,7 @@ public class BooleanComponent extends Component {
         }
 
         if (this.setting.getValue()) {
-            Gui.drawRect(x, y, x + width, y + height, 0x77FB4242);
+            Gui.drawRect(x, y, x + width, y + height, new Color(HUDModule.red.getValue(), HUDModule.green.getValue(), HUDModule.blue.getValue(), 150).getRGB());
         }
 
         fontRenderer.drawStringWithShadow(this.setting.getName(), x + 3, y + 3, -1);

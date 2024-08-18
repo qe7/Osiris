@@ -10,32 +10,33 @@ public class ToggleCommand extends Command {
     public ToggleCommand() {
         super("Toggle", "Toggles a given module");
 
-        this.setAliases(new String[] {"t"});
+        this.setAliases(new String[]{"t"});
         this.setUsage("toggle <module>");
     }
 
     @Override
     public void execute(String[] args) {
         if (args.length < 2) {
-            ChatUtility.sendPrefixedMessage("!", "Usage: " + this.getUsage());
+            ChatUtility.addPrefixedMessage("Toggle", "Invalid arguments");
+            ChatUtility.addPrefixedMessage("Toggle", "Usage: " + this.getUsage());
             return;
         }
 
         String moduleName = args[1];
 
         if (moduleName.isEmpty()) {
-            ChatUtility.sendPrefixedMessage("!", "Usage: " + this.getUsage());
+            ChatUtility.addPrefixedMessage("Toggle", "Usage: " + this.getUsage());
             return;
         }
 
         for (Module module : Osiris.getInstance().getModuleManager().getMap().values()) {
             if (module.getName().replace(" ", "").equalsIgnoreCase(moduleName)) {
                 module.setEnabled(!module.isEnabled());
-                ChatUtility.sendPrefixedMessage("!", "Toggled " + module.getName());
+                ChatUtility.addPrefixedMessage("Toggle", "Toggled " + module.getName());
                 return;
             }
         }
 
-        ChatUtility.sendPrefixedMessage("!", "Module not found");
+        ChatUtility.addPrefixedMessage("Toggle", "Module not found");
     }
 }

@@ -1,10 +1,7 @@
 package io.github.qe7;
 
 import io.github.qe7.events.api.EventBus;
-import io.github.qe7.managers.impl.CommandManager;
-import io.github.qe7.managers.impl.FriendManager;
-import io.github.qe7.managers.impl.ModuleManager;
-import io.github.qe7.managers.impl.WaypointManager;
+import io.github.qe7.managers.impl.*;
 import io.github.qe7.utils.configs.FileUtility;
 import net.minecraft.client.Minecraft;
 
@@ -23,8 +20,9 @@ public final class Osiris {
     private final EventBus eventBus;
 
     // Managers
+    private final AccountManager accountManager;
     private final WaypointManager waypointManager;
-    private final FriendManager friendManager;
+    private final RelationManager relationManager;
     private final ModuleManager moduleManager;
     private final CommandManager commandManager;
 
@@ -34,14 +32,15 @@ public final class Osiris {
 
         // set name and version
         this.name = "Osiris";
-        this.version = "1.0";
+        this.version = "1.0.0";
 
         // create event bus
         this.eventBus = new EventBus();
 
         // create instance of managers
+        this.accountManager = new AccountManager();
         this.waypointManager = new WaypointManager();
-        this.friendManager = new FriendManager();
+        this.relationManager = new RelationManager();
         this.moduleManager = new ModuleManager();
         this.commandManager = new CommandManager();
     }
@@ -56,8 +55,9 @@ public final class Osiris {
         FileUtility.createDirectory();
 
         // initialise managers
+        this.getAccountManager().initialise();
         this.getWaypointManager().initialise();
-        this.getFriendManager().initialise();
+        this.getRelationManager().initialise();
         this.getModuleManager().initialise();
         this.getCommandManager().initialise();
 
@@ -65,7 +65,8 @@ public final class Osiris {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             System.out.println("Osiris shutting down!");
 
-            this.getFriendManager().saveFriends();
+            this.getAccountManager().saveAccounts();
+            this.getRelationManager().saveRelations();
             this.getWaypointManager().saveWaypoints();
             this.getModuleManager().saveModules();
 
@@ -92,12 +93,16 @@ public final class Osiris {
         return eventBus;
     }
 
+    public AccountManager getAccountManager() {
+        return accountManager;
+    }
+
     public WaypointManager getWaypointManager() {
         return waypointManager;
     }
 
-    public FriendManager getFriendManager() {
-        return friendManager;
+    public RelationManager getRelationManager() {
+        return relationManager;
     }
 
     public ModuleManager getModuleManager() {

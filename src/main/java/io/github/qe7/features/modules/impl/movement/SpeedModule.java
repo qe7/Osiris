@@ -53,7 +53,7 @@ public class SpeedModule extends Module {
                 break;
             }
             case LOW_HOP: {
-                MovementUtility.setSpeed(0.29);
+                MovementUtility.setSpeed(0.29 + (mc.thePlayer.motionY < 0 ? 0.028 : 0.0));
                 if (mc.thePlayer.onGround) {
                     mc.thePlayer.motionY = mc.thePlayer.isCollidedHorizontally ? 0.42 : 0.2;
                 }

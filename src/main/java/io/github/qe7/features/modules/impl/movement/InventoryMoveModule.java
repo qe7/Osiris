@@ -6,6 +6,7 @@ import io.github.qe7.events.impl.player.LivingUpdateEvent;
 import io.github.qe7.features.modules.api.Module;
 import io.github.qe7.features.modules.api.enums.ModuleCategory;
 import net.minecraft.client.Minecraft;
+import net.minecraft.src.GuiChat;
 import net.minecraft.src.GuiContainer;
 import net.minecraft.src.GuiInventory;
 import org.lwjgl.input.Keyboard;
@@ -25,7 +26,7 @@ public class InventoryMoveModule extends Module {
 
     @EventLink
     public final Listener<LivingUpdateEvent> livingUpdateListener = event -> {
-        if (Minecraft.getMinecraft().currentScreen != null && (Minecraft.getMinecraft().currentScreen instanceof GuiInventory || Minecraft.getMinecraft().currentScreen instanceof GuiContainer)) {
+        if (Minecraft.getMinecraft().currentScreen != null && !(Minecraft.getMinecraft().currentScreen instanceof GuiChat)) {
             updateKeyBinds();
         }
     };

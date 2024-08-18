@@ -1,17 +1,19 @@
-package io.github.qe7.features.clickGui.impl.panel.button;
+package io.github.qe7.features.uis.clickGui.impl.panel.button;
 
 import io.github.qe7.Osiris;
-import io.github.qe7.features.clickGui.api.types.Component;
-import io.github.qe7.features.clickGui.impl.panel.button.component.BooleanComponent;
-import io.github.qe7.features.clickGui.impl.panel.button.component.DoubleComponent;
-import io.github.qe7.features.clickGui.impl.panel.button.component.EnumComponent;
-import io.github.qe7.features.clickGui.impl.panel.button.component.IntComponent;
+import io.github.qe7.features.uis.clickGui.api.types.Component;
+import io.github.qe7.features.uis.clickGui.impl.panel.button.component.BooleanComponent;
+import io.github.qe7.features.uis.clickGui.impl.panel.button.component.DoubleComponent;
+import io.github.qe7.features.uis.clickGui.impl.panel.button.component.EnumComponent;
+import io.github.qe7.features.uis.clickGui.impl.panel.button.component.IntComponent;
 import io.github.qe7.features.modules.api.Module;
 import io.github.qe7.features.modules.api.settings.api.Setting;
 import io.github.qe7.features.modules.api.settings.impl.BooleanSetting;
 import io.github.qe7.features.modules.api.settings.impl.DoubleSetting;
 import io.github.qe7.features.modules.api.settings.impl.EnumSetting;
 import io.github.qe7.features.modules.api.settings.impl.IntSetting;
+import io.github.qe7.features.modules.impl.render.HUDModule;
+import io.github.qe7.utils.math.MathUtility;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.Gui;
@@ -28,7 +30,7 @@ public class Button {
 
     private float positionX, positionY;
 
-    public int width = 108, height = 14;
+    public int width = 112, height = 14;
 
     private float totalHeight = 0;
 
@@ -59,27 +61,21 @@ public class Button {
         this.positionX = x;
         this.positionY = y;
 
-        Gui.drawGradientRect(x,
-                y,
-                x + (float)this.width,
-                y + (float)this.height,
-                this.module.isEnabled() ? new Color(160, 0, 0).getRGB() : new Color(25, 25, 25, 150).getRGB(),
-                this.module.isEnabled() ? new Color(120, 0, 0).getRGB() : new Color(0, 0, 0, 150).getRGB());
+        Gui.drawRect(positionX, positionY, positionX + width, positionY + height, module.isEnabled() ? new Color(HUDModule.red.getValue(), HUDModule.green.getValue(), HUDModule.blue.getValue(), 150).getRGB() : new Color(50, 50, 50, 150).getRGB());
 
-        Gui.drawRect(positionX, positionY - 0.5f, positionX + width + 0.5f, positionY, new Color(0, 0, 0).getRGB());
-        Gui.drawRect(positionX, positionY + height, positionX + width + 0.5f, positionY + height + 0.5f, new Color(0, 0, 0).getRGB());
-        Gui.drawRect(positionX - 0.5f, positionY - 0.5f, positionX, positionY + height + 0.5f, new Color(0, 0, 0).getRGB());
-        Gui.drawRect(positionX + width, positionY, positionX + width + 0.5f, positionY + height, new Color(0, 0, 0).getRGB());
+        if (MathUtility.isHovered(positionX, positionY, width, height, par1, par2)) {
+            Gui.drawRect(positionX, positionY, positionX + width, positionY + height, new Color(0, 0, 0, 100).getRGB());
+        }
 
         fontRenderer.drawStringWithShadow(module.getName(), positionX + 3, positionY + 3, -1);
 
         if (!Osiris.getInstance().getModuleManager().getSettingsByFeature(this.module).isEmpty()) {
-            fontRenderer.drawString(extended ? "-" : "+", positionX + width - 10.5f, positionY + 3.5f, -1);
+            fontRenderer.drawStringWithShadow(extended ? "-" : "+", positionX + width - 10.5f, positionY + 3.5f, -1);
         }
 
         this.totalHeight = height;
         if (this.extended) {
-            this.totalHeight += 2.0f;
+            this.totalHeight += 1.0f;
             for (Component component : components) {
                 if (component.getSetting().shouldHide()) continue;
                 component.drawScreen(par1, par2, x + 2, y + totalHeight);

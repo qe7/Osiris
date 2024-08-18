@@ -18,7 +18,7 @@ import java.nio.IntBuffer;
 public final class OpenGLRenderUtility extends UtilityBase {
 
     // credit to https://www.youtube.com/@billybob1060yt for the following methods, I'm too lazy
-    // had to fix some of the methods because they were broken :p - Shae
+    // had to fix some *all* of the methods because they were broken :p - Shae
 
     /**
      * Draws an outlined bounding box
@@ -264,9 +264,10 @@ public final class OpenGLRenderUtility extends UtilityBase {
 
         final double distance = entity.getDistanceToEntity(mc.thePlayer);
 
-        final float renderScale = 0.01666667F * scale/* * (distance > 8 ? (float) distance / 7.5F : 1)*/;
+        final float renderScale = 0.01666667F * scale * (distance < 8 ? 1 : (float) distance / 8);
 
         GL11.glPushMatrix();
+
         GL11.glTranslated(x, y + 2.5F, z);
         GL11.glNormal3f(0.0F, 1.0F, 0.0F);
 
@@ -282,13 +283,11 @@ public final class OpenGLRenderUtility extends UtilityBase {
         GL11.glDisable(GL11.GL_DEPTH_TEST);
 
         // Render the name
-        /*STR."\{name} §2\{((EntityPlayer) entity).getHealth()} §7[\{Math.round(entity.getDistanceToEntity(mc.thePlayer) * 10) / 10.0}m]"*/
         String displayName = name + " §2" + ((EntityPlayer) entity).getHealth() + " §7[" + Math.round(entity.getDistanceToEntity(mc.thePlayer) * 10) / 10.0 + "m]";
         int width = fontRenderer.getStringWidth(displayName.replaceAll("§.", "")) / 2;
 
         Gui.drawRect(-width - 2, -1, width + 2, 9, 0x80000000);
-        fontRenderer.drawStringWithShadow(displayName, -width, 0, Osiris.getInstance().getFriendManager().isFriend(name) ? new Color(63, 124, 182).getRGB() : 0xFFFFFFFF);
-
+        fontRenderer.drawStringWithShadow(displayName, -width, 0, Osiris.getInstance().getRelationManager().isFriend(name) ? new Color(63, 124, 182).getRGB() : Osiris.getInstance().getRelationManager().isEnemy(name) ? new Color(255, 0, 0).getRGB() : -1);
 
         // Re-enable lighting and depth test
         GL11.glEnable(GL11.GL_LIGHTING);

@@ -1,19 +1,25 @@
 package net.minecraft.src;
 
-import java.io.*;
+import org.lwjgl.input.Keyboard;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.lwjgl.input.Keyboard;
-
-public class GuiMultiplayer extends GuiScreen
-{
-    /** Number of outstanding ThreadPollServers threads */
+public class GuiMultiplayer extends GuiScreen {
+    /**
+     * Number of outstanding ThreadPollServers threads
+     */
     private static int threadsPending = 0;
 
-    /** Lock object for use with synchronized() */
+    /**
+     * Lock object for use with synchronized()
+     */
     private static Object lock = new Object();
 
     /**
@@ -21,37 +27,59 @@ public class GuiMultiplayer extends GuiScreen
      */
     private GuiScreen parentScreen;
 
-    /** Slot container for the server list */
+    /**
+     * Slot container for the server list
+     */
     private GuiSlotServer serverSlotContainer;
 
-    /** List of ServerNBTStorage objects */
+    /**
+     * List of ServerNBTStorage objects
+     */
     private List serverList;
 
-    /** Index of the currently selected server */
+    /**
+     * Index of the currently selected server
+     */
     private int selectedServer;
 
-    /** The 'Edit' button */
+    /**
+     * The 'Edit' button
+     */
     private GuiButton buttonEdit;
 
-    /** The 'Join Server' button */
+    /**
+     * The 'Join Server' button
+     */
     private GuiButton buttonSelect;
 
-    /** The 'Delete' button */
+    /**
+     * The 'Delete' button
+     */
     private GuiButton buttonDelete;
 
-    /** The 'Delete' button was clicked */
+    /**
+     * The 'Delete' button was clicked
+     */
     private boolean deleteClicked;
 
-    /** The 'Add server' button was clicked */
+    /**
+     * The 'Add server' button was clicked
+     */
     private boolean addClicked;
 
-    /** The 'Edit' button was clicked */
+    /**
+     * The 'Edit' button was clicked
+     */
     private boolean editClicked;
 
-    /** The 'Direct Connect' button was clicked */
+    /**
+     * The 'Direct Connect' button was clicked
+     */
     private boolean directClicked;
 
-    /** This GUI's lag tooltip text or null if no lag icon is being hovered. */
+    /**
+     * This GUI's lag tooltip text or null if no lag icon is being hovered.
+     */
     private String lagTooltip;
 
     /**
@@ -59,8 +87,7 @@ public class GuiMultiplayer extends GuiScreen
      */
     private ServerNBTStorage tempServer;
 
-    public GuiMultiplayer(GuiScreen par1GuiScreen)
-    {
+    public GuiMultiplayer(GuiScreen par1GuiScreen) {
         serverList = new ArrayList();
         selectedServer = -1;
         deleteClicked = false;
@@ -75,15 +102,13 @@ public class GuiMultiplayer extends GuiScreen
     /**
      * Called from the main game loop to update the screen.
      */
-    public void updateScreen()
-    {
+    public void updateScreen() {
     }
 
     /**
      * Adds the buttons (and other controls) to the screen in question.
      */
-    public void initGui()
-    {
+    public void initGui() {
         loadServerList();
         Keyboard.enableRepeatEvents(true);
         controlList.clear();
@@ -94,21 +119,16 @@ public class GuiMultiplayer extends GuiScreen
     /**
      * Load the server list from servers.dat
      */
-    private void loadServerList()
-    {
-        try
-        {
+    private void loadServerList() {
+        try {
             NBTTagCompound nbttagcompound = CompressedStreamTools.read(new File(mc.mcDataDir, "servers.dat"));
             NBTTagList nbttaglist = nbttagcompound.getTagList("servers");
             serverList.clear();
 
-            for (int i = 0; i < nbttaglist.tagCount(); i++)
-            {
-                serverList.add(ServerNBTStorage.createServerNBTStorage((NBTTagCompound)nbttaglist.tagAt(i)));
+            for (int i = 0; i < nbttaglist.tagCount(); i++) {
+                serverList.add(ServerNBTStorage.createServerNBTStorage((NBTTagCompound) nbttaglist.tagAt(i)));
             }
-        }
-        catch (Exception exception)
-        {
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
     }
@@ -116,23 +136,18 @@ public class GuiMultiplayer extends GuiScreen
     /**
      * Save the server list to servers.dat
      */
-    private void saveServerList()
-    {
-        try
-        {
+    private void saveServerList() {
+        try {
             NBTTagList nbttaglist = new NBTTagList();
 
-            for (int i = 0; i < serverList.size(); i++)
-            {
-                nbttaglist.appendTag(((ServerNBTStorage)serverList.get(i)).getCompoundTag());
+            for (int i = 0; i < serverList.size(); i++) {
+                nbttaglist.appendTag(((ServerNBTStorage) serverList.get(i)).getCompoundTag());
             }
 
             NBTTagCompound nbttagcompound = new NBTTagCompound();
             nbttagcompound.setTag("servers", nbttaglist);
             CompressedStreamTools.safeWrite(nbttagcompound, new File(mc.mcDataDir, "servers.dat"));
-        }
-        catch (Exception exception)
-        {
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
     }
@@ -140,8 +155,7 @@ public class GuiMultiplayer extends GuiScreen
     /**
      * Populate the GuiScreen controlList
      */
-    public void initGuiControls()
-    {
+    public void initGuiControls() {
         StringTranslate stringtranslate = StringTranslate.getInstance();
         controlList.add(buttonEdit = new GuiButton(7, width / 2 - 154, height - 28, 70, 20, stringtranslate.translateKey("selectServer.edit")));
         controlList.add(buttonDelete = new GuiButton(2, width / 2 - 74, height - 28, 70, 20, stringtranslate.translateKey("selectServer.delete")));
@@ -159,27 +173,22 @@ public class GuiMultiplayer extends GuiScreen
     /**
      * Called when the screen is unloaded. Used to disable keyboard repeat events
      */
-    public void onGuiClosed()
-    {
+    public void onGuiClosed() {
         Keyboard.enableRepeatEvents(false);
     }
 
     /**
      * Fired when a control is clicked. This is the equivalent of ActionListener.actionPerformed(ActionEvent e).
      */
-    protected void actionPerformed(GuiButton par1GuiButton)
-    {
-        if (!par1GuiButton.enabled)
-        {
+    protected void actionPerformed(GuiButton par1GuiButton) {
+        if (!par1GuiButton.enabled) {
             return;
         }
 
-        if (par1GuiButton.id == 2)
-        {
-            String s = ((ServerNBTStorage)serverList.get(selectedServer)).name;
+        if (par1GuiButton.id == 2) {
+            String s = ((ServerNBTStorage) serverList.get(selectedServer)).name;
 
-            if (s != null)
-            {
+            if (s != null) {
                 deleteClicked = true;
                 StringTranslate stringtranslate = StringTranslate.getInstance();
                 String s1 = stringtranslate.translateKey("selectServer.deleteQuestion");
@@ -189,87 +198,59 @@ public class GuiMultiplayer extends GuiScreen
                 GuiYesNo guiyesno = new GuiYesNo(this, s1, s2, s3, s4, selectedServer);
                 mc.displayGuiScreen(guiyesno);
             }
-        }
-        else if (par1GuiButton.id == 1)
-        {
+        } else if (par1GuiButton.id == 1) {
             joinServer(selectedServer);
-        }
-        else if (par1GuiButton.id == 4)
-        {
+        } else if (par1GuiButton.id == 4) {
             directClicked = true;
             mc.displayGuiScreen(new GuiScreenServerList(this, tempServer = new ServerNBTStorage(StatCollector.translateToLocal("selectServer.defaultName"), "")));
-        }
-        else if (par1GuiButton.id == 3)
-        {
+        } else if (par1GuiButton.id == 3) {
             addClicked = true;
             mc.displayGuiScreen(new GuiScreenAddServer(this, tempServer = new ServerNBTStorage(StatCollector.translateToLocal("selectServer.defaultName"), "")));
-        }
-        else if (par1GuiButton.id == 7)
-        {
+        } else if (par1GuiButton.id == 7) {
             editClicked = true;
-            ServerNBTStorage servernbtstorage = (ServerNBTStorage)serverList.get(selectedServer);
+            ServerNBTStorage servernbtstorage = (ServerNBTStorage) serverList.get(selectedServer);
             mc.displayGuiScreen(new GuiScreenAddServer(this, tempServer = new ServerNBTStorage(servernbtstorage.name, servernbtstorage.host)));
-        }
-        else if (par1GuiButton.id == 0)
-        {
+        } else if (par1GuiButton.id == 0) {
             mc.displayGuiScreen(parentScreen);
-        }
-        else if (par1GuiButton.id == 8)
-        {
+        } else if (par1GuiButton.id == 8) {
             mc.displayGuiScreen(new GuiMultiplayer(parentScreen));
-        }
-        else
-        {
+        } else {
             serverSlotContainer.actionPerformed(par1GuiButton);
         }
     }
 
-    public void confirmClicked(boolean par1, int par2)
-    {
-        if (deleteClicked)
-        {
+    public void confirmClicked(boolean par1, int par2) {
+        if (deleteClicked) {
             deleteClicked = false;
 
-            if (par1)
-            {
+            if (par1) {
                 serverList.remove(par2);
                 saveServerList();
             }
 
             mc.displayGuiScreen(this);
-        }
-        else if (directClicked)
-        {
+        } else if (directClicked) {
             directClicked = false;
 
-            if (par1)
-            {
+            if (par1) {
                 joinServer(tempServer);
-            }
-            else
-            {
+            } else {
                 mc.displayGuiScreen(this);
             }
-        }
-        else if (addClicked)
-        {
+        } else if (addClicked) {
             addClicked = false;
 
-            if (par1)
-            {
+            if (par1) {
                 serverList.add(tempServer);
                 saveServerList();
             }
 
             mc.displayGuiScreen(this);
-        }
-        else if (editClicked)
-        {
+        } else if (editClicked) {
             editClicked = false;
 
-            if (par1)
-            {
-                ServerNBTStorage servernbtstorage = (ServerNBTStorage)serverList.get(selectedServer);
+            if (par1) {
+                ServerNBTStorage servernbtstorage = (ServerNBTStorage) serverList.get(selectedServer);
                 servernbtstorage.name = tempServer.name;
                 servernbtstorage.host = tempServer.host;
                 saveServerList();
@@ -279,14 +260,10 @@ public class GuiMultiplayer extends GuiScreen
         }
     }
 
-    private int parseIntWithDefault(String par1Str, int par2)
-    {
-        try
-        {
+    private int parseIntWithDefault(String par1Str, int par2) {
+        try {
             return Integer.parseInt(par1Str.trim());
-        }
-        catch (Exception exception)
-        {
+        } catch (Exception exception) {
             return par2;
         }
     }
@@ -294,27 +271,23 @@ public class GuiMultiplayer extends GuiScreen
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
-    protected void keyTyped(char par1, int par2)
-    {
-        if (par1 == '\r')
-        {
-            actionPerformed((GuiButton)controlList.get(2));
+    protected void keyTyped(char par1, int par2) {
+        if (par1 == '\r') {
+            actionPerformed((GuiButton) controlList.get(2));
         }
     }
 
     /**
      * Called when the mouse is clicked.
      */
-    protected void mouseClicked(int par1, int par2, int par3)
-    {
+    protected void mouseClicked(int par1, int par2, int par3) {
         super.mouseClicked(par1, par2, par3);
     }
 
     /**
      * Draws the screen and all the components in it.
      */
-    public void drawScreen(int par1, int par2, float par3)
-    {
+    public void drawScreen(int par1, int par2, float par3) {
         lagTooltip = null;
         StringTranslate stringtranslate = StringTranslate.getInstance();
         drawDefaultBackground();
@@ -322,8 +295,7 @@ public class GuiMultiplayer extends GuiScreen
         drawCenteredString(fontRenderer, stringtranslate.translateKey("multiplayer.title"), width / 2, 20, 0xffffff);
         super.drawScreen(par1, par2, par3);
 
-        if (lagTooltip != null)
-        {
+        if (lagTooltip != null) {
             func_35325_a(lagTooltip, par1, par2);
         }
     }
@@ -331,45 +303,37 @@ public class GuiMultiplayer extends GuiScreen
     /**
      * Join server by slot index
      */
-    private void joinServer(int par1)
-    {
-        joinServer((ServerNBTStorage)serverList.get(par1));
+    private void joinServer(int par1) {
+        joinServer((ServerNBTStorage) serverList.get(par1));
     }
 
     /**
      * Join server by ServerNBTStorage
      */
-    private void joinServer(ServerNBTStorage par1ServerNBTStorage)
-    {
+    private void joinServer(ServerNBTStorage par1ServerNBTStorage) {
         String s = par1ServerNBTStorage.host;
         String as[] = s.split(":");
 
-        if (s.startsWith("["))
-        {
+        if (s.startsWith("[")) {
             int i = s.indexOf("]");
 
-            if (i > 0)
-            {
+            if (i > 0) {
                 String s1 = s.substring(1, i);
                 String s2 = s.substring(i + 1).trim();
 
-                if (s2.startsWith(":") && s2.length() > 0)
-                {
+                if (s2.startsWith(":") && s2.length() > 0) {
                     s2 = s2.substring(1);
                     as = new String[2];
                     as[0] = s1;
                     as[1] = s2;
-                }
-                else
-                {
+                } else {
                     as = new String[1];
                     as[0] = s1;
                 }
             }
         }
 
-        if (as.length > 2)
-        {
+        if (as.length > 2) {
             as = new String[1];
             as[0] = s;
         }
@@ -380,37 +344,30 @@ public class GuiMultiplayer extends GuiScreen
     /**
      * Poll server for MOTD, lag, and player count/max
      */
-    private void pollServer(ServerNBTStorage par1ServerNBTStorage) throws IOException
-    {
+    private void pollServer(ServerNBTStorage par1ServerNBTStorage) throws IOException {
         String s = par1ServerNBTStorage.host;
         String as[] = s.split(":");
 
-        if (s.startsWith("["))
-        {
+        if (s.startsWith("[")) {
             int i = s.indexOf("]");
 
-            if (i > 0)
-            {
+            if (i > 0) {
                 String s2 = s.substring(1, i);
                 String s3 = s.substring(i + 1).trim();
 
-                if (s3.startsWith(":") && s3.length() > 0)
-                {
+                if (s3.startsWith(":") && s3.length() > 0) {
                     s3 = s3.substring(1);
                     as = new String[2];
                     as[0] = s2;
                     as[1] = s3;
-                }
-                else
-                {
+                } else {
                     as = new String[1];
                     as[0] = s2;
                 }
             }
         }
 
-        if (as.length > 2)
-        {
+        if (as.length > 2) {
             as = new String[1];
             as[0] = s;
         }
@@ -421,8 +378,7 @@ public class GuiMultiplayer extends GuiScreen
         DataInputStream datainputstream = null;
         DataOutputStream dataoutputstream = null;
 
-        try
-        {
+        try {
             socket = new Socket();
             socket.setSoTimeout(3000);
             socket.setTcpNoDelay(true);
@@ -432,18 +388,15 @@ public class GuiMultiplayer extends GuiScreen
             dataoutputstream = new DataOutputStream(socket.getOutputStream());
             dataoutputstream.write(254);
 
-            if (datainputstream.read() != 255)
-            {
+            if (datainputstream.read() != 255) {
                 throw new IOException("Bad message");
             }
 
             String s4 = Packet.readString(datainputstream, 256);
             char ac[] = s4.toCharArray();
 
-            for (int k = 0; k < ac.length; k++)
-            {
-                if (ac[k] != '\247' && ChatAllowedCharacters.allowedCharacters.indexOf(ac[k]) < 0)
-                {
+            for (int k = 0; k < ac.length; k++) {
+                if (ac[k] != '\247' && ChatAllowedCharacters.allowedCharacters.indexOf(ac[k]) < 0) {
                     ac[k] = '?';
                 }
             }
@@ -454,63 +407,47 @@ public class GuiMultiplayer extends GuiScreen
             int l = -1;
             int i1 = -1;
 
-            try
-            {
+            try {
                 l = Integer.parseInt(as1[1]);
                 i1 = Integer.parseInt(as1[2]);
+            } catch (Exception exception) {
             }
-            catch (Exception exception) { }
 
             par1ServerNBTStorage.motd = (new StringBuilder()).append("\2477").append(s4).toString();
 
-            if (l >= 0 && i1 > 0)
-            {
+            if (l >= 0 && i1 > 0) {
                 par1ServerNBTStorage.playerCount = (new StringBuilder()).append("\2477").append(l).append("\2478/\2477").append(i1).toString();
-            }
-            else
-            {
+            } else {
                 par1ServerNBTStorage.playerCount = "\2478???";
             }
-        }
-        finally
-        {
-            try
-            {
-                if (datainputstream != null)
-                {
+        } finally {
+            try {
+                if (datainputstream != null) {
                     datainputstream.close();
                 }
+            } catch (Throwable throwable) {
             }
-            catch (Throwable throwable) { }
 
-            try
-            {
-                if (dataoutputstream != null)
-                {
+            try {
+                if (dataoutputstream != null) {
                     dataoutputstream.close();
                 }
+            } catch (Throwable throwable1) {
             }
-            catch (Throwable throwable1) { }
 
-            try
-            {
-                if (socket != null)
-                {
+            try {
+                if (socket != null) {
                     socket.close();
                 }
+            } catch (Throwable throwable2) {
             }
-            catch (Throwable throwable2) { }
         }
     }
 
-    protected void func_35325_a(String par1Str, int par2, int par3)
-    {
-        if (par1Str == null)
-        {
+    protected void func_35325_a(String par1Str, int par2, int par3) {
+        if (par1Str == null) {
             return;
-        }
-        else
-        {
+        } else {
             int i = par2 + 12;
             int j = par3 - 12;
             int k = fontRenderer.getStringWidth(par1Str);
@@ -523,104 +460,91 @@ public class GuiMultiplayer extends GuiScreen
     /**
      * Return the List of ServerNBTStorage objects
      */
-    static List getServerList(GuiMultiplayer par0GuiMultiplayer)
-    {
+    static List getServerList(GuiMultiplayer par0GuiMultiplayer) {
         return par0GuiMultiplayer.serverList;
     }
 
     /**
      * Set index of the currently selected server
      */
-    static int setSelectedServer(GuiMultiplayer par0GuiMultiplayer, int par1)
-    {
+    static int setSelectedServer(GuiMultiplayer par0GuiMultiplayer, int par1) {
         return par0GuiMultiplayer.selectedServer = par1;
     }
 
     /**
      * Return index of the currently selected server
      */
-    static int getSelectedServer(GuiMultiplayer par0GuiMultiplayer)
-    {
+    static int getSelectedServer(GuiMultiplayer par0GuiMultiplayer) {
         return par0GuiMultiplayer.selectedServer;
     }
 
     /**
      * Return buttonSelect GuiButton
      */
-    static GuiButton getButtonSelect(GuiMultiplayer par0GuiMultiplayer)
-    {
+    static GuiButton getButtonSelect(GuiMultiplayer par0GuiMultiplayer) {
         return par0GuiMultiplayer.buttonSelect;
     }
 
     /**
      * Return buttonEdit GuiButton
      */
-    static GuiButton getButtonEdit(GuiMultiplayer par0GuiMultiplayer)
-    {
+    static GuiButton getButtonEdit(GuiMultiplayer par0GuiMultiplayer) {
         return par0GuiMultiplayer.buttonEdit;
     }
 
     /**
      * Return buttonDelete GuiButton
      */
-    static GuiButton getButtonDelete(GuiMultiplayer par0GuiMultiplayer)
-    {
+    static GuiButton getButtonDelete(GuiMultiplayer par0GuiMultiplayer) {
         return par0GuiMultiplayer.buttonDelete;
     }
 
     /**
      * Join server by slot index (called on double click from GuiSlotServer)
      */
-    static void joinServer(GuiMultiplayer par0GuiMultiplayer, int par1)
-    {
+    static void joinServer(GuiMultiplayer par0GuiMultiplayer, int par1) {
         par0GuiMultiplayer.joinServer(par1);
     }
 
     /**
      * Get lock object for use with synchronized()
      */
-    static Object getLock()
-    {
+    static Object getLock() {
         return lock;
     }
 
     /**
      * Return number of outstanding ThreadPollServers threads
      */
-    static int getThreadsPending()
-    {
+    static int getThreadsPending() {
         return threadsPending;
     }
 
     /**
      * Increment number of outstanding ThreadPollServers threads by 1
      */
-    static int incrementThreadsPending()
-    {
+    static int incrementThreadsPending() {
         return threadsPending++;
     }
 
     /**
      * Poll server for MOTD, lag, and player count/max
      */
-    static void pollServer(GuiMultiplayer par0GuiMultiplayer, ServerNBTStorage par1ServerNBTStorage) throws IOException
-    {
+    static void pollServer(GuiMultiplayer par0GuiMultiplayer, ServerNBTStorage par1ServerNBTStorage) throws IOException {
         par0GuiMultiplayer.pollServer(par1ServerNBTStorage);
     }
 
     /**
      * Decrement number of outstanding ThreadPollServers threads by 1
      */
-    static int decrementThreadsPending()
-    {
+    static int decrementThreadsPending() {
         return threadsPending--;
     }
 
     /**
      * Sets a GUI's lag tooltip text.
      */
-    static String setTooltipText(GuiMultiplayer par0GuiMultiplayer, String par1Str)
-    {
+    static String setTooltipText(GuiMultiplayer par0GuiMultiplayer, String par1Str) {
         return par0GuiMultiplayer.lagTooltip = par1Str;
     }
 }

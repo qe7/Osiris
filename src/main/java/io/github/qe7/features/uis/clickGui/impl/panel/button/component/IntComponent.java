@@ -1,7 +1,8 @@
-package io.github.qe7.features.clickGui.impl.panel.button.component;
+package io.github.qe7.features.uis.clickGui.impl.panel.button.component;
 
-import io.github.qe7.features.clickGui.api.types.Component;
+import io.github.qe7.features.uis.clickGui.api.types.Component;
 import io.github.qe7.features.modules.api.settings.impl.IntSetting;
+import io.github.qe7.features.modules.impl.render.HUDModule;
 import io.github.qe7.utils.math.MathUtility;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;
@@ -13,7 +14,7 @@ public class IntComponent extends Component {
 
     private final IntSetting setting;
 
-    private final int width = 104, height = 14;
+    private final int width = 108, height = 14;
 
     private float x, y;
 
@@ -48,7 +49,7 @@ public class IntComponent extends Component {
             Gui.drawRect(this.x, this.y, this.x + this.width, this.y + this.height, new Color(0, 0, 0, 100).getRGB());
         }
 
-        Gui.drawRect(this.x, this.y + this.height - 2, this.x + (int) (this.width * percent), this.y + this.height, new Color(255, 255, 255, 125).getRGB());
+        Gui.drawRect(this.x, this.y + this.height - 2, this.x + (int) (this.width * percent), this.y + this.height, new Color(HUDModule.red.getValue(), HUDModule.green.getValue(), HUDModule.blue.getValue(), 150).getRGB());
 
         fontRenderer.drawStringWithShadow(this.getSetting().getName(), x + 2, y + 3, new Color(255, 255, 255).getRGB());
         fontRenderer.drawStringWithShadow(String.valueOf(this.getSetting().getValue()), x + width - 2 - fontRenderer.getStringWidth(String.valueOf(this.getSetting().getValue())), y + 3, new Color(255, 255, 255).getRGB());

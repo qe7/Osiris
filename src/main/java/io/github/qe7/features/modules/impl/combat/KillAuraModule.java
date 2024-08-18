@@ -178,7 +178,11 @@ public class KillAuraModule extends Module {
             if (living.getDistanceToEntity(mc.thePlayer) > this.range.getValue()) continue;
 
             if (this.players.getValue() && living instanceof EntityPlayer) {
-                if (Osiris.getInstance().getFriendManager().isFriend(((EntityPlayer) living).username)) continue;
+                if (Osiris.getInstance().getRelationManager().isFriend(((EntityPlayer) living).username)) continue;
+                if (Osiris.getInstance().getRelationManager().isEnemy(((EntityPlayer) living).username)) {
+                    this.targets.add(living);
+                    return;
+                }
                 this.targets.add(living);
             }
 

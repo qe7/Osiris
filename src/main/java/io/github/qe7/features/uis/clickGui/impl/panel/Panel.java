@@ -1,9 +1,10 @@
-package io.github.qe7.features.clickGui.impl.panel;
+package io.github.qe7.features.uis.clickGui.impl.panel;
 
 import io.github.qe7.Osiris;
-import io.github.qe7.features.clickGui.impl.panel.button.Button;
+import io.github.qe7.features.uis.clickGui.impl.panel.button.Button;
 import io.github.qe7.features.modules.api.Module;
 import io.github.qe7.features.modules.api.enums.ModuleCategory;
+import io.github.qe7.features.modules.impl.render.HUDModule;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.Gui;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Panel {
+public class       Panel {
 
     private final List<Button> buttons = new ArrayList<>();
 
@@ -47,34 +48,22 @@ public class Panel {
             positionY = getDraggingX + par2;
         }
 
-        Gui.drawRect(positionX, positionY, positionX + width, positionY + height, new Color(0, 0, 0, 100).getRGB());
-        Gui.drawRect(positionX, positionY - 0.5f, positionX + width + 0.5f, positionY, new Color(0, 0, 0).getRGB());
-        Gui.drawRect(positionX, positionY + height, positionX + width + 0.5f, positionY + height + 0.5f, new Color(0, 0, 0).getRGB());
-        Gui.drawRect(positionX - 0.5f, positionY - 0.5f, positionX, positionY + height + 0.5f, new Color(0, 0, 0).getRGB());
-        Gui.drawRect(positionX + width, positionY, positionX + width + 0.5f, positionY + height, new Color(0, 0, 0).getRGB());
+        final Color themeColor = new Color(HUDModule.red.getValue(), HUDModule.green.getValue(), HUDModule.blue.getValue());
 
-        Gui.drawRect(positionX + width - 13, positionY + 2, positionX + width - 3, positionY + 12, new Color(0, 0, 0, 100).getRGB());
-        Gui.drawRect(positionX + width - 13 - 0.5f, positionY + 2 - 0.5f, positionX + width - 3 + 0.5f, positionY + 2, new Color(0, 0, 0).getRGB());
-        Gui.drawRect(positionX + width - 13 - 0.5f, positionY + 12, positionX + width - 3 + 0.5f, positionY + 12 + 0.5f, new Color(0, 0, 0).getRGB());
-        Gui.drawRect(positionX + width - 13 - 0.5f, positionY + 2, positionX + width - 13, positionY + 12, new Color(0, 0, 0).getRGB());
-        Gui.drawRect(positionX + width - 3, positionY + 2, positionX + width - 3 + 0.5f, positionY + 12, new Color(0, 0, 0).getRGB());
+        Gui.drawRect(positionX - 1, positionY - 1, positionX + width + 1, positionY + height, themeColor.getRGB());
+        fontRenderer.drawStringWithShadow(moduleCategory.getName(), positionX + ((float) width / 2 - (float) fontRenderer.getStringWidth(moduleCategory.getName()) / 2), positionY + 2, 0xFFFFFFFF);
 
-        fontRenderer.drawString(extended ? "-" : "+", positionX + width - 10.5f, positionY + 3.5f, -1);
+        Gui.drawRect(positionX - 2, positionY - 1, positionX - 1, positionY + totalHeight + 1, themeColor.getRGB());
+        Gui.drawRect(positionX + width + 1, positionY - 1, positionX + width + 2, positionY + totalHeight + 1, themeColor.getRGB());
+        Gui.drawRect(positionX - 2, positionY + totalHeight, positionX + width + 2, positionY + totalHeight + 1, themeColor.getRGB());
 
-        fontRenderer.drawStringWithShadow(moduleCategory.getName(), positionX + 3, positionY + 3, -1);
+        Gui.drawRect(positionX - 1, positionY + height, positionX + width + 1, positionY + totalHeight, new Color(0, 0, 0, 150).getRGB());
 
-        if (extended) {
-            Gui.drawRect(positionX, positionY + height + 0.5f, positionX + width, positionY + totalHeight + 1, new Color(0, 0, 0, 100).getRGB());
-            Gui.drawRect(positionX, positionY + totalHeight + 1, positionX + width + 0.5f, positionY + totalHeight + 1.5f, new Color(0, 0, 0).getRGB());
-            Gui.drawRect(positionX + width, positionY + height + 0.5f, positionX + width + 0.5f, positionY + totalHeight + 1, new Color(0, 0, 0).getRGB());
-            Gui.drawRect(positionX - 0.5f, positionY + height + 0.5f, positionX, positionY + totalHeight + 1 + 0.5f, new Color(0, 0, 0).getRGB());
-        }
-
-        totalHeight = height + 2.5f;
+        totalHeight = height + 1.0f;
         if (extended) {
             for (Button button : buttons) {
-                button.drawScreen(par1, par2, positionX + 2, positionY + totalHeight);
-                totalHeight += button.getHeight() + 2.f;
+                button.drawScreen(par1, par2, positionX, positionY + totalHeight);
+                totalHeight += button.getHeight() + 1.f;
             }
         }
     }
