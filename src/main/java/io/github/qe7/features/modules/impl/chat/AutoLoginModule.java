@@ -19,31 +19,27 @@ public class AutoLoginModule extends Module {
 
     @EventLink
     public final Listener<IncomingPacketEvent> incomingPacketEvent = event -> {
-        try {
-            if (Minecraft.getMinecraft().thePlayer == null || Minecraft.getMinecraft().theWorld == null) {
-                return;
-            }
+        if (Minecraft.getMinecraft().theWorld == null) {
+            return;
+        }
 
-            if (event.getPacket() instanceof Packet3Chat) {
-                Packet3Chat chat = (Packet3Chat) event.getPacket();
+        if (event.getPacket() instanceof Packet3Chat) {
+            Packet3Chat chat = (Packet3Chat) event.getPacket();
 
-                final String normalizedMessage = chat.message.replaceAll("§.", "").toLowerCase();
+            final String normalizedMessage = chat.message.replaceAll("§.", "").toLowerCase();
 
-                if (normalizedMessage.contains("please login with")) {
-                    final String normalizedName = Minecraft.getMinecraft().thePlayer.username;
+            if (normalizedMessage.contains("please login with")) {
+                final String normalizedName = Minecraft.getMinecraft().session.username;
 
-                    Account account = Osiris.getInstance().getAccountManager().getAccount(normalizedName);
+                Account account = Osiris.getInstance().getAccountManager().getAccount(normalizedName);
 
-                    if (account != null) {
-                        ChatUtility.sendMessage("/login " + account.getPassword());
-                        ChatUtility.addPrefixedMessage("Auto Login", "Logged in as " + normalizedName);
-                    } else {
-                        ChatUtility.addPrefixedMessage("Auto Login", "No account found for " + normalizedName);
-                    }
+                if (account != null) {
+                    ChatUtility.sendMessage("/login " + account.getPassword());
+                    ChatUtility.addPrefixedMessage("Auto Login", "Logged in as " + normalizedName);
+                } else {
+                    ChatUtility.addPrefixedMessage("Auto Login", "No account found for " + normalizedName);
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     };
 }

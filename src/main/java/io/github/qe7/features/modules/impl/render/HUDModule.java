@@ -138,7 +138,9 @@ public class HUDModule extends Module {
         }
 
         if (this.modules.getValue()) {
-            final List<Module> modules = Osiris.getInstance().getModuleManager().getMap().values().stream().filter(Module::isEnabled).collect(Collectors.toList());
+            final List<Module> modules = Osiris.getInstance().getModuleManager().getMap().values().stream().filter(Module::isEnabled).sorted(
+                    (module1, module2) -> module1.getName().compareToIgnoreCase(module2.getName())
+            ).collect(Collectors.toList());
 
             int y = 2;
             for (Module module : modules) {

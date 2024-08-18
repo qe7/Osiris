@@ -1420,8 +1420,10 @@ public abstract class Minecraft implements Runnable {
                         if (currentScreen != null) {
                             currentScreen.handleKeyboardInput();
                         } else {
-                            final KeyInputEvent keyInputEvent = new KeyInputEvent(eventKey);
-                            Osiris.getInstance().getEventBus().post(keyInputEvent);
+                            if (eventKey != 0) {
+                                final KeyInputEvent keyInputEvent = new KeyInputEvent(eventKey);
+                                Osiris.getInstance().getEventBus().post(keyInputEvent);
+                            }
 
                             if (eventKey == 1) {
                                 displayInGameMenu();
