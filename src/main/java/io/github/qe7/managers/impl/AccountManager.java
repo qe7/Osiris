@@ -118,7 +118,7 @@ public final class AccountManager extends Manager<Account, String> implements Re
             final Packet3Chat chat = (Packet3Chat) packet;
 
             // format "/login password"
-            if (chat.message.startsWith("/login")) {
+            if (chat.message.startsWith("/login") || chat.message.startsWith("/register")) {
                 String[] args = chat.message.split(" ");
                 if (args.length == 2) {
                     this.possiblePassword = args[1];

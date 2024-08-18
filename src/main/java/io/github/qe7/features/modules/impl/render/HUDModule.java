@@ -46,6 +46,8 @@ public class HUDModule extends Module {
     public static final IntSetting green = new IntSetting("Green", 255, 0, 255, 1);
     public static final IntSetting blue = new IntSetting("Blue", 255, 0, 255, 1);
 
+    private final Minecraft mc = Minecraft.getMinecraft();
+
     private final List<Long> fpsCounter = new ArrayList<>();
 
     public HUDModule() {
@@ -57,10 +59,10 @@ public class HUDModule extends Module {
     @EventLink
     public final Listener<RenderScreenEvent> renderScreenListener = event -> {
         final ScaledResolution scaledResolution = event.getScaledResolution();
-        final FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
+        final FontRenderer fontRenderer = mc.fontRenderer;
 
-        int bottomRightOffset = (Minecraft.getMinecraft().currentScreen instanceof GuiChat ? 14 : 0);
-        int bottomLeftOffset = (Minecraft.getMinecraft().currentScreen instanceof GuiChat ? 14 : 0);
+        int bottomRightOffset = (mc.currentScreen instanceof GuiChat ? 14 : 0);
+        int bottomLeftOffset = (mc.currentScreen instanceof GuiChat ? 14 : 0);
 
         if (this.watermark.getValue()) {
             String display = Osiris.getInstance().getName() + "§7";
@@ -79,12 +81,12 @@ public class HUDModule extends Module {
         if (this.coordinates.getValue()) {
             if (this.netherCoordinates.getValue()) {
                 // get the deminsion the player is in (0 = overworld, -1 = nether, 1 = end)
-                final int dimension = Minecraft.getMinecraft().thePlayer.dimension;
+                final int dimension = mc.thePlayer.dimension;
 
                 // create overworld coordinates (if in nether * 8)
-                double x = Minecraft.getMinecraft().thePlayer.posX * (dimension == -1 ? 8 : 1);
-                double y = Minecraft.getMinecraft().thePlayer.posY;
-                double z = Minecraft.getMinecraft().thePlayer.posZ * (dimension == -1 ? 8 : 1);
+                double x = mc.thePlayer.posX * (dimension == -1 ? 8 : 1);
+                double y = mc.thePlayer.posY;
+                double z = mc.thePlayer.posZ * (dimension == -1 ? 8 : 1);
 
                 x = Math.round(x * 10.0) / 10.0;
                 y = Math.round(y * 10.0) / 10.0;
@@ -93,17 +95,17 @@ public class HUDModule extends Module {
                 fontRenderer.drawStringWithShadow(String.format("Overworld§7 %.1f %.1f %.1f", x, y, z), 2, scaledResolution.getScaledHeight() - bottomLeftOffset - 10, new Color(red.getValue(), green.getValue(), blue.getValue()).getRGB());
 
                 // create nether coordinates (if in overworld / 8)
-                double netherX = Minecraft.getMinecraft().thePlayer.posX / (dimension == 0 ? 8 : 1);
-                double netherZ = Minecraft.getMinecraft().thePlayer.posZ / (dimension == 0 ? 8 : 1);
+                double netherX = mc.thePlayer.posX / (dimension == 0 ? 8 : 1);
+                double netherZ = mc.thePlayer.posZ / (dimension == 0 ? 8 : 1);
 
                 netherX = Math.round(netherX * 10.0) / 10.0;
                 netherZ = Math.round(netherZ * 10.0) / 10.0;
 
                 fontRenderer.drawStringWithShadow(String.format("Nether§7 %.1f %.1f", netherX, netherZ), 2, scaledResolution.getScaledHeight() - bottomLeftOffset - 20, new Color(red.getValue(), green.getValue(), blue.getValue()).getRGB());
             } else {
-                double x = Minecraft.getMinecraft().thePlayer.posX;
-                double y = Minecraft.getMinecraft().thePlayer.posY;
-                double z = Minecraft.getMinecraft().thePlayer.posZ;
+                double x = mc.thePlayer.posX;
+                double y = mc.thePlayer.posY;
+                double z = mc.thePlayer.posZ;
 
                 x = Math.round(x * 10.0) / 10.0;
                 y = Math.round(y * 10.0) / 10.0;
@@ -114,11 +116,11 @@ public class HUDModule extends Module {
         }
 
         if (this.durability.getValue()) {
-            if (Minecraft.getMinecraft().thePlayer.inventory.getCurrentItem() != null && Minecraft.getMinecraft().thePlayer.inventory.getCurrentItem().getMaxDamage() != 0) {
-                final int x = scaledResolution.getScaledWidth() - 2 - fontRenderer.getStringWidth("Durability " + (Minecraft.getMinecraft().thePlayer.inventory.getCurrentItem().getMaxDamage() - Minecraft.getMinecraft().thePlayer.inventory.getCurrentItem().getItemDamage()));
+            if (mc.thePlayer.inventory.getCurrentItem() != null && mc.thePlayer.inventory.getCurrentItem().getMaxDamage() != 0) {
+                final int x = scaledResolution.getScaledWidth() - 2 - fontRenderer.getStringWidth("Durability " + (mc.thePlayer.inventory.getCurrentItem().getMaxDamage() - mc.thePlayer.inventory.getCurrentItem().getItemDamage()));
                 final int y = scaledResolution.getScaledHeight() - bottomRightOffset - 10;
 
-                fontRenderer.drawStringWithShadow("Durability §7" + (Minecraft.getMinecraft().thePlayer.inventory.getCurrentItem().getMaxDamage() - Minecraft.getMinecraft().thePlayer.inventory.getCurrentItem().getItemDamage()), x, y, new Color(red.getValue(), green.getValue(), blue.getValue()).getRGB());
+                fontRenderer.drawStringWithShadow("Durability §7" + (mc.thePlayer.inventory.getCurrentItem().getMaxDamage() - mc.thePlayer.inventory.getCurrentItem().getItemDamage()), x, y, new Color(red.getValue(), green.getValue(), blue.getValue()).getRGB());
                 bottomRightOffset += 10;
             }
         }
@@ -158,7 +160,7 @@ public class HUDModule extends Module {
         if (welcomer.getValue()) {
             String display = getWelcomeMessage();
 
-            fontRenderer.drawStringWithShadow(display + " §7" + Minecraft.getMinecraft().thePlayer.username + "§r!", (float) (scaledResolution.getScaledWidth() / 2 - fontRenderer.getStringWidth(display + " §7" + Minecraft.getMinecraft().thePlayer.username + "§r!") / 2), (float) 5, new Color(red.getValue(), green.getValue(), blue.getValue()).getRGB());
+            fontRenderer.drawStringWithShadow(display + " §7" + mc.thePlayer.username + "§r!", (float) (scaledResolution.getScaledWidth() / 2 - fontRenderer.getStringWidth(display + " §7" + mc.thePlayer.username + "§r!") / 2), (float) 5, new Color(red.getValue(), green.getValue(), blue.getValue()).getRGB());
         }
     };
 
