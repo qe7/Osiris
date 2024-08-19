@@ -1,6 +1,7 @@
 package net.minecraft.src;
 
 import io.github.qe7.Osiris;
+import io.github.qe7.events.impl.render.RenderFireFirstPersonEvent;
 import io.github.qe7.events.impl.render.RenderInsideBlockOverlayEvent;
 import io.github.qe7.events.impl.render.RenderItemEvent;
 import net.minecraft.client.Minecraft;
@@ -554,6 +555,13 @@ public class ItemRenderer {
      * Renders the fire on the screen for first person mode. Arg: partialTickTime
      */
     private void renderFireInFirstPerson(float par1) {
+        final RenderFireFirstPersonEvent renderFireFirstPersonEvent = new RenderFireFirstPersonEvent();
+        Osiris.getInstance().getEventBus().post(renderFireFirstPersonEvent);
+
+        if (renderFireFirstPersonEvent.isCancelled()) {
+            return;
+        }
+
         Tessellator tessellator = Tessellator.instance;
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.9F);
         GL11.glEnable(GL11.GL_BLEND);

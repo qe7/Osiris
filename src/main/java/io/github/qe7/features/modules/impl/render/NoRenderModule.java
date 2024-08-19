@@ -16,6 +16,7 @@ public class NoRenderModule extends Module {
     private final BooleanSetting noFireOverlay = new BooleanSetting("Fire Overlay", true);
     private final BooleanSetting noHurtCameraEffect = new BooleanSetting("Hurt Camera Effect", true);
     private final BooleanSetting achievementNotice = new BooleanSetting("Achievement Notice", true);
+    private final BooleanSetting noBlockBreakingParticles = new BooleanSetting("Block Breaking Particles", true);
 
     public NoRenderModule() {
         super("No Render", "Disabled rendering for shit", ModuleCategory.RENDER);
@@ -34,8 +35,14 @@ public class NoRenderModule extends Module {
     public final Listener<RenderInsideBlockOverlayEvent> renderInsideBlockOverlayEventListener = event -> event.setCancelled(noInsideBlockOverlay.getValue());
 
     @EventLink
+    public final Listener<RenderFireFirstPersonEvent> renderFireFirstPersonEventListener = event -> event.setCancelled(noFireOverlay.getValue());
+
+    @EventLink
     public final Listener<RenderGuiAchievementEvent> renderGuiAchievementEventListener = event -> event.setCancelled(achievementNotice.getValue());
 
     @EventLink
     public final Listener<RenderHurtCamEvent> renderHurtCamEventListener = event -> event.setCancelled(noHurtCameraEffect.getValue());
+
+    @EventLink
+    public final Listener<RenderBlockBreakingParticlesEvent> renderBlockBreakingParticlesEventListener = event -> event.setCancelled(noBlockBreakingParticles.getValue());
 }

@@ -86,15 +86,15 @@ public class RenderPlayer extends RenderLiving {
             float f2 = par1EntityPlayer.getDistanceToEntity(renderManager.livingPlayer);
             float f3 = par1EntityPlayer.isSneaking() ? 32F : 64F;
 
+            final RenderLivingLabelEvent event = new RenderLivingLabelEvent(par1EntityPlayer, renderManager, par2, par4, par6);
+            Osiris.getInstance().getEventBus().post(event);
+
+            if (event.isCancelled()) {
+                return;
+            }
+
             if (f2 < f3) {
                 String s = par1EntityPlayer.username;
-
-                final RenderLivingLabelEvent event = new RenderLivingLabelEvent(par1EntityPlayer, renderManager, par2, par4, par6);
-                Osiris.getInstance().getEventBus().post(event);
-
-                if (event.isCancelled()) {
-                    return;
-                }
 
                 if (!par1EntityPlayer.isSneaking()) {
                     if (par1EntityPlayer.isPlayerSleeping()) {
