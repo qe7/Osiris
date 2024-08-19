@@ -6,6 +6,7 @@ import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.player.MotionEvent;
 import io.github.qe7.events.impl.player.PostMotionEvent;
 import io.github.qe7.events.impl.render.RenderItemEvent;
+import io.github.qe7.events.impl.render.RenderItemThirdPersonEvent;
 import io.github.qe7.features.modules.api.Module;
 import io.github.qe7.features.modules.api.enums.ModuleCategory;
 import io.github.qe7.features.modules.api.settings.impl.BooleanSetting;
@@ -160,8 +161,16 @@ public class KillAuraModule extends Module {
     @EventLink
     public final Listener<RenderItemEvent> renderItemListener = event -> {
         if (this.autoBlock.getValue() && !this.targets.isEmpty()) {
-            event.setUseItemCount(1);
+            event.setUseItemCount(1000);
             event.setAction(EnumAction.block);
+        }
+    };
+
+    @EventLink
+    public final Listener<RenderItemThirdPersonEvent> renderItemThirdPersonListener = event -> {
+        if (this.autoBlock.getValue() && !this.targets.isEmpty()) {
+            event.setUseItemCount(1000);
+            event.setHeldItemRight(1);
         }
     };
 

@@ -1,6 +1,7 @@
 package net.minecraft.src;
 
 import io.github.qe7.Osiris;
+import io.github.qe7.events.impl.render.RenderItemThirdPersonEvent;
 import io.github.qe7.events.impl.render.RenderLivingLabelEvent;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
@@ -52,8 +53,16 @@ public class RenderPlayer extends RenderLiving {
     public void renderPlayer(EntityPlayer par1EntityPlayer, double par2, double par4, double par6, float par8, float par9) {
         ItemStack itemstack = par1EntityPlayer.inventory.getCurrentItem();
         modelArmorChestplate.heldItemRight = modelArmor.heldItemRight = modelBipedMain.heldItemRight = itemstack == null ? 0 : 1;
+        int itemInUseCount = par1EntityPlayer.getItemInUseCount();
 
-        if (itemstack != null && par1EntityPlayer.getItemInUseCount() > 0) {
+        if (par1EntityPlayer == Minecraft.getMinecraft().thePlayer) {
+            final RenderItemThirdPersonEvent event = new RenderItemThirdPersonEvent(par1EntityPlayer.getItemInUseCount(), modelArmor.heldItemRight);
+            Osiris.getInstance().getEventBus().post(event);
+            itemInUseCount = event.getUseItemCount();
+            modelArmor.heldItemRight = event.getHeldItemRight();
+        }
+
+        if (itemstack != null && itemInUseCount > 0) {
             EnumAction enumaction = itemstack.getItemUseAction();
 
             if (enumaction == EnumAction.block) {
