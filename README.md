@@ -15,7 +15,7 @@ A 1.2.5 Minecraft utility client, designed for use on the server "nadir.2beta2t.
 
 To install this client, follow these steps:
 
-1. Download the jar from the [latest release](https://github.com/qe7/Osiris/releases/tag/1.0.0).
+1. Download the jar from the [latest release](https://github.com/qe7/Osiris/releases/tag/1.0.1).
 2. Extract the contents into your [Multi-MC](https://multimc.org/) or [Prism Launcher](https://prismlauncher.org/) instance. (Replace Minecraft.jar)
 3. Launch Minecraft.
 
