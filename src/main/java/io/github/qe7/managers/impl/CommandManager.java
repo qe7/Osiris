@@ -5,10 +5,7 @@ import io.github.qe7.events.api.EventLink;
 import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.packet.OutgoingPacketEvent;
 import io.github.qe7.features.commands.api.Command;
-import io.github.qe7.features.commands.impl.BindCommand;
-import io.github.qe7.features.commands.impl.EnemyCommand;
-import io.github.qe7.features.commands.impl.FriendCommand;
-import io.github.qe7.features.commands.impl.ToggleCommand;
+import io.github.qe7.features.commands.impl.*;
 import io.github.qe7.managers.api.Manager;
 import io.github.qe7.managers.api.interfaces.Register;
 import io.github.qe7.utils.local.ChatUtil;
@@ -19,8 +16,11 @@ public final class CommandManager extends Manager<Class<? extends Command>, Comm
 
     private static final Class<Command>[] COMMANDS = new Class[]{
             BindCommand.class,
+            CommandsCommand.class,
             EnemyCommand.class,
             FriendCommand.class,
+            HelpCommand.class,
+            ModulesCommand.class,
             ToggleCommand.class,
     };
 
