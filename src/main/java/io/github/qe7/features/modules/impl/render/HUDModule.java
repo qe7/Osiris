@@ -7,6 +7,7 @@ import io.github.qe7.events.impl.render.RenderScreenEvent;
 import io.github.qe7.features.modules.api.Module;
 import io.github.qe7.features.modules.api.enums.ModuleCategory;
 import io.github.qe7.features.modules.api.settings.impl.BooleanSetting;
+import io.github.qe7.features.modules.api.settings.impl.DoubleSetting;
 import io.github.qe7.features.modules.api.settings.impl.IntSetting;
 import io.github.qe7.utils.render.ColourUtil;
 import net.minecraft.client.Minecraft;
@@ -17,31 +18,32 @@ import net.minecraft.src.ScaledResolution;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BooleanSupplier;
 import java.util.stream.Collectors;
 
 public class HUDModule extends Module {
 
-    /* watermark */
     private final BooleanSetting watermark = new BooleanSetting("Watermark", true);
     private final BooleanSetting showVersion = new BooleanSetting("Show Build Version", true).supplyIf(watermark::getValue);
     private final BooleanSetting showMCVersion = new BooleanSetting("Show MC Version", true).supplyIf(watermark::getValue);
 
-    /* modules */
     private final BooleanSetting modules = new BooleanSetting("Modules", true);
     private final BooleanSetting modulesSuffix = new BooleanSetting("Suffix", true).supplyIf(this.modules::getValue);
 
-    /* bottom right */
     private final BooleanSetting coordinates = new BooleanSetting("Coordinates", true);
     private final BooleanSetting netherCoordinates = new BooleanSetting("Nether Coordinates", true).supplyIf(this.coordinates::getValue);
 
-    /* bottom left */
     private final BooleanSetting durability = new BooleanSetting("Durability", true);
     private final BooleanSetting fps = new BooleanSetting("FPS", true);
 
-    /* misc */
     private final BooleanSetting welcomer = new BooleanSetting("Welcomer", true);
 
-    /* theme color */
+    private static final BooleanSetting rainbow = new BooleanSetting("Rainbow", false);
+
+    private static final IntSetting rainbowSpeed = new IntSetting("Speed", 5000, 100, 10000, 100).supplyIf(rainbow::getValue);
+    private static final DoubleSetting rainbowSaturation = new DoubleSetting("Saturation", 1.0, 0.1, 1.0, 0.1).supplyIf(rainbow::getValue);
+    private static final DoubleSetting rainbowBrightness = new DoubleSetting("Brightness", 1.0, 0.1, 1.0, 0.1).supplyIf(rainbow::getValue);
+
     public static final IntSetting red = new IntSetting("Red", 255, 0, 255, 1);
     public static final IntSetting green = new IntSetting("Green", 255, 0, 255, 1);
     public static final IntSetting blue = new IntSetting("Blue", 255, 0, 255, 1);
@@ -61,8 +63,8 @@ public class HUDModule extends Module {
         final ScaledResolution scaledResolution = event.getScaledResolution();
         final FontRenderer fontRenderer = mc.fontRenderer;
 
-        int bottomRightOffset = (mc.currentScreen instanceof GuiChat ? 14 : 0);
-        int bottomLeftOffset = (mc.currentScreen instanceof GuiChat ? 14 : 0);
+        int bottomRightOffset = (mc.currentScreen instanceof GuiChat ? 24 : 10);
+        int bottomLeftOffset = (mc.currentScreen instanceof GuiChat ? 24 : 10);
 
         if (this.watermark.getValue()) {
             String display = Osiris.getInstance().getName() + "§7";
@@ -75,7 +77,7 @@ public class HUDModule extends Module {
                 display += " v" + Osiris.getInstance().getVersion();
             }
 
-            fontRenderer.drawStringWithShadow(display, 2, 2, new Color(red.getValue(), green.getValue(), blue.getValue()).getRGB());
+            fontRenderer.drawStringWithShadow(display, 2, 2, getColour(2).getRGB());
         }
 
         if (this.coordinates.getValue()) {
@@ -92,7 +94,8 @@ public class HUDModule extends Module {
                 y = Math.round(y * 10.0) / 10.0;
                 z = Math.round(z * 10.0) / 10.0;
 
-                fontRenderer.drawStringWithShadow(String.format("Overworld§7 %.1f %.1f %.1f", x, y, z), 2, scaledResolution.getScaledHeight() - bottomLeftOffset - 10, new Color(red.getValue(), green.getValue(), blue.getValue()).getRGB());
+                fontRenderer.drawStringWithShadow(String.format("Overworld§7 %.1f %.1f %.1f", x, y, z), 2, scaledResolution.getScaledHeight() - bottomLeftOffset, getColour(bottomLeftOffset).getRGB());
+                bottomLeftOffset += 10;
 
                 // create nether coordinates (if in overworld / 8)
                 double netherX = mc.thePlayer.posX / (dimension == 0 ? 8 : 1);
@@ -101,7 +104,7 @@ public class HUDModule extends Module {
                 netherX = Math.round(netherX * 10.0) / 10.0;
                 netherZ = Math.round(netherZ * 10.0) / 10.0;
 
-                fontRenderer.drawStringWithShadow(String.format("Nether§7 %.1f %.1f", netherX, netherZ), 2, scaledResolution.getScaledHeight() - bottomLeftOffset - 20, new Color(red.getValue(), green.getValue(), blue.getValue()).getRGB());
+                fontRenderer.drawStringWithShadow(String.format("Nether§7 %.1f %.1f", netherX, netherZ), 2, scaledResolution.getScaledHeight() - bottomLeftOffset, getColour(bottomLeftOffset).getRGB());
             } else {
                 double x = mc.thePlayer.posX;
                 double y = mc.thePlayer.posY;
@@ -111,16 +114,16 @@ public class HUDModule extends Module {
                 y = Math.round(y * 10.0) / 10.0;
                 z = Math.round(z * 10.0) / 10.0;
 
-                fontRenderer.drawStringWithShadow(String.format("XYZ§7 %.1f %.1f %.1f", x, y, z), 2, scaledResolution.getScaledHeight() - bottomLeftOffset - 10, new Color(red.getValue(), green.getValue(), blue.getValue()).getRGB());
+                fontRenderer.drawStringWithShadow(String.format("XYZ§7 %.1f %.1f %.1f", x, y, z), 2, scaledResolution.getScaledHeight() - bottomLeftOffset - 10, getColour(bottomLeftOffset).getRGB());
             }
         }
 
         if (this.durability.getValue()) {
             if (mc.thePlayer.inventory.getCurrentItem() != null && mc.thePlayer.inventory.getCurrentItem().getMaxDamage() != 0) {
                 final int x = scaledResolution.getScaledWidth() - 2 - fontRenderer.getStringWidth("Durability " + (mc.thePlayer.inventory.getCurrentItem().getMaxDamage() - mc.thePlayer.inventory.getCurrentItem().getItemDamage()));
-                final int y = scaledResolution.getScaledHeight() - bottomRightOffset - 10;
+                final int y = scaledResolution.getScaledHeight() - bottomRightOffset;
 
-                fontRenderer.drawStringWithShadow("Durability §7" + (mc.thePlayer.inventory.getCurrentItem().getMaxDamage() - mc.thePlayer.inventory.getCurrentItem().getItemDamage()), x, y, new Color(red.getValue(), green.getValue(), blue.getValue()).getRGB());
+                fontRenderer.drawStringWithShadow("Durability §7" + (mc.thePlayer.inventory.getCurrentItem().getMaxDamage() - mc.thePlayer.inventory.getCurrentItem().getItemDamage()), x, y, getColour(bottomRightOffset).getRGB());
                 bottomRightOffset += 10;
             }
         }
@@ -131,9 +134,9 @@ public class HUDModule extends Module {
             fpsCounter.removeIf(time -> System.currentTimeMillis() - time > 1000);
 
             final int x = scaledResolution.getScaledWidth() - 2 - fontRenderer.getStringWidth("FPS " + fpsCounter.size());
-            final int y = scaledResolution.getScaledHeight() - bottomRightOffset - 10;
+            final int y = scaledResolution.getScaledHeight() - bottomRightOffset;
 
-            fontRenderer.drawStringWithShadow("FPS §7" + fpsCounter.size(), x, y, new Color(red.getValue(), green.getValue(), blue.getValue()).getRGB());
+            fontRenderer.drawStringWithShadow("FPS §7" + fpsCounter.size(), x, y, getColour(bottomRightOffset).getRGB());
         }
 
         if (this.modules.getValue()) {
@@ -148,7 +151,7 @@ public class HUDModule extends Module {
 
                 final float x = scaledResolution.getScaledWidth() - fontRenderer.getStringWidth(name) - 2 - (suffix != null && this.modulesSuffix.getValue() ? fontRenderer.getStringWidth(suffix) : 0);
 
-                fontRenderer.drawStringWithShadow(name, x - (suffix != null && this.modulesSuffix.getValue() ? 4 : 0), y, new Color(red.getValue(), green.getValue(), blue.getValue()).getRGB());
+                fontRenderer.drawStringWithShadow(name, x - (suffix != null && this.modulesSuffix.getValue() ? 4 : 0), y, getColour(y).getRGB());
 
                 if (suffix != null && this.modulesSuffix.getValue()) {
                     fontRenderer.drawStringWithShadow("§7" + suffix, x + fontRenderer.getStringWidth(name), y, -1);
@@ -161,7 +164,7 @@ public class HUDModule extends Module {
         if (welcomer.getValue()) {
             String display = getWelcomeMessage();
 
-            fontRenderer.drawStringWithShadow(display + " §7" + mc.thePlayer.username + "§r!", (float) (scaledResolution.getScaledWidth() / 2 - fontRenderer.getStringWidth(display + " §7" + mc.thePlayer.username + "§r!") / 2), (float) 5, new Color(red.getValue(), green.getValue(), blue.getValue()).getRGB());
+            fontRenderer.drawStringWithShadow(display + " §7" + mc.thePlayer.username + "§r!", (float) (scaledResolution.getScaledWidth() / 2 - fontRenderer.getStringWidth(display + " §7" + mc.thePlayer.username + "§r!") / 2), (float) 5, getColour(5).getRGB());
         }
     };
 
@@ -181,5 +184,13 @@ public class HUDModule extends Module {
             display = "Good night";
         }
         return display;
+    }
+
+    private Color getColour(final int offset) {
+        if (rainbow.getValue()) {
+            return new Color(ColourUtil.getRainbow(rainbowSpeed.getValue(), rainbowSaturation.getValue().floatValue(), rainbowBrightness.getValue().floatValue(), offset * 10 /* offset by 10 to make more noticeable */));
+        } else {
+            return new Color(red.getValue(), green.getValue(), blue.getValue());
+        }
     }
 }

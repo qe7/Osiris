@@ -6,6 +6,7 @@ import io.github.qe7.events.impl.render.*;
 import io.github.qe7.features.modules.api.Module;
 import io.github.qe7.features.modules.api.enums.ModuleCategory;
 import io.github.qe7.features.modules.api.settings.impl.BooleanSetting;
+import net.minecraft.client.Minecraft;
 
 public class NoRenderModule extends Module {
 
@@ -17,10 +18,22 @@ public class NoRenderModule extends Module {
     private final BooleanSetting noHurtCameraEffect = new BooleanSetting("Hurt Camera Effect", true);
     private final BooleanSetting achievementNotice = new BooleanSetting("Achievement Notice", true);
     private final BooleanSetting noBlockBreakingParticles = new BooleanSetting("Block Breaking Particles", true);
+    private final BooleanSetting noWeather = new BooleanSetting("Weather", true);
 
     public NoRenderModule() {
         super("No Render", "Disabled rendering for shit", ModuleCategory.RENDER);
     }
+
+    @EventLink
+    public final Listener<RenderScreenEvent> renderScreenEventListener = event -> {
+        if (!noWeather.getValue()) return;
+        if (Minecraft.getMinecraft().theWorld == null) return;
+
+        Minecraft.getMinecraft().theWorld.rainingStrength = 0;
+        Minecraft.getMinecraft().theWorld.prevRainingStrength = 0;
+        Minecraft.getMinecraft().theWorld.thunderingStrength = 0;
+        Minecraft.getMinecraft().theWorld.prevThunderingStrength = 0;
+    };
 
     @EventLink
     public final Listener<RenderPumpkinOverlayEvent> renderPumpkinOverlayEventListener = event -> event.setCancelled(noPumpkinOverlay.getValue());

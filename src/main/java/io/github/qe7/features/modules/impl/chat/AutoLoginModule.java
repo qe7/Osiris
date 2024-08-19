@@ -23,23 +23,23 @@ public class AutoLoginModule extends Module {
             return;
         }
 
-        if (event.getPacket() instanceof Packet3Chat) {
-            Packet3Chat chat = (Packet3Chat) event.getPacket();
+        if (!(event.getPacket() instanceof Packet3Chat)) return;
 
-            final String normalizedMessage = chat.message.replaceAll("§.", "").toLowerCase();
+        Packet3Chat chat = (Packet3Chat) event.getPacket();
 
-            if (normalizedMessage.contains("please login with")) {
-                final String normalizedName = Minecraft.getMinecraft().session.username;
+        final String normalizedMessage = chat.message.replaceAll("§.", "").toLowerCase();
 
-                Account account = Osiris.getInstance().getAccountManager().getAccount(normalizedName);
+        if (!normalizedMessage.contains("please login with")) return;
 
-                if (account != null) {
-                    ChatUtil.sendMessage("/login " + account.getPassword());
-                    ChatUtil.addPrefixedMessage("Auto Login", "Logged in as " + normalizedName);
-                } else {
-                    ChatUtil.addPrefixedMessage("Auto Login", "No account found for " + normalizedName);
-                }
-            }
+        final String normalizedName = Minecraft.getMinecraft().session.username;
+
+        Account account = Osiris.getInstance().getAccountManager().getAccount(normalizedName);
+
+        if (account != null) {
+            ChatUtil.sendMessage("/login " + account.getPassword());
+            ChatUtil.addPrefixedMessage("Auto Login", "Logged in as " + normalizedName);
+        } else {
+            ChatUtil.addPrefixedMessage("Auto Login", "No account found for " + normalizedName);
         }
     };
 }

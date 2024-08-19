@@ -62,10 +62,10 @@ public class World implements IBlockAccess {
      * magic number used to generate fast random numbers for 3d distribution within a chunk
      */
     protected final int DIST_HASH_MAGIC = 0x3c6ef35f;
-    protected float prevRainingStrength;
-    protected float rainingStrength;
-    protected float prevThunderingStrength;
-    protected float thunderingStrength;
+    public float prevRainingStrength;
+    public float rainingStrength;
+    public float prevThunderingStrength;
+    public float thunderingStrength;
 
     /**
      * Set to 2 whenever a lightning bolt is generated in SSP. Decrements if > 0 in updateWeather(). Value appears to be

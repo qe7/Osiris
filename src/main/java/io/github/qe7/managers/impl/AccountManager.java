@@ -61,11 +61,16 @@ public final class AccountManager extends Manager<Account, String> implements Re
 
         JsonObject object = GSON.fromJson(config, JsonObject.class);
 
-        object.entrySet().forEach(entry -> {
-            final String password = entry.getValue().getAsJsonObject().get("password").getAsString();
-            Account account = new Account(entry.getKey(), password);
-            this.register(account);
-        });
+        try {
+            object.entrySet().forEach(entry -> {
+                final String password = entry.getValue().getAsJsonObject().get("password").getAsString();
+                Account account = new Account(entry.getKey(), password);
+                this.register(account);
+            });
+        } catch (Exception e) {
+            // Crash reported by user "aqu1noxxfr" on Discord, will try figure out the issue :)
+            System.out.println("Failed to load accounts - " + e.getMessage());
+        }
     }
 
     public Account getAccount(String username) {
