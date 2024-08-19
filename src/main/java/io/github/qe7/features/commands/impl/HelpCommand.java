@@ -15,7 +15,8 @@ public class HelpCommand extends Command {
         ChatUtil.addPrefixedMessage("Help", "Commands:");
 
         for (Command command : Osiris.getInstance().getCommandManager().getMap().values()) {
-            ChatUtil.addMessage("§7§l" + command.getName() + " - " + command.getDescription());
+            ChatUtil.addMessage("§7§l" + command.getName() + "§r - " + command.getDescription());
+            ChatUtil.addMessage("Usage: " + command.getUsage());
         }
     }
 }

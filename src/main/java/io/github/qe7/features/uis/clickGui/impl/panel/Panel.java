@@ -12,6 +12,7 @@ import net.minecraft.src.Gui;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class       Panel {
@@ -33,10 +34,16 @@ public class       Panel {
         this.positionX = positionX;
         this.positionY = positionY;
 
-        for (Module module : Osiris.getInstance().getModuleManager().getMap().values()) {
-            if (module.getCategory() == moduleCategory) {
-                buttons.add(new Button(module));
-            }
+        final List<Module> moduleList = Osiris.getInstance().getModuleManager().getMap().values().stream().filter(module -> module.getCategory() == moduleCategory).collect(Collectors.toList());
+
+        moduleList.sort((module1, module2) -> {
+            final String name1 = module1.getName();
+            final String name2 = module2.getName();
+            return name1.compareTo(name2);
+        });
+
+        for (Module module : moduleList) {
+            buttons.add(new Button(module));
         }
     }
 
