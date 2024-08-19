@@ -7,7 +7,7 @@ import io.github.qe7.events.impl.player.LivingUpdateEvent;
 import io.github.qe7.events.impl.render.RenderInsideBlockOverlayEvent;
 import io.github.qe7.features.modules.api.Module;
 import io.github.qe7.features.modules.api.enums.ModuleCategory;
-import io.github.qe7.utils.local.MovementUtility;
+import io.github.qe7.utils.local.MovementUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Packet10Flying;
 import org.lwjgl.input.Keyboard;
@@ -74,10 +74,10 @@ public class FreeCamModule extends Module {
             mc.thePlayer.motionY -= 0.5;
         }
 
-        if (MovementUtility.isMoving()) {
-            MovementUtility.setSpeed(0.5);
+        if (MovementUtil.isMoving()) {
+            MovementUtil.setSpeed(0.5);
         } else {
-            MovementUtility.setSpeed(0.0);
+            MovementUtil.setSpeed(0.0);
         }
     };
 

@@ -5,7 +5,7 @@ import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.player.MotionEvent;
 import io.github.qe7.features.modules.api.Module;
 import io.github.qe7.features.modules.api.enums.ModuleCategory;
-import io.github.qe7.utils.local.PacketUtility;
+import io.github.qe7.utils.local.PacketUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Packet10Flying;
 
@@ -21,7 +21,7 @@ public class NoFallDamageModule extends Module {
 
         if (minecraft.thePlayer.fallDistance > 2.0f) {
             minecraft.thePlayer.fallDistance = 0.0f;
-            PacketUtility.sendPacket(new Packet10Flying(true));
+            PacketUtil.sendPacket(new Packet10Flying(true));
         }
     };
 }

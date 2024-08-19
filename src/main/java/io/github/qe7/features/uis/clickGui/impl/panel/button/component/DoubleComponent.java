@@ -3,7 +3,7 @@ package io.github.qe7.features.uis.clickGui.impl.panel.button.component;
 import io.github.qe7.features.uis.clickGui.api.types.Component;
 import io.github.qe7.features.modules.api.settings.impl.DoubleSetting;
 import io.github.qe7.features.modules.impl.render.HUDModule;
-import io.github.qe7.utils.math.MathUtility;
+import io.github.qe7.utils.math.MathUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.Gui;
@@ -44,10 +44,10 @@ public class DoubleComponent extends Component {
             double newValue = min + (diff / width) * (max - min);
             if (newValue < min) newValue = min;
             if (newValue > max) newValue = max;
-            this.setting.setValue(Double.valueOf(String.format("%.2f", MathUtility.doStep(newValue, this.setting.getStep(), this.setting.getMinimum(), this.setting.getMaximum()))));
+            this.setting.setValue(Double.valueOf(String.format("%.2f", MathUtil.doStep(newValue, this.setting.getStep(), this.setting.getMinimum(), this.setting.getMaximum()))));
         }
 
-        if (MathUtility.isHovered(this.x, this.y, this.width, this.height, mouseX, mouseY)) {
+        if (MathUtil.isHovered(this.x, this.y, this.width, this.height, mouseX, mouseY)) {
             Gui.drawRect(this.x, this.y, this.x + this.width, this.y + this.height, new Color(0, 0, 0, 100).getRGB());
         }
 
@@ -64,7 +64,7 @@ public class DoubleComponent extends Component {
 
     @Override
     public void mouseClicked(int mouseX, int mouseY, int k) {
-        if (MathUtility.isHovered(this.x, this.y, this.width, this.height, mouseX, mouseY)) {
+        if (MathUtil.isHovered(this.x, this.y, this.width, this.height, mouseX, mouseY)) {
             if (k == 0) {
                 this.dragging = true;
             }

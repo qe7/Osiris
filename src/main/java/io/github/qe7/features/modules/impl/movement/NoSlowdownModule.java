@@ -7,7 +7,7 @@ import io.github.qe7.events.impl.player.PostMotionEvent;
 import io.github.qe7.events.impl.player.SlowdownEvent;
 import io.github.qe7.features.modules.api.Module;
 import io.github.qe7.features.modules.api.enums.ModuleCategory;
-import io.github.qe7.utils.local.PacketUtility;
+import io.github.qe7.utils.local.PacketUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Packet14BlockDig;
 import net.minecraft.src.Packet15Place;
@@ -26,7 +26,7 @@ public class NoSlowdownModule extends Module {
         final Minecraft mc = Minecraft.getMinecraft();
 
         if (mc.thePlayer.isBlocking()) {
-            PacketUtility.sendPacket(new Packet15Place());
+            PacketUtil.sendPacket(new Packet15Place());
         }
     };
 
@@ -35,7 +35,7 @@ public class NoSlowdownModule extends Module {
         final Minecraft mc = Minecraft.getMinecraft();
 
         if (mc.thePlayer.isBlocking()) {
-            PacketUtility.sendPacket(new Packet14BlockDig(5, 0, 0, 0, 0));
+            PacketUtil.sendPacket(new Packet14BlockDig(5, 0, 0, 0, 0));
         }
     };
 }

@@ -12,8 +12,8 @@ import io.github.qe7.features.accounts.Account;
 import io.github.qe7.managers.api.Manager;
 import io.github.qe7.managers.api.interfaces.Register;
 import io.github.qe7.managers.api.interfaces.Unregister;
-import io.github.qe7.utils.configs.FileUtility;
-import io.github.qe7.utils.local.ChatUtility;
+import io.github.qe7.utils.configs.FileUtil;
+import io.github.qe7.utils.local.ChatUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Packet;
 import net.minecraft.src.Packet3Chat;
@@ -49,11 +49,11 @@ public final class AccountManager extends Manager<Account, String> implements Re
 
         this.getMap().forEach((account, s) -> object.add(s, account.serialize()));
 
-        FileUtility.writeFile("accounts", GSON.toJson(object));
+        FileUtil.writeFile("accounts", GSON.toJson(object));
     }
 
     public void loadAccounts() {
-        String config = FileUtility.readFile("accounts");
+        String config = FileUtil.readFile("accounts");
 
         if (config == null) {
             return;
@@ -88,7 +88,7 @@ public final class AccountManager extends Manager<Account, String> implements Re
 
             if (normalMessage.equalsIgnoreCase("Successful login!")) {
                 if (this.possiblePassword.isEmpty()) {
-                    ChatUtility.addPrefixedMessage("Account Manager", "Failed to find password.");
+                    ChatUtil.addPrefixedMessage("Account Manager", "Failed to find password.");
                     return;
                 }
                 Account account;
@@ -97,11 +97,11 @@ public final class AccountManager extends Manager<Account, String> implements Re
                     if (account == null) return;
                     if (account.getPassword() != null && !account.getPassword().isEmpty() && Objects.equals(account.getPassword(), this.possiblePassword)) return;
                     account.setPassword(this.possiblePassword);
-                    ChatUtility.addPrefixedMessage("Account Manager", "Updated password for " + account.getUsername());
+                    ChatUtil.addPrefixedMessage("Account Manager", "Updated password for " + account.getUsername());
                 } else {
                     account = new Account(Minecraft.getMinecraft().session.username, this.possiblePassword);
                     this.register(account);
-                    ChatUtility.addPrefixedMessage("Account Manager", "Added account " + account.getUsername());
+                    ChatUtil.addPrefixedMessage("Account Manager", "Added account " + account.getUsername());
                 }
                 this.saveAccounts();
             } else if (normalMessage.equalsIgnoreCase("Wrong password.")) {

@@ -8,7 +8,7 @@ import io.github.qe7.features.modules.api.enums.ModuleCategory;
 import io.github.qe7.features.modules.api.settings.impl.BooleanSetting;
 import io.github.qe7.features.modules.api.settings.impl.EnumSetting;
 import io.github.qe7.features.modules.api.settings.impl.interfaces.IEnumSetting;
-import io.github.qe7.utils.local.MovementUtility;
+import io.github.qe7.utils.local.MovementUtil;
 import net.minecraft.client.Minecraft;
 
 public class SpeedModule extends Module {
@@ -38,7 +38,7 @@ public class SpeedModule extends Module {
         final Minecraft mc = Minecraft.getMinecraft();
 
         if (mc.thePlayer == null) return;
-        if (!MovementUtility.isMoving()) return;
+        if (!MovementUtil.isMoving()) return;
         if (mc.thePlayer.isInWater() && this.waterCheck.getValue()) return;
 
         this.setSuffix(mode.getValue().getName());
@@ -46,14 +46,14 @@ public class SpeedModule extends Module {
 
         switch (mode.getValue()) {
             case STRAFE: {
-                MovementUtility.setSpeed(0.28);
+                MovementUtil.setSpeed(0.28);
                 if (mc.thePlayer.onGround) {
                     mc.thePlayer.jump();
                 }
                 break;
             }
             case LOW_HOP: {
-                MovementUtility.setSpeed(0.29 + (mc.thePlayer.motionY < 0 ? 0.028 : 0.0));
+                MovementUtil.setSpeed(0.29 + (mc.thePlayer.motionY < 0 ? 0.028 : 0.0));
                 if (mc.thePlayer.onGround) {
                     mc.thePlayer.motionY = mc.thePlayer.isCollidedHorizontally ? 0.42 : 0.2;
                 }

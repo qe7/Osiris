@@ -1,12 +1,12 @@
 package io.github.qe7.utils.local;
 
-import io.github.qe7.utils.UtilityBase;
+import io.github.qe7.utils.UtilBase;
 import net.minecraft.client.Minecraft;
 
 /**
  * Movement Utility class for movement-related methods
  */
-public final class MovementUtility extends UtilityBase {
+public final class MovementUtil extends UtilBase {
 
     /**
      * Checks if the thePlayer is moving

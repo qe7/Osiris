@@ -11,7 +11,7 @@ import io.github.qe7.features.commands.impl.FriendCommand;
 import io.github.qe7.features.commands.impl.ToggleCommand;
 import io.github.qe7.managers.api.Manager;
 import io.github.qe7.managers.api.interfaces.Register;
-import io.github.qe7.utils.local.ChatUtility;
+import io.github.qe7.utils.local.ChatUtil;
 import net.minecraft.src.Packet;
 import net.minecraft.src.Packet3Chat;
 
@@ -75,7 +75,7 @@ public final class CommandManager extends Manager<Class<? extends Command>, Comm
                 }
             }
 
-            ChatUtility.addPrefixedMessage("Command Manager", "Unknown command: " + args[0]);
+            ChatUtil.addPrefixedMessage("Command Manager", "Unknown command: " + args[0]);
         }
     };
 }

@@ -24,7 +24,7 @@ import io.github.qe7.features.modules.impl.movement.*;
 import io.github.qe7.features.modules.impl.render.*;
 import io.github.qe7.managers.api.Manager;
 import io.github.qe7.managers.api.interfaces.Register;
-import io.github.qe7.utils.configs.FileUtility;
+import io.github.qe7.utils.configs.FileUtil;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -136,11 +136,11 @@ public final class ModuleManager extends Manager<Class<? extends Module>, Module
             jsonObject.add(module.getName(), module.serialize());
         }
 
-        FileUtility.writeFile("modules", GSON.toJson(jsonObject));
+        FileUtil.writeFile("modules", GSON.toJson(jsonObject));
     }
 
     public void loadModules() {
-        String config = FileUtility.readFile("modules");
+        String config = FileUtil.readFile("modules");
 
         if (config == null) {
             return;

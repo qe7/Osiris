@@ -7,7 +7,7 @@ import io.github.qe7.events.impl.packet.IncomingPacketEvent;
 import io.github.qe7.features.accounts.Account;
 import io.github.qe7.features.modules.api.Module;
 import io.github.qe7.features.modules.api.enums.ModuleCategory;
-import io.github.qe7.utils.local.ChatUtility;
+import io.github.qe7.utils.local.ChatUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Packet3Chat;
 
@@ -34,10 +34,10 @@ public class AutoLoginModule extends Module {
                 Account account = Osiris.getInstance().getAccountManager().getAccount(normalizedName);
 
                 if (account != null) {
-                    ChatUtility.sendMessage("/login " + account.getPassword());
-                    ChatUtility.addPrefixedMessage("Auto Login", "Logged in as " + normalizedName);
+                    ChatUtil.sendMessage("/login " + account.getPassword());
+                    ChatUtil.addPrefixedMessage("Auto Login", "Logged in as " + normalizedName);
                 } else {
-                    ChatUtility.addPrefixedMessage("Auto Login", "No account found for " + normalizedName);
+                    ChatUtil.addPrefixedMessage("Auto Login", "No account found for " + normalizedName);
                 }
             }
         }

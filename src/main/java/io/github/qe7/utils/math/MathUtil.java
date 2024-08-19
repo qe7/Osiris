@@ -1,11 +1,11 @@
 package io.github.qe7.utils.math;
 
-import io.github.qe7.utils.UtilityBase;
+import io.github.qe7.utils.UtilBase;
 
 /**
  * Math utility class for math related operations
  */
-public final class MathUtility extends UtilityBase {
+public final class MathUtil extends UtilBase {
 
     /**
      * Checks if the mouse is hovering over a rectangle

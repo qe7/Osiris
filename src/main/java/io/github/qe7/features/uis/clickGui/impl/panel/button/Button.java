@@ -13,7 +13,7 @@ import io.github.qe7.features.modules.api.settings.impl.DoubleSetting;
 import io.github.qe7.features.modules.api.settings.impl.EnumSetting;
 import io.github.qe7.features.modules.api.settings.impl.IntSetting;
 import io.github.qe7.features.modules.impl.render.HUDModule;
-import io.github.qe7.utils.math.MathUtility;
+import io.github.qe7.utils.math.MathUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.Gui;
@@ -63,7 +63,7 @@ public class Button {
 
         Gui.drawRect(positionX, positionY, positionX + width, positionY + height, module.isEnabled() ? new Color(HUDModule.red.getValue(), HUDModule.green.getValue(), HUDModule.blue.getValue(), 150).getRGB() : new Color(50, 50, 50, 150).getRGB());
 
-        if (MathUtility.isHovered(positionX, positionY, width, height, par1, par2)) {
+        if (MathUtil.isHovered(positionX, positionY, width, height, par1, par2)) {
             Gui.drawRect(positionX, positionY, positionX + width, positionY + height, new Color(0, 0, 0, 100).getRGB());
         }
 

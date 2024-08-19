@@ -2,7 +2,7 @@ package io.github.qe7.features.uis.clickGui.impl.panel.button.component;
 
 import io.github.qe7.features.uis.clickGui.api.types.Component;
 import io.github.qe7.features.modules.api.settings.impl.EnumSetting;
-import io.github.qe7.utils.math.MathUtility;
+import io.github.qe7.utils.math.MathUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.Gui;
@@ -30,7 +30,7 @@ public class EnumComponent extends Component {
         this.positionX = x;
         this.positionY = y;
 
-        if (MathUtility.isHovered(x, y, this.width, this.height, mouseX, mouseY)) {
+        if (MathUtil.isHovered(x, y, this.width, this.height, mouseX, mouseY)) {
             Gui.drawRect(x, y, x + width, y + height, new Color(0, 0, 0, 100).getRGB());
         }
 

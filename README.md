@@ -23,7 +23,7 @@ To install this client, follow these steps:
 
 Click GUI is bound by default to `R_SHIFT` / right shift and chat commands use the `.` prefix.
 
-## Screen shots
+## Screenshots
 
 ### In game
 ![Alt text](https://raw.githubusercontent.com/qe7/Osiris/main/readme/in_game.png)

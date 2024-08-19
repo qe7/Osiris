@@ -1,6 +1,6 @@
 package io.github.qe7.utils.configs;
 
-import io.github.qe7.utils.UtilityBase;
+import io.github.qe7.utils.UtilBase;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -9,7 +9,7 @@ import java.nio.file.Files;
  * Utility class for file/config related tasks
  * Files are stored in the Osiris/ directory in the root of the system drive
  */
-public final class FileUtility extends UtilityBase {
+public final class FileUtil extends UtilBase {
 
     // File extension
     private static final String FILE_EXTENSION = ".json"; // We're using JSON files

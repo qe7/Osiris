@@ -4,7 +4,7 @@ import io.github.qe7.Osiris;
 import io.github.qe7.features.commands.api.Command;
 import io.github.qe7.features.relations.Relation;
 import io.github.qe7.features.relations.enums.RelationType;
-import io.github.qe7.utils.local.ChatUtility;
+import io.github.qe7.utils.local.ChatUtil;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,8 +21,8 @@ public class EnemyCommand extends Command {
     @Override
     public void execute(String[] args) {
         if (args.length < 2 || args.length > 3) {
-            ChatUtility.addPrefixedMessage("Enemy", "Invalid arguments");
-            ChatUtility.addPrefixedMessage("Enemy", this.getUsage());
+            ChatUtil.addPrefixedMessage("Enemy", "Invalid arguments");
+            ChatUtil.addPrefixedMessage("Enemy", this.getUsage());
             return;
         }
 
@@ -31,41 +31,41 @@ public class EnemyCommand extends Command {
         switch (action.toLowerCase()) {
             case "add": {
                 if (Osiris.getInstance().getRelationManager().isFriend(args[2])) {
-                    ChatUtility.addPrefixedMessage("Enemy", "Already friends with " + args[2]);
+                    ChatUtil.addPrefixedMessage("Enemy", "Already friends with " + args[2]);
                     return;
                 }
                 if (Osiris.getInstance().getRelationManager().isEnemy(args[2])) {
-                    ChatUtility.addPrefixedMessage("Enemy", "Already enemies with " + args[2]);
+                    ChatUtil.addPrefixedMessage("Enemy", "Already enemies with " + args[2]);
                     return;
                 }
                 Osiris.getInstance().getRelationManager().addRelation(args[2], RelationType.ENEMY);
-                ChatUtility.addPrefixedMessage("Enemy", "Added " + args[2] + " to enemies");
+                ChatUtil.addPrefixedMessage("Enemy", "Added " + args[2] + " to enemies");
                 break;
             }
             case "del": {
                 if (!Osiris.getInstance().getRelationManager().isEnemy(args[2])) {
-                    ChatUtility.addPrefixedMessage("Enemy", "Not enemies with " + args[2]);
+                    ChatUtil.addPrefixedMessage("Enemy", "Not enemies with " + args[2]);
                     return;
                 }
                 Osiris.getInstance().getRelationManager().removeRelation(args[2]);
-                ChatUtility.addPrefixedMessage("Enemy", "Removed " + args[2] + "from enemies");
+                ChatUtil.addPrefixedMessage("Enemy", "Removed " + args[2] + "from enemies");
                 break;
             }
             case "list": {
                 List<Relation> enemies = Osiris.getInstance().getRelationManager().getMap().keySet().stream().filter(relation -> relation.getType() == RelationType.ENEMY).collect(Collectors.toList());
 
                 if (enemies.isEmpty()) {
-                    ChatUtility.addPrefixedMessage("Enemy", "No enemies");
+                    ChatUtil.addPrefixedMessage("Enemy", "No enemies");
                     return;
                 }
 
                 String display = enemies.stream().map(Relation::getName).reduce((a, b) -> a + ", " + b).orElse("");
 
-                ChatUtility.addPrefixedMessage("Enemy", "Enemies: " + display);
+                ChatUtil.addPrefixedMessage("Enemy", "Enemies: " + display);
                 break;
             }
             default:
-                ChatUtility.addPrefixedMessage("Enemy", "Invalid action");
+                ChatUtil.addPrefixedMessage("Enemy", "Invalid action");
         }
     }
 }

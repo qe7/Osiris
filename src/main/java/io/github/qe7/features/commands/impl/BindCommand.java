@@ -3,7 +3,7 @@ package io.github.qe7.features.commands.impl;
 import io.github.qe7.Osiris;
 import io.github.qe7.features.commands.api.Command;
 import io.github.qe7.features.modules.api.Module;
-import io.github.qe7.utils.local.ChatUtility;
+import io.github.qe7.utils.local.ChatUtil;
 import org.lwjgl.input.Keyboard;
 
 public class BindCommand extends Command {
@@ -18,8 +18,8 @@ public class BindCommand extends Command {
     @Override
     public void execute(String[] args) {
         if (args.length < 3) {
-            ChatUtility.addPrefixedMessage("Bind", "Invalid arguments");
-            ChatUtility.addPrefixedMessage("Bind", "Usage: " + this.getUsage());
+            ChatUtil.addPrefixedMessage("Bind", "Invalid arguments");
+            ChatUtil.addPrefixedMessage("Bind", "Usage: " + this.getUsage());
             return;
         }
 
@@ -30,7 +30,7 @@ public class BindCommand extends Command {
             if (module.getName().replace(" ", "").equalsIgnoreCase(moduleName)) {
                 if (key.equalsIgnoreCase("none")) {
                     module.setKeyCode(-1);
-                    ChatUtility.addPrefixedMessage("Bind", "Unbound " + module.getName());
+                    ChatUtil.addPrefixedMessage("Bind", "Unbound " + module.getName());
                     return;
                 }
 
@@ -39,16 +39,16 @@ public class BindCommand extends Command {
                 try {
                     keyCode = Keyboard.getKeyIndex(key.toUpperCase());
                 } catch (NumberFormatException e) {
-                    ChatUtility.addPrefixedMessage("Bind", "Invalid key");
+                    ChatUtil.addPrefixedMessage("Bind", "Invalid key");
                     return;
                 }
 
                 module.setKeyCode(keyCode);
-                ChatUtility.addPrefixedMessage("Bind", "Bound " + module.getName() + " to " + key);
+                ChatUtil.addPrefixedMessage("Bind", "Bound " + module.getName() + " to " + key);
                 return;
             }
         }
 
-        ChatUtility.addPrefixedMessage("Bind", "Module not found");
+        ChatUtil.addPrefixedMessage("Bind", "Module not found");
     }
 }

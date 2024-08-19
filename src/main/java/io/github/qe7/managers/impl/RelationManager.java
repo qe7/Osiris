@@ -8,7 +8,7 @@ import io.github.qe7.features.relations.enums.RelationType;
 import io.github.qe7.managers.api.Manager;
 import io.github.qe7.managers.api.interfaces.Register;
 import io.github.qe7.managers.api.interfaces.Unregister;
-import io.github.qe7.utils.configs.FileUtility;
+import io.github.qe7.utils.configs.FileUtil;
 
 public final class RelationManager extends Manager<Relation, String> implements Register<Relation>, Unregister<Relation> {
 
@@ -67,11 +67,11 @@ public final class RelationManager extends Manager<Relation, String> implements 
 
         this.getMap().forEach((relation, name) -> object.add(name, relation.serialize()));
 
-        FileUtility.writeFile("relations", GSON.toJson(object));
+        FileUtil.writeFile("relations", GSON.toJson(object));
     }
 
     public void loadRelations() {
-        final String config = FileUtility.readFile("relations");
+        final String config = FileUtil.readFile("relations");
 
         if (config == null) {
             return;

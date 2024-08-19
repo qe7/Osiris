@@ -1,13 +1,13 @@
 package io.github.qe7.utils.render;
 
-import io.github.qe7.utils.UtilityBase;
+import io.github.qe7.utils.UtilBase;
 
 import java.awt.*;
 
 /**
  * Colour utility class
  */
-public final class ColourUtility extends UtilityBase {
+public final class ColourUtil extends UtilBase {
 
     /**
      * Gets a rainbow colour
@@ -49,6 +49,6 @@ public final class ColourUtility extends UtilityBase {
      * @return The mixed colour
      */
     public static Color getMixedColor(final Color color1, final Color color2, final int index) {
-        return ColourUtility.mixColors(color1, color2, (float) (Math.sin((System.currentTimeMillis() + index * 100) / 500.0) + 1.0) / 2.0f);
+        return ColourUtil.mixColors(color1, color2, (float) (Math.sin((System.currentTimeMillis() + index * 100) / 500.0) + 1.0) / 2.0f);
     }
 }

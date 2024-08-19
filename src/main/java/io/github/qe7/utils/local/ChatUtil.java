@@ -1,9 +1,9 @@
 package io.github.qe7.utils.local;
 
-import io.github.qe7.utils.UtilityBase;
+import io.github.qe7.utils.UtilBase;
 import net.minecraft.client.Minecraft;
 
-public final class ChatUtility extends UtilityBase {
+public final class ChatUtil extends UtilBase {
 
     /**
      * Sends a message to the chat.

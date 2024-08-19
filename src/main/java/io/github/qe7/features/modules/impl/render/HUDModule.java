@@ -8,7 +8,7 @@ import io.github.qe7.features.modules.api.Module;
 import io.github.qe7.features.modules.api.enums.ModuleCategory;
 import io.github.qe7.features.modules.api.settings.impl.BooleanSetting;
 import io.github.qe7.features.modules.api.settings.impl.IntSetting;
-import io.github.qe7.utils.render.ColourUtility;
+import io.github.qe7.utils.render.ColourUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.GuiChat;
@@ -149,7 +149,7 @@ public class HUDModule extends Module {
 
                 final float x = scaledResolution.getScaledWidth() - fontRenderer.getStringWidth(name) - 2 - (suffix != null && this.modulesSuffix.getValue() ? fontRenderer.getStringWidth(suffix) : 0);
 
-                fontRenderer.drawStringWithShadow(name, x - (suffix != null && this.modulesSuffix.getValue() ? 4 : 0), y, ColourUtility.getMixedColor(new Color(red.getValue(), green.getValue(), blue.getValue()), new Color(red.getValue(), green.getValue(), blue.getValue()).darker(), y * 10).getRGB());
+                fontRenderer.drawStringWithShadow(name, x - (suffix != null && this.modulesSuffix.getValue() ? 4 : 0), y, ColourUtil.getMixedColor(new Color(red.getValue(), green.getValue(), blue.getValue()), new Color(red.getValue(), green.getValue(), blue.getValue()).darker(), y * 10).getRGB());
 
                 if (suffix != null && this.modulesSuffix.getValue()) {
                     fontRenderer.drawStringWithShadow("§7" + suffix, x + fontRenderer.getStringWidth(name), y, -1);

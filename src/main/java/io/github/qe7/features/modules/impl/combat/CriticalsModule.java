@@ -5,7 +5,7 @@ import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.packet.OutgoingPacketEvent;
 import io.github.qe7.features.modules.api.Module;
 import io.github.qe7.features.modules.api.enums.ModuleCategory;
-import io.github.qe7.utils.local.PacketUtility;
+import io.github.qe7.utils.local.PacketUtil;
 import io.github.qe7.utils.math.Stopwatch;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Packet11PlayerPosition;
@@ -29,8 +29,8 @@ public class CriticalsModule extends Module {
             final Packet7UseEntity useEntity = (Packet7UseEntity) event.getPacket();
             if (useEntity.isLeftClick != 1) return;
             if (mc.thePlayer.onGround && stopwatch.elapsed(200)) {
-                PacketUtility.sendPacket(new Packet11PlayerPosition(mc.thePlayer.posX, mc.thePlayer.boundingBox.minY + 0.5F, mc.thePlayer.posY + 0.5F, mc.thePlayer.posZ, false));
-                PacketUtility.sendPacket(new Packet11PlayerPosition(mc.thePlayer.posX, mc.thePlayer.boundingBox.minY, mc.thePlayer.posY, mc.thePlayer.posZ, false));
+                PacketUtil.sendPacket(new Packet11PlayerPosition(mc.thePlayer.posX, mc.thePlayer.boundingBox.minY + 0.5F, mc.thePlayer.posY + 0.5F, mc.thePlayer.posZ, false));
+                PacketUtil.sendPacket(new Packet11PlayerPosition(mc.thePlayer.posX, mc.thePlayer.boundingBox.minY, mc.thePlayer.posY, mc.thePlayer.posZ, false));
                 stopwatch.reset();
             }
         }

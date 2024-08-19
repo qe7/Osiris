@@ -7,7 +7,7 @@ import io.github.qe7.events.impl.render.RenderEntityEvent;
 import io.github.qe7.features.modules.api.Module;
 import io.github.qe7.features.modules.api.enums.ModuleCategory;
 import io.github.qe7.features.modules.api.settings.impl.BooleanSetting;
-import io.github.qe7.utils.render.OpenGLRenderUtility;
+import io.github.qe7.utils.render.OpenGLRenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.*;
 
@@ -68,7 +68,7 @@ public class ESPModule extends Module {
                 final double width = boundingBox.maxX - boundingBox.minX;
                 final double height = boundingBox.maxY - boundingBox.minY;
 
-                OpenGLRenderUtility.drawEntityESP(x, y, z, width, height + 0.2f, this.getEntityColor(entity), 1.0f);
+                OpenGLRenderUtil.drawEntityESP(x, y, z, width, height + 0.2f, this.getEntityColor(entity), 1.0f);
             }
         }
 
@@ -96,7 +96,7 @@ public class ESPModule extends Module {
                 final double y = tileEntity.yCoord - RenderManager.renderPosY;
                 final double z = tileEntity.zCoord - RenderManager.renderPosZ;
 
-                OpenGLRenderUtility.drawBlockESP(x, y, z, this.getTileEntityColor(tileEntity), 1.0f);
+                OpenGLRenderUtil.drawBlockESP(x, y, z, this.getTileEntityColor(tileEntity), 1.0f);
             }
         }
     };

@@ -8,7 +8,7 @@ import io.github.qe7.features.waypoints.enums.WaypointDimension;
 import io.github.qe7.managers.api.Manager;
 import io.github.qe7.managers.api.interfaces.Register;
 import io.github.qe7.managers.api.interfaces.Unregister;
-import io.github.qe7.utils.configs.FileUtility;
+import io.github.qe7.utils.configs.FileUtil;
 
 public final class WaypointManager extends Manager<Waypoint, String> implements Register<Waypoint>, Unregister<Waypoint> {
 
@@ -49,11 +49,11 @@ public final class WaypointManager extends Manager<Waypoint, String> implements 
 
         this.getMap().forEach((waypoint, name) -> object.add(name, waypoint.serialize()));
 
-        FileUtility.writeFile("waypoints", GSON.toJson(object));
+        FileUtil.writeFile("waypoints", GSON.toJson(object));
     }
 
     public void loadWaypoints() {
-        String config = FileUtility.readFile("waypoints");
+        String config = FileUtil.readFile("waypoints");
 
         if (config == null) {
             return;

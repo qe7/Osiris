@@ -7,7 +7,7 @@ import io.github.qe7.events.impl.render.RenderEntityEvent;
 import io.github.qe7.features.modules.api.Module;
 import io.github.qe7.features.modules.api.enums.ModuleCategory;
 import io.github.qe7.features.modules.api.settings.impl.BooleanSetting;
-import io.github.qe7.utils.render.OpenGLRenderUtility;
+import io.github.qe7.utils.render.OpenGLRenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.*;
 
@@ -55,7 +55,7 @@ public class TracersModule extends Module {
             final double y = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * Minecraft.timer.renderPartialTicks - RenderManager.renderPosY;
             final double z = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * Minecraft.timer.renderPartialTicks - RenderManager.renderPosZ;
 
-            OpenGLRenderUtility.drawTracerLine(x, y, z, this.getEntityColor(entity), 1.0f);
+            OpenGLRenderUtil.drawTracerLine(x, y, z, this.getEntityColor(entity), 1.0f);
         }
     };
 

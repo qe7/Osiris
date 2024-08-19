@@ -3,7 +3,7 @@ package io.github.qe7.features.uis.clickGui.impl.panel.button.component;
 import io.github.qe7.features.uis.clickGui.api.types.Component;
 import io.github.qe7.features.modules.api.settings.impl.IntSetting;
 import io.github.qe7.features.modules.impl.render.HUDModule;
-import io.github.qe7.utils.math.MathUtility;
+import io.github.qe7.utils.math.MathUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.Gui;
@@ -42,10 +42,10 @@ public class IntComponent extends Component {
         if (this.dragging) {
             final double diff = mouseX - x;
             double newValue = min + (diff / width) * (max - min);
-            this.setting.setValue((int) MathUtility.doStep(Math.floor(newValue), this.setting.getStep(), this.setting.getMinimum(), this.setting.getMaximum()));
+            this.setting.setValue((int) MathUtil.doStep(Math.floor(newValue), this.setting.getStep(), this.setting.getMinimum(), this.setting.getMaximum()));
         }
 
-        if (MathUtility.isHovered(this.x, this.y, this.width, this.height, mouseX, mouseY)) {
+        if (MathUtil.isHovered(this.x, this.y, this.width, this.height, mouseX, mouseY)) {
             Gui.drawRect(this.x, this.y, this.x + this.width, this.y + this.height, new Color(0, 0, 0, 100).getRGB());
         }
 
@@ -62,7 +62,7 @@ public class IntComponent extends Component {
 
     @Override
     public void mouseClicked(int mouseX, int mouseY, int k) {
-        if (MathUtility.isHovered(this.x, this.y, this.width, this.height, mouseX, mouseY)) {
+        if (MathUtil.isHovered(this.x, this.y, this.width, this.height, mouseX, mouseY)) {
             if (k == 0) {
                 this.dragging = true;
             }

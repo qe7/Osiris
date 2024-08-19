@@ -6,7 +6,7 @@ import io.github.qe7.events.impl.render.RenderLivingLabelEvent;
 import io.github.qe7.features.modules.api.Module;
 import io.github.qe7.features.modules.api.enums.ModuleCategory;
 import io.github.qe7.features.modules.api.settings.impl.DoubleSetting;
-import io.github.qe7.utils.render.OpenGLRenderUtility;
+import io.github.qe7.utils.render.OpenGLRenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.EntityPlayer;
 
@@ -28,7 +28,7 @@ public class NameTagsModule extends Module {
 
         final EntityPlayer player = (EntityPlayer) event.getEntity();
 
-        OpenGLRenderUtility.drawName(player, event.getRenderManager(), event.getX(), event.getY(), event.getZ(), scale.getValue().floatValue());
+        OpenGLRenderUtil.drawName(player, event.getRenderManager(), event.getX(), event.getY(), event.getZ(), scale.getValue().floatValue());
         event.setCancelled(true);
     };
 }

@@ -10,7 +10,7 @@ import io.github.qe7.features.modules.api.Module;
 import io.github.qe7.features.modules.api.enums.ModuleCategory;
 import io.github.qe7.features.modules.api.settings.impl.BooleanSetting;
 import io.github.qe7.features.modules.api.settings.impl.DoubleSetting;
-import io.github.qe7.utils.local.PacketUtility;
+import io.github.qe7.utils.local.PacketUtil;
 import io.github.qe7.utils.math.Stopwatch;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.*;
@@ -61,7 +61,7 @@ public class KillAuraModule extends Module {
 
         if (shouldBlock) {
             if (mc.thePlayer.getHeldItem() != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
-                PacketUtility.sendPacket(new Packet15Place());
+                PacketUtil.sendPacket(new Packet15Place());
             }
             shouldBlock = false;
         }
@@ -121,7 +121,7 @@ public class KillAuraModule extends Module {
         // auto block
         if (this.autoBlock.getValue()) {
             if (mc.thePlayer.getHeldItem() != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
-                PacketUtility.sendPacket(new Packet15Place(0, 0, 0, 0, mc.thePlayer.inventory.getCurrentItem()));
+                PacketUtil.sendPacket(new Packet15Place(0, 0, 0, 0, mc.thePlayer.inventory.getCurrentItem()));
                 shouldBlock = true;
             }
         }
@@ -151,7 +151,7 @@ public class KillAuraModule extends Module {
 
         if (shouldBlock) {
             if (mc.thePlayer.getHeldItem() != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
-                PacketUtility.sendPacket(new Packet14BlockDig(5, 0, 0, 0, 0));
+                PacketUtil.sendPacket(new Packet14BlockDig(5, 0, 0, 0, 0));
             }
             shouldBlock = false;
         }

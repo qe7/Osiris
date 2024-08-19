@@ -1,13 +1,13 @@
 package io.github.qe7.utils.local;
 
-import io.github.qe7.utils.UtilityBase;
+import io.github.qe7.utils.UtilBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Packet;
 
 /**
  * Utility class for packets.
  */
-public final class PacketUtility extends UtilityBase {
+public final class PacketUtil extends UtilBase {
 
     /**
      * Sends a packet to the server

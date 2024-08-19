@@ -2,41 +2,34 @@ package io.github.qe7;
 
 import io.github.qe7.events.api.EventBus;
 import io.github.qe7.managers.impl.*;
-import io.github.qe7.utils.configs.FileUtility;
+import io.github.qe7.utils.configs.FileUtil;
 
 /**
- * Main class for the Osiris client
+ * Main class for the client
  */
 public final class Osiris {
 
-    // Singleton instance
     private static final Osiris instance = new Osiris();
 
-    // Name and version of the client
     private final String name, version;
 
-    // Event bus
     private final EventBus eventBus;
 
-    // Managers
     private final AccountManager accountManager;
     private final WaypointManager waypointManager;
     private final RelationManager relationManager;
     private final ModuleManager moduleManager;
     private final CommandManager commandManager;
 
-    // Private constructor
+    // Private constructor, to prevent instantiation
     private Osiris() {
         System.out.println("Osiris instance created!");
 
-        // set name and version
         this.name = "Osiris";
         this.version = "1.0.0";
 
-        // create event bus
         this.eventBus = new EventBus();
 
-        // create instance of managers
         this.accountManager = new AccountManager();
         this.waypointManager = new WaypointManager();
         this.relationManager = new RelationManager();
@@ -50,10 +43,8 @@ public final class Osiris {
     public void initialise() {
         System.out.println("Osiris initialising!");
 
-        // create directory for config files
-        FileUtility.createDirectory();
+        FileUtil.createDirectory();
 
-        // initialise managers
         this.getAccountManager().initialise();
         this.getWaypointManager().initialise();
         this.getRelationManager().initialise();
@@ -75,7 +66,6 @@ public final class Osiris {
         System.out.println("Osiris initialised!");
     }
 
-    /* Getters */
     public static Osiris getInstance() {
         return instance;
     }

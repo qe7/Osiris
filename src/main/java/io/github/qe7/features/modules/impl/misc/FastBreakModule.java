@@ -16,7 +16,7 @@ import net.minecraft.src.Vec3D;
 
 public class FastBreakModule extends Module {
 
-    private final DoubleSetting minDamage = new DoubleSetting("Start damage", 0.7, 0.1, 1.0, 0.1);
+    private final DoubleSetting minDamage = new DoubleSetting("Start damage", 0.5, 0.1, 1.0, 0.1);
 
     public FastBreakModule() {
         super("Fast Break", "Mines blocks faster", ModuleCategory.MISC);
@@ -36,6 +36,7 @@ public class FastBreakModule extends Module {
 
         PlayerControllerMP playerController = (PlayerControllerMP) mc.playerController;
 
+        // Check if the player is mining a block
         if (playerController.curBlockDamageMP == 0.0F) {
             return;
         }

@@ -1,7 +1,7 @@
 package io.github.qe7.utils.render;
 
 import io.github.qe7.Osiris;
-import io.github.qe7.utils.UtilityBase;
+import io.github.qe7.utils.UtilBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.*;
 import org.lwjgl.BufferUtils;
@@ -15,7 +15,7 @@ import java.nio.IntBuffer;
 /**
  * OpenGL Render Utility class for rendering OpenGL elements
  */
-public final class OpenGLRenderUtility extends UtilityBase {
+public final class OpenGLRenderUtil extends UtilBase {
 
     // credit to https://www.youtube.com/@billybob1060yt for the following methods, I'm too lazy
     // had to fix some *all* of the methods because they were broken :p - Shae
