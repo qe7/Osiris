@@ -3,7 +3,6 @@ package io.github.qe7;
 import io.github.qe7.events.api.EventBus;
 import io.github.qe7.managers.impl.*;
 import io.github.qe7.utils.configs.FileUtility;
-import net.minecraft.client.Minecraft;
 
 /**
  * Main class for the Osiris client

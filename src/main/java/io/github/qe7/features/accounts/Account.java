@@ -3,8 +3,6 @@ package io.github.qe7.features.accounts;
 import com.google.gson.JsonObject;
 import io.github.qe7.utils.configs.Serialized;
 
-import java.util.HashMap;
-
 public class Account implements Serialized {
 
     private final String username;

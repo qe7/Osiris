@@ -13,6 +13,17 @@ public class AutoWalkModule extends Module {
         super("Auto Walk", "Sets W to true! W", ModuleCategory.MISC);
     }
 
+    @Override
+    public void onDisable() {
+        super.onDisable();
+
+        final Minecraft mc = Minecraft.getMinecraft();
+
+        if (mc.thePlayer == null) return;
+
+        mc.gameSettings.keyBindForward.pressed = false;
+    }
+
     @EventLink
     public final Listener<LivingUpdateEvent> livingUpdateEventListener = event -> {
         final Minecraft mc = Minecraft.getMinecraft();
