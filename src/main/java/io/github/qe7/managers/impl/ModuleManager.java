@@ -67,6 +67,7 @@ public final class ModuleManager extends Manager<Class<? extends Module>, Module
 
             /* Render */
             BrightnessModule.class,
+            CameraModule.class,
             ClickGUIModule.class,
             ESPModule.class,
             HUDModule.class,

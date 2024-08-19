@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import io.github.qe7.Osiris;
 import io.github.qe7.events.impl.render.RenderHurtCamEvent;
+import io.github.qe7.events.impl.render.RenderThirdPersonClipEvent;
+import io.github.qe7.features.modules.impl.render.CameraModule;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
@@ -256,6 +258,13 @@ public class EntityRenderer {
         updateFovModifierHand();
         updateTorchFlicker();
         fogColor2 = fogColor1;
+
+        if (Osiris.getInstance().getModuleManager().getMap().get(CameraModule.class).isEnabled()) {
+            thirdPersonDistance = CameraModule.getCameraDistance();
+        } else {
+            thirdPersonDistance = 4F;
+        }
+
         thirdPersonDistanceTemp = thirdPersonDistance;
         prevDebugCamYaw = debugCamYaw;
         prevDebugCamPitch = debugCamPitch;
@@ -512,8 +521,13 @@ public class EntityRenderer {
 
                     double d7 = movingobjectposition.hitVec.distanceTo(Vec3D.createVector(d, d1, d2));
 
-                    if (d7 < d3) {
-                        d3 = d7;
+                    final RenderThirdPersonClipEvent event = new RenderThirdPersonClipEvent();
+                    Osiris.getInstance().getEventBus().post(event);
+
+                    if (!event.isCancelled()) {
+                        if (d7 < d3) {
+                            d3 = d7;
+                        }
                     }
                 }
 
