@@ -134,7 +134,6 @@ public class HUDModule extends Module {
             final int y = scaledResolution.getScaledHeight() - bottomRightOffset - 10;
 
             fontRenderer.drawStringWithShadow("FPS §7" + fpsCounter.size(), x, y, new Color(red.getValue(), green.getValue(), blue.getValue()).getRGB());
-            bottomRightOffset += 10;
         }
 
         if (this.modules.getValue()) {
@@ -149,7 +148,7 @@ public class HUDModule extends Module {
 
                 final float x = scaledResolution.getScaledWidth() - fontRenderer.getStringWidth(name) - 2 - (suffix != null && this.modulesSuffix.getValue() ? fontRenderer.getStringWidth(suffix) : 0);
 
-                fontRenderer.drawStringWithShadow(name, x - (suffix != null && this.modulesSuffix.getValue() ? 4 : 0), y, ColourUtil.getMixedColor(new Color(red.getValue(), green.getValue(), blue.getValue()), new Color(red.getValue(), green.getValue(), blue.getValue()).darker(), y * 10).getRGB());
+                fontRenderer.drawStringWithShadow(name, x - (suffix != null && this.modulesSuffix.getValue() ? 4 : 0), y, new Color(red.getValue(), green.getValue(), blue.getValue()).getRGB());
 
                 if (suffix != null && this.modulesSuffix.getValue()) {
                     fontRenderer.drawStringWithShadow("§7" + suffix, x + fontRenderer.getStringWidth(name), y, -1);
