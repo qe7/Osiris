@@ -22,6 +22,6 @@ public class CameraModule extends Module {
     public final Listener<RenderThirdPersonClipEvent> renderThirdPersonClipEventListener = event -> event.setCancelled(cameraClip.getValue());
 
     public static float getCameraDistance() {
-        return (float) cameraDistance.getValue().floatValue();
+        return cameraDistance.getValue().floatValue();
     }
 }
