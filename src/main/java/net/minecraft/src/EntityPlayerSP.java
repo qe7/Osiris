@@ -205,7 +205,9 @@ public class EntityPlayerSP extends EntityPlayer {
         }
 
         if (isSprinting() && (movementInput.moveForward < f || isCollidedHorizontally || !flag2)) {
-            setSprinting(SprintModule.omniDirectional.getValue());
+            if (!Osiris.getInstance().getModuleManager().getMap().get(SprintModule.class).isEnabled() && SprintModule.omniDirectional.getValue()) {
+                setSprinting(false);
+            }
         }
 
         if (capabilities.allowFlying && !flag && movementInput.jump) {
