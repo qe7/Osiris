@@ -44,7 +44,7 @@ public class DoubleComponent extends Component {
             double newValue = min + (diff / width) * (max - min);
             if (newValue < min) newValue = min;
             if (newValue > max) newValue = max;
-            this.setting.setValue(Double.valueOf(String.format("%.2f", MathUtil.doStep(newValue, this.setting.getStep(), this.setting.getMinimum(), this.setting.getMaximum()))));
+            this.setting.setValue(MathUtil.doStep(newValue, this.setting.getStep(), this.setting.getMinimum(), this.setting.getMaximum()));
         }
 
         if (MathUtil.isHovered(this.x, this.y, this.width, this.height, mouseX, mouseY)) {
@@ -54,7 +54,15 @@ public class DoubleComponent extends Component {
         Gui.drawRect(this.x, this.y + this.height - 2, this.x + (int) (this.width * percent), this.y + this.height, new Color(HUDModule.red.getValue(), HUDModule.green.getValue(), HUDModule.blue.getValue(), 150).getRGB());
 
         fontRenderer.drawStringWithShadow(this.setting.getName(), x + 2, y + 3, new Color(255, 255, 255).getRGB());
-        fontRenderer.drawStringWithShadow(String.valueOf(this.setting.getValue()), x + width - 2 - fontRenderer.getStringWidth(String.valueOf(this.setting.getValue())), y + 3, new Color(255, 255, 255).getRGB());
+
+        String valueString = String.format("%.2f", this.setting.getValue());
+
+        // remove extra 0s after the decimal point, but only if the value is not an integer
+        while (valueString.endsWith("0") && !valueString.endsWith(".0")) {
+            valueString = valueString.substring(0, valueString.length() - 1);
+        }
+
+        fontRenderer.drawStringWithShadow(valueString, x + width - 2 - fontRenderer.getStringWidth(valueString), y + 3, new Color(255, 255, 255).getRGB());
     }
 
     @Override

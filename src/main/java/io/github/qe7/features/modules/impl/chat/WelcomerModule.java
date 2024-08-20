@@ -34,7 +34,7 @@ public class WelcomerModule extends Module {
             final String message = packet.message;
 
             if (Minecraft.getMinecraft().thePlayer == null) return;
-            if (this.welcomerStopwatch.elapsed(1000)) {
+            if (this.welcomerStopwatch.elapsed(5000)) {
                 if (message.contains("joined the game.")) {
                     String cleanName = message.split(" ")[0].replaceAll("§.", "");
 
@@ -47,7 +47,6 @@ public class WelcomerModule extends Module {
                     } else {
                         Minecraft.getMinecraft().thePlayer.sendChatMessage("Welcome, " + cleanName + "!");
                     }
-                    this.welcomerStopwatch.reset();
                 } else if (message.contains("left the game.")) {
                     String cleanName = message.split(" ")[0].replaceAll("§.", "");
 
@@ -60,7 +59,6 @@ public class WelcomerModule extends Module {
                     } else {
                         Minecraft.getMinecraft().thePlayer.sendChatMessage("Goodbye, " + cleanName + "!");
                     }
-                    this.welcomerStopwatch.reset();
                 }
             }
         }

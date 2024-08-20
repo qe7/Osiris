@@ -5,6 +5,7 @@ import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.player.MotionEvent;
 import io.github.qe7.features.modules.api.Module;
 import io.github.qe7.features.modules.api.enums.ModuleCategory;
+import io.github.qe7.utils.local.MovementUtil;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
@@ -20,7 +21,7 @@ public class FlyModule extends Module {
 
         if (mc.thePlayer == null) return;
 
-        mc.thePlayer.motionY = 0.0;
+        mc.thePlayer.motionY = 0;
 
         if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
             mc.thePlayer.motionY += 0.5;
@@ -31,5 +32,12 @@ public class FlyModule extends Module {
         }
 
         mc.thePlayer.onGround = true;
+        event.setOnGround(true);
+
+        if (MovementUtil.isMoving()) {
+            MovementUtil.setSpeed(0.12);
+        } else {
+            MovementUtil.setSpeed(0.0);
+        }
     };
 }
