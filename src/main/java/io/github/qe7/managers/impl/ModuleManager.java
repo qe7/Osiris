@@ -13,7 +13,6 @@ import io.github.qe7.features.modules.impl.chat.AutoLoginModule;
 import io.github.qe7.features.modules.impl.chat.GreenTextModule;
 import io.github.qe7.features.modules.impl.chat.SuffixModule;
 import io.github.qe7.features.modules.impl.chat.WelcomerModule;
-import io.github.qe7.features.modules.impl.render.HUDModule;
 import io.github.qe7.features.modules.impl.combat.CriticalsModule;
 import io.github.qe7.features.modules.impl.combat.KillAuraModule;
 import io.github.qe7.features.modules.impl.combat.VelocityModule;

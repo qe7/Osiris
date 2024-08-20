@@ -66,6 +66,8 @@ public class FreeCamModule extends Module {
 
         mc.thePlayer.motionY = 0;
 
+        if (mc.currentScreen != null) return;
+
         if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
             mc.thePlayer.motionY += 0.5;
         }
