@@ -51,6 +51,7 @@ public final class ModuleManager extends Manager<Class<? extends Module>, Module
             RegenModule.class,
 
             /* Misc */
+            AntiPortalModule.class,
             AutoToolModule.class,
             AutoWalkModule.class,
             FastBreakModule.class,
