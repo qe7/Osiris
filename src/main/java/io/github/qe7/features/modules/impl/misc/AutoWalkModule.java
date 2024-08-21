@@ -6,6 +6,7 @@ import io.github.qe7.events.impl.player.LivingUpdateEvent;
 import io.github.qe7.features.modules.api.Module;
 import io.github.qe7.features.modules.api.enums.ModuleCategory;
 import net.minecraft.client.Minecraft;
+import org.lwjgl.input.Keyboard;
 
 public class AutoWalkModule extends Module {
 
@@ -21,7 +22,7 @@ public class AutoWalkModule extends Module {
 
         if (mc.thePlayer == null) return;
 
-        mc.gameSettings.keyBindForward.pressed = false;
+        mc.gameSettings.keyBindForward.pressed = Keyboard.isKeyDown(mc.gameSettings.keyBindForward.keyCode);
     }
 
     @EventLink

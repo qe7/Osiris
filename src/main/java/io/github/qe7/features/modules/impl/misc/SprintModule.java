@@ -42,9 +42,9 @@ public class SprintModule extends Module {
         if (foodCheck.getValue() && player.getFoodStats().getFoodLevel() <= 6) return false;
 
         if (omniDirectional.getValue()) {
-            return Keyboard.isKeyDown(mc.gameSettings.keyBindForward.keyCode) || Keyboard.isKeyDown(mc.gameSettings.keyBindBack.keyCode) || Keyboard.isKeyDown(mc.gameSettings.keyBindLeft.keyCode) || Keyboard.isKeyDown(mc.gameSettings.keyBindRight.keyCode);
+            return mc.thePlayer.movementInput.moveForward != 0 || mc.thePlayer.movementInput.moveStrafe != 0;
         } else {
-            return Keyboard.isKeyDown(mc.gameSettings.keyBindForward.keyCode);
+            return mc.thePlayer.movementInput.moveForward > 0;
         }
     }
 }

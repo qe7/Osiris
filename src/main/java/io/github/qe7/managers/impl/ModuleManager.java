@@ -9,6 +9,7 @@ import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.game.KeyInputEvent;
 import io.github.qe7.features.modules.api.Module;
 import io.github.qe7.features.modules.api.settings.api.Setting;
+import io.github.qe7.features.modules.impl.misc.AutoWalkModule;
 import io.github.qe7.features.modules.impl.chat.AutoLoginModule;
 import io.github.qe7.features.modules.impl.chat.GreenTextModule;
 import io.github.qe7.features.modules.impl.chat.SuffixModule;
