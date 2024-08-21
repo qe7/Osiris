@@ -459,6 +459,15 @@ public class RenderGlobal implements IWorldAccess {
             }
         }
 
+        Profiler.endStartSection("tileentities");
+        RenderHelper.enableStandardItemLighting();
+
+        for (int k = 0; k < tileEntities.size(); k++) {
+            TileEntityRenderer.instance.renderTileEntity((TileEntity) tileEntities.get(k), par3);
+        }
+
+        mc.entityRenderer.disableLightmap(par3);
+
         Profiler.endStartSection("entities");
 
         for (int j = 0; j < list.size(); j++) {
@@ -469,15 +478,6 @@ public class RenderGlobal implements IWorldAccess {
                 RenderManager.instance.renderEntity(entity1, par3);
             }
         }
-
-        Profiler.endStartSection("tileentities");
-        RenderHelper.enableStandardItemLighting();
-
-        for (int k = 0; k < tileEntities.size(); k++) {
-            TileEntityRenderer.instance.renderTileEntity((TileEntity) tileEntities.get(k), par3);
-        }
-
-        mc.entityRenderer.disableLightmap(par3);
 
         RenderEntityEvent renderEntityEvent = new RenderEntityEvent();
         Osiris.getInstance().getEventBus().post(renderEntityEvent);
