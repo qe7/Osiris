@@ -206,8 +206,8 @@ public class ItemRenderer {
             EntityPlayerSP entityplayersp1 = (EntityPlayerSP) entityplayersp;
             float f2 = entityplayersp1.prevRenderArmPitch + (entityplayersp1.renderArmPitch - entityplayersp1.prevRenderArmPitch) * par1;
             float f4 = entityplayersp1.prevRenderArmYaw + (entityplayersp1.renderArmYaw - entityplayersp1.prevRenderArmYaw) * par1;
-            GL11.glRotatef((((EntityPlayer) (entityplayersp)).rotationPitch - f2) * 0.1F, 1.0F, 0.0F, 0.0F);
-            GL11.glRotatef((((EntityPlayer) (entityplayersp)).rotationYaw - f4) * 0.1F, 0.0F, 1.0F, 0.0F);
+            GL11.glRotatef((entityplayersp.rotationPitch - f2) * 0.1F, 1.0F, 0.0F, 0.0F);
+            GL11.glRotatef((entityplayersp.rotationYaw - f4) * 0.1F, 0.0F, 1.0F, 0.0F);
         }
 
         ItemStack itemstack = itemToRender;

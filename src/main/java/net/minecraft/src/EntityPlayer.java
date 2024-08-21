@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import io.github.qe7.utils.local.PlayerUtil;
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -402,7 +404,7 @@ public abstract class EntityPlayer extends EntityLiving {
     }
 
     public void updateCloak() {
-        playerCloakUrl = (new StringBuilder()).append("http://s3.amazonaws.com/MinecraftCloaks/").append(username).append(".png").toString();
+        playerCloakUrl = PlayerUtil.getCapeUrlFromUsername(username);
         cloakUrl = playerCloakUrl;
     }
 

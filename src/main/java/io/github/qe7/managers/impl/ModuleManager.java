@@ -16,6 +16,7 @@ import io.github.qe7.features.modules.impl.chat.WelcomerModule;
 import io.github.qe7.features.modules.impl.combat.CriticalsModule;
 import io.github.qe7.features.modules.impl.combat.KillAuraModule;
 import io.github.qe7.features.modules.impl.combat.VelocityModule;
+import io.github.qe7.features.modules.impl.exploit.AntiHungerModule;
 import io.github.qe7.features.modules.impl.exploit.FastUseModule;
 import io.github.qe7.features.modules.impl.exploit.RegenModule;
 import io.github.qe7.features.modules.impl.misc.*;
@@ -45,6 +46,7 @@ public final class ModuleManager extends Manager<Class<? extends Module>, Module
             VelocityModule.class,
 
             /* Exploits */
+            AntiHungerModule.class,
             FastUseModule.class,
             RegenModule.class,
 
@@ -54,6 +56,7 @@ public final class ModuleManager extends Manager<Class<? extends Module>, Module
             FastBreakModule.class,
             FreeCamModule.class,
             NoFallDamageModule.class,
+            ScaffoldModule.class,
             SprintModule.class,
             YawModule.class,
 

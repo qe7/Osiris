@@ -121,9 +121,11 @@ public class HUDModule extends Module {
         if (this.durability.getValue()) {
             if (mc.thePlayer.inventory.getCurrentItem() != null && mc.thePlayer.inventory.getCurrentItem().getMaxDamage() != 0) {
                 final int x = scaledResolution.getScaledWidth() - 2 - fontRenderer.getStringWidth("Durability " + (mc.thePlayer.inventory.getCurrentItem().getMaxDamage() - mc.thePlayer.inventory.getCurrentItem().getItemDamage()));
+                final int x2 = scaledResolution.getScaledWidth() - 2 - fontRenderer.getStringWidth(String.valueOf((mc.thePlayer.inventory.getCurrentItem().getMaxDamage() - mc.thePlayer.inventory.getCurrentItem().getItemDamage())));
                 final int y = scaledResolution.getScaledHeight() - bottomRightOffset;
 
-                fontRenderer.drawStringWithShadow("Durability §7" + (mc.thePlayer.inventory.getCurrentItem().getMaxDamage() - mc.thePlayer.inventory.getCurrentItem().getItemDamage()), x, y, getColour(bottomRightOffset).getRGB());
+                fontRenderer.drawStringWithShadow("Durability ", x, y, getColour(bottomRightOffset).getRGB());
+                fontRenderer.drawStringWithShadow("" + (mc.thePlayer.inventory.getCurrentItem().getMaxDamage() - mc.thePlayer.inventory.getCurrentItem().getItemDamage()), x2, y, getDurabilityColour(mc.thePlayer.inventory.getCurrentItem().getMaxDamage() - mc.thePlayer.inventory.getCurrentItem().getItemDamage(), mc.thePlayer.inventory.getCurrentItem().getMaxDamage()).getRGB());
                 bottomRightOffset += 10;
             }
         }
@@ -184,6 +186,20 @@ public class HUDModule extends Module {
             display = "Good night";
         }
         return display;
+    }
+
+    private Color getDurabilityColour(final int currentDurability, final int maxDurability) {
+        final int durability = (int) ((double) currentDurability / (double) maxDurability * 100);
+
+        if (durability >= 75) {
+            return new Color(0, 255, 0);
+        } else if (durability >= 50) {
+            return new Color(255, 255, 0);
+        } else if (durability >= 25) {
+            return new Color(255, 165, 0);
+        } else {
+            return new Color(255, 0, 0);
+        }
     }
 
     private Color getColour(final int offset) {

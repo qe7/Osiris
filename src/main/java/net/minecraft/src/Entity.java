@@ -1,5 +1,8 @@
 package net.minecraft.src;
 
+import io.github.qe7.Osiris;
+import io.github.qe7.features.modules.impl.misc.ScaffoldModule;
+
 import java.util.List;
 import java.util.Random;
 
@@ -546,7 +549,7 @@ public abstract class Entity
         double d3 = par3;
         double d4 = par5;
         AxisAlignedBB axisalignedbb = boundingBox.copy();
-        boolean flag = onGround && isSneaking() && (this instanceof EntityPlayer);
+        boolean flag = onGround && isSneaking() && (this instanceof EntityPlayer) || (this instanceof EntityPlayerSP) && Osiris.getInstance().getModuleManager().getMap().get(ScaffoldModule.class).isEnabled() && ScaffoldModule.safeWalk.getValue();
 
         if (flag)
         {

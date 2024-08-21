@@ -41,7 +41,7 @@ public class EntityPlayerSP extends EntityPlayer {
         this.dimension = dimension;
 
         if (session != null && session.username != null && session.username.length() > 0) {
-            skinUrl = (new StringBuilder()).append("http://s3.amazonaws.com/MinecraftSkins/").append(session.username).append(".png").toString();
+            skinUrl = (new StringBuilder()).append("https://minotar.net/skin/").append(session.username).append(".png").toString();
         }
 
         username = session.username;
