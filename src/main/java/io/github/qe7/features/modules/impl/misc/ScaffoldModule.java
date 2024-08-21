@@ -26,7 +26,8 @@ public class ScaffoldModule extends Module {
 
         Vec3D pos = new Vec3D(vec.xCoord, vec.yCoord - 2, vec.zCoord);
 
-        if (mc.thePlayer.inventory.getCurrentItem() == null && mc.thePlayer.inventory.getCurrentItem().getItem() == null && !(mc.thePlayer.inventory.getCurrentItem().getItem() instanceof ItemBlock)) return;
+        if (mc.thePlayer.inventory.getCurrentItem() == null) return;
+        if (mc.thePlayer.inventory.getCurrentItem().getItem() == null && !(mc.thePlayer.inventory.getCurrentItem().getItem() instanceof ItemBlock)) return;
 
         if (!(mc.theWorld.isAirBlock((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord))) return;
 
