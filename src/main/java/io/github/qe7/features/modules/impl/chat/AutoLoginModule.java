@@ -33,7 +33,7 @@ public class AutoLoginModule extends Module {
 
         final String normalizedName = Minecraft.getMinecraft().session.username;
 
-        Account account = Osiris.getInstance().getAccountManager().getAccount(normalizedName);
+        Account account = Osiris.getInstance().getAccountManager().getMap().get(normalizedName);
 
         if (account != null) {
             ChatUtil.sendMessage("/login " + account.getPassword());

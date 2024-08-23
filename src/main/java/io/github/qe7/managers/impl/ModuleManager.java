@@ -9,7 +9,6 @@ import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.game.KeyInputEvent;
 import io.github.qe7.features.modules.api.Module;
 import io.github.qe7.features.modules.api.settings.api.Setting;
-import io.github.qe7.features.modules.impl.misc.AutoWalkModule;
 import io.github.qe7.features.modules.impl.chat.AutoLoginModule;
 import io.github.qe7.features.modules.impl.chat.GreenTextModule;
 import io.github.qe7.features.modules.impl.chat.SuffixModule;
@@ -24,13 +23,12 @@ import io.github.qe7.features.modules.impl.misc.*;
 import io.github.qe7.features.modules.impl.movement.*;
 import io.github.qe7.features.modules.impl.render.*;
 import io.github.qe7.managers.api.Manager;
-import io.github.qe7.managers.api.interfaces.Register;
 import io.github.qe7.utils.configs.FileUtil;
 
 import java.lang.reflect.Field;
 import java.util.*;
 
-public final class ModuleManager extends Manager<Class<? extends Module>, Module> implements Register<Class<? extends Module>> {
+public final class ModuleManager extends Manager<Class<? extends Module>, Module> {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
@@ -111,7 +109,6 @@ public final class ModuleManager extends Manager<Class<? extends Module>, Module
         System.out.println("ModuleManager initialised!");
     }
 
-    @Override
     public void register(Class<? extends Module> type) {
         try {
             Module module = type.newInstance();

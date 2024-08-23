@@ -6,11 +6,9 @@ import com.google.gson.JsonObject;
 import io.github.qe7.features.waypoints.Waypoint;
 import io.github.qe7.features.waypoints.enums.WaypointDimension;
 import io.github.qe7.managers.api.Manager;
-import io.github.qe7.managers.api.interfaces.Register;
-import io.github.qe7.managers.api.interfaces.Unregister;
 import io.github.qe7.utils.configs.FileUtil;
 
-public final class WaypointManager extends Manager<Waypoint, String> implements Register<Waypoint>, Unregister<Waypoint> {
+public final class WaypointManager extends Manager<Waypoint, String> {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
@@ -20,14 +18,8 @@ public final class WaypointManager extends Manager<Waypoint, String> implements 
         System.out.println("WaypointManager initialised!");
     }
 
-    @Override
     public void register(Waypoint waypoint) {
         this.getMap().put(waypoint, waypoint.getName());
-    }
-
-    @Override
-    public void unregister(Waypoint waypoint) {
-        this.getMap().remove(waypoint);
     }
 
     public void addWaypoint(String name, String server, WaypointDimension dimension, int x, int y, int z) {

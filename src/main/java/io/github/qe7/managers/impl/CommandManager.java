@@ -7,12 +7,11 @@ import io.github.qe7.events.impl.packet.OutgoingPacketEvent;
 import io.github.qe7.features.commands.api.Command;
 import io.github.qe7.features.commands.impl.*;
 import io.github.qe7.managers.api.Manager;
-import io.github.qe7.managers.api.interfaces.Register;
 import io.github.qe7.utils.local.ChatUtil;
 import net.minecraft.src.Packet;
 import net.minecraft.src.Packet3Chat;
 
-public final class CommandManager extends Manager<Class<? extends Command>, Command> implements Register<Class<? extends Command>> {
+public final class CommandManager extends Manager<Class<? extends Command>, Command> {
 
     private static final Class<Command>[] COMMANDS = new Class[]{
             BindCommand.class,
@@ -37,7 +36,6 @@ public final class CommandManager extends Manager<Class<? extends Command>, Comm
         System.out.println("CommandManager initialised!");
     }
 
-    @Override
     public void register(Class<? extends Command> type) {
         try {
             Command command = type.newInstance();

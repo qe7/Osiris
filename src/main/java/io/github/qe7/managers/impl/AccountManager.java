@@ -10,8 +10,6 @@ import io.github.qe7.events.impl.packet.IncomingPacketEvent;
 import io.github.qe7.events.impl.packet.OutgoingPacketEvent;
 import io.github.qe7.features.accounts.Account;
 import io.github.qe7.managers.api.Manager;
-import io.github.qe7.managers.api.interfaces.Register;
-import io.github.qe7.managers.api.interfaces.Unregister;
 import io.github.qe7.utils.configs.FileUtil;
 import io.github.qe7.utils.local.ChatUtil;
 import net.minecraft.client.Minecraft;
@@ -20,7 +18,7 @@ import net.minecraft.src.Packet3Chat;
 
 import java.util.Objects;
 
-public final class AccountManager extends Manager<Account, String> implements Register<Account>, Unregister<Account> {
+public final class AccountManager extends Manager<String, Account> {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
@@ -34,20 +32,14 @@ public final class AccountManager extends Manager<Account, String> implements Re
         System.out.println("AccountManager initialised!");
     }
 
-    @Override
     public void register(Account type) {
-        this.getMap().put(type, type.getUsername());
-    }
-
-    @Override
-    public void unregister(Account type) {
-        this.getMap().remove(type);
+        this.getMap().put(type.getUsername(), type);
     }
 
     public void saveAccounts() {
         JsonObject object = new JsonObject();
 
-        this.getMap().forEach((account, s) -> object.add(s, account.serialize()));
+        this.getMap().forEach((username, account) -> object.add(username, GSON.toJsonTree(account)));
 
         FileUtil.writeFile("accounts", GSON.toJson(object));
     }
@@ -73,15 +65,6 @@ public final class AccountManager extends Manager<Account, String> implements Re
         }
     }
 
-    public Account getAccount(String username) {
-        for (Account account : this.getMap().keySet()) {
-            if (account.getUsername().equalsIgnoreCase(username)) {
-                return account;
-            }
-        }
-        return null;
-    }
-
     @EventLink
     public final Listener<IncomingPacketEvent> incomingPacketListener = event -> {
         final Packet packet = event.getPacket();
@@ -97,10 +80,11 @@ public final class AccountManager extends Manager<Account, String> implements Re
                     return;
                 }
                 Account account;
-                if (this.getAccount(Minecraft.getMinecraft().session.username) != null) {
-                    account = this.getAccount(Minecraft.getMinecraft().session.username);
+                if (this.getMap().get(Minecraft.getMinecraft().session.username) != null) {
+                    account = this.getMap().get(Minecraft.getMinecraft().session.username);
                     if (account == null) return;
-                    if (account.getPassword() != null && !account.getPassword().isEmpty() && Objects.equals(account.getPassword(), this.possiblePassword)) return;
+                    if (account.getPassword() != null && !account.getPassword().isEmpty() && Objects.equals(account.getPassword(), this.possiblePassword))
+                        return;
                     account.setPassword(this.possiblePassword);
                     ChatUtil.addPrefixedMessage("Account Manager", "Updated password for " + account.getUsername());
                 } else {

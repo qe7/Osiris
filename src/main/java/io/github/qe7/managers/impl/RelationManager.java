@@ -6,11 +6,9 @@ import com.google.gson.JsonObject;
 import io.github.qe7.features.relations.Relation;
 import io.github.qe7.features.relations.enums.RelationType;
 import io.github.qe7.managers.api.Manager;
-import io.github.qe7.managers.api.interfaces.Register;
-import io.github.qe7.managers.api.interfaces.Unregister;
 import io.github.qe7.utils.configs.FileUtil;
 
-public final class RelationManager extends Manager<Relation, String> implements Register<Relation>, Unregister<Relation> {
+public final class RelationManager extends Manager<Relation, String> {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
@@ -20,14 +18,8 @@ public final class RelationManager extends Manager<Relation, String> implements 
         System.out.println("RelationManager initialised!");
     }
 
-    @Override
     public void register(final Relation relation) {
         this.getMap().put(relation, relation.getName());
-    }
-
-    @Override
-    public void unregister(final Relation relation) {
-        this.getMap().remove(relation);
     }
 
     public boolean isFriend(final String name) {

@@ -36,7 +36,6 @@ public class SprintModule extends Module {
         final EntityPlayerSP player = mc.thePlayer;
 
         if (player == null) return false;
-        if (mc.currentScreen != null) return false;
         if (player.isCollidedHorizontally) return false;
         if (player.isSneaking()) return false;
         if (foodCheck.getValue() && player.getFoodStats().getFoodLevel() <= 6) return false;

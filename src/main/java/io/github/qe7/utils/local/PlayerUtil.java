@@ -12,8 +12,13 @@ public final class PlayerUtil extends UtilBase {
 
     public static String getCapeUrlFromUsername(String username) {
         try {
-            final URL url = new URL("https://api.capes.dev/load/" + username + "/minecraft");
+            URL url = new URL("https://api.capes.dev/load/" + username + "/minecraft");
             JsonObject jsonObj = JsonParser.parseString(IOUtils.toString(url, StandardCharsets.UTF_8)).getAsJsonObject();
+
+            if (jsonObj == null) {
+                return "";
+            }
+
             return jsonObj.get("imageUrl").getAsString();
         } catch (Exception e) {
             System.err.println("Error loading cape for " + username + ": " + e.getMessage());

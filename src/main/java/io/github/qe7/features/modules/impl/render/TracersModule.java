@@ -21,7 +21,9 @@ public class TracersModule extends Module {
     private final BooleanSetting animals = new BooleanSetting("Animals", true);
     private final BooleanSetting mobs = new BooleanSetting("Mobs", true);
     private final BooleanSetting items = new BooleanSetting("Items", true);
-    
+
+    final List<Entity> entities = new ArrayList<>(Minecraft.getMinecraft().theWorld.loadedEntityList);
+
     public TracersModule() {
         super("Tracers", "Draws a line to targeted entities", ModuleCategory.RENDER);
     }
@@ -31,8 +33,6 @@ public class TracersModule extends Module {
         if (Minecraft.getMinecraft().theWorld == null) {
             return;
         }
-
-        final List<Entity> entities = new ArrayList<>(Minecraft.getMinecraft().theWorld.loadedEntityList);
 
         entities.removeIf(entity -> {
             if (entity instanceof EntityPlayer && !entity.equals(Minecraft.getMinecraft().thePlayer)) {

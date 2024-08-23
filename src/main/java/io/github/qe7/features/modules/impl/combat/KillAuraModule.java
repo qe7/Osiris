@@ -21,25 +21,21 @@ import java.util.List;
 
 public class KillAuraModule extends Module {
 
-    // range settings
     private final DoubleSetting range = new DoubleSetting("Range", 4.2, 1.0, 6.0, 0.1);
-    // timing settings
     private final BooleanSetting tick = new BooleanSetting("Tick", true);
     private final DoubleSetting aps = new DoubleSetting("APS", 10.0, 1.0, 20.0, 1.0).supplyIf(() -> !tick.getValue());
-    // target settings
     private final BooleanSetting players = new BooleanSetting("Players", true);
     private final BooleanSetting animals = new BooleanSetting("Animals", false);
     private final BooleanSetting monsters = new BooleanSetting("Mob", false);
-    // rotation settings
     private final BooleanSetting rotate = new BooleanSetting("Rotate", true);
-    // sanity settings
     private final BooleanSetting disableOnDeath = new BooleanSetting("Disable on death", true);
-    // auto block settings
     private final BooleanSetting autoBlock = new BooleanSetting("Auto block", true);
 
     private final Stopwatch stopwatch = new Stopwatch();
 
     private final List<EntityLiving> targets = new ArrayList<>();
+
+    private EntityLiving target;
 
     private boolean shouldBlock = false;
 
@@ -51,6 +47,7 @@ public class KillAuraModule extends Module {
     public void onEnable() {
         super.onEnable();
 
+        this.target = null;
         this.stopwatch.reset();
         this.targets.clear();
     }
@@ -60,11 +57,11 @@ public class KillAuraModule extends Module {
         super.onDisable();
         final Minecraft mc = Minecraft.getMinecraft();
 
-        if (shouldBlock) {
+        if (this.shouldBlock) {
             if (mc.thePlayer.getHeldItem() != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
                 PacketUtil.sendPacket(new Packet15Place());
             }
-            shouldBlock = false;
+            this.shouldBlock = false;
         }
     }
 
@@ -85,7 +82,6 @@ public class KillAuraModule extends Module {
 
         if (this.targets.isEmpty()) return;
 
-        // sort the targets by distance
         this.targets.sort((a, b) -> {
             double distanceA = mc.thePlayer.getDistanceToEntity(a);
             double distanceB = mc.thePlayer.getDistanceToEntity(b);
@@ -93,27 +89,25 @@ public class KillAuraModule extends Module {
             return Double.compare(distanceA, distanceB);
         });
 
-        // get the closest target
-        final EntityLiving target = this.targets.stream().min((a, b) -> {
+        this.target = this.targets.stream().min((a, b) -> {
             double distanceA = mc.thePlayer.getDistanceToEntity(a);
             double distanceB = mc.thePlayer.getDistanceToEntity(b);
 
             return Double.compare(distanceA, distanceB);
         }).orElse(null);
 
-        // if the player is out of range, return
-        if (target == null) return;
+        if (this.target == null) return;
 
-        if (target.isDead || target.getHealth() <= 0.0f) {
-            this.targets.remove(target);
+        if (this.target.isDead || this.target.getHealth() <= 0.0f) {
+            this.targets.remove(this.target);
             return;
         }
 
-        if (mc.thePlayer.getDistanceToEntity(target) > this.range.getValue()) return;
+        if (mc.thePlayer.getDistanceToEntity(this.target) > this.range.getValue()) return;
 
         // if the player is out of FOV, return
         if (this.rotate.getValue()) {
-            float[] rotations = getRotations(target, mc);
+            float[] rotations = getRotations(this.target, mc);
 
             event.setYaw(rotations[0]);
             event.setPitch(rotations[1]);
@@ -144,6 +138,7 @@ public class KillAuraModule extends Module {
                 this.stopwatch.reset();
             }
         }
+        target = null;
     };
 
     @EventLink
