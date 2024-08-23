@@ -14,7 +14,10 @@ public class FriendCommand extends Command {
     public FriendCommand() {
         super("Friend", "Whitelists a player");
 
-        this.setAliases(new String[]{"f", "friends", "whitelist"});
+        this.getAliases().add("f");
+        this.getAliases().add("friends");
+        this.getAliases().add("whitelist");
+
         this.setUsage("friend <add/del/list> <player>");
     }
 
@@ -42,6 +45,7 @@ public class FriendCommand extends Command {
                 ChatUtil.addPrefixedMessage("Friend", "Added " + args[2] + " to friends");
                 break;
             }
+            case "remove":
             case "del": {
                 if (!Osiris.getInstance().getRelationManager().isFriend(args[2])) {
                     ChatUtil.addPrefixedMessage("Friend", "Not friends with " + args[2]);

@@ -10,6 +10,8 @@ public class CommandsCommand extends Command {
 
     public CommandsCommand() {
         super("Commands", "Displays a list of commands");
+
+        setUsage("commands");
     }
 
     @Override

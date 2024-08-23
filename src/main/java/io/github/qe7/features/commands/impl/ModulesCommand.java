@@ -11,6 +11,8 @@ public class ModulesCommand extends Command {
 
     public ModulesCommand() {
         super("Modules", "Displays a list of modules");
+
+        this.setUsage("modules");
     }
 
     @Override

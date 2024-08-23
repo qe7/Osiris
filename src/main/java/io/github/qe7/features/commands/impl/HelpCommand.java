@@ -8,6 +8,8 @@ public class HelpCommand extends Command {
 
     public HelpCommand() {
         super("Help", "Displays a list of commands and their descriptions");
+
+        this.setUsage("help");
     }
 
     @Override

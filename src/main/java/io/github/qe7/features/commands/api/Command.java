@@ -1,12 +1,15 @@
 package io.github.qe7.features.commands.api;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Command {
 
     private final String name, description;
 
     private String usage = "No usage provided";
 
-    private String[] aliases = new String[0];
+    private final List<String> aliases = new ArrayList<>();
 
     public Command(String name, String description) {
         this.name = name;
@@ -29,12 +32,8 @@ public abstract class Command {
         this.usage = usage;
     }
 
-    public String[] getAliases() {
+    public List<String> getAliases() {
         return aliases;
-    }
-
-    public void setAliases(String[] aliases) {
-        this.aliases = aliases;
     }
 
     public abstract void execute(String[] args);

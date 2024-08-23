@@ -11,7 +11,7 @@ public class BindCommand extends Command {
     public BindCommand() {
         super("Bind", "Test command");
 
-        this.setAliases(new String[]{"b"});
+        this.getAliases().add("B");
         this.setUsage("bind <module> <key>");
     }
 

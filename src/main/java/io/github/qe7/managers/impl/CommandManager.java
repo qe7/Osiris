@@ -50,30 +50,30 @@ public final class CommandManager extends Manager<Class<? extends Command>, Comm
     public final Listener<OutgoingPacketEvent> outgoingPacketListener = event -> {
         final Packet packet = event.getPacket();
 
-        if (packet instanceof Packet3Chat) {
-            final Packet3Chat chat = (Packet3Chat) packet;
+        if (!(packet instanceof Packet3Chat)) return;
 
-            if (!chat.message.startsWith(".")) return;
+        final Packet3Chat chat = (Packet3Chat) packet;
 
-            event.setCancelled(true);
+        if (!chat.message.startsWith(".")) return;
 
-            final String[] args = chat.message.substring(1).split(" ");
+        event.setCancelled(true);
 
-            for (Command command : getMap().values()) {
-                if (command.getName().equalsIgnoreCase(args[0])) {
-                    command.execute(args);
-                    return;
-                }
+        final String[] args = chat.message.substring(1).split(" ");
 
-                for (String alias : command.getAliases()) {
-                    if (alias.equalsIgnoreCase(args[0])) {
-                        command.execute(args);
-                        return;
-                    }
-                }
+        for (Command command : getMap().values()) {
+            for (String alias : command.getAliases()) {
+                if (!alias.equalsIgnoreCase(args[0])) continue;
+
+                command.execute(args);
+                return;
             }
 
-            ChatUtil.addPrefixedMessage("Command Manager", "Unknown command: " + args[0]);
+            if (!command.getName().equalsIgnoreCase(args[0])) continue;
+
+            command.execute(args);
+            return;
         }
+
+        ChatUtil.addPrefixedMessage("Command Manager", "Unknown command: " + args[0]);
     };
 }

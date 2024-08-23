@@ -14,7 +14,10 @@ public class EnemyCommand extends Command {
     public EnemyCommand() {
         super("Enemy", "Whitelists a player");
 
-        this.setAliases(new String[]{"e", "enemies", "target"});
+        this.getAliases().add("e");
+        this.getAliases().add("enemies");
+        this.getAliases().add("target");
+
         this.setUsage("enemy <add/del/list> <player>");
     }
 
@@ -42,6 +45,7 @@ public class EnemyCommand extends Command {
                 ChatUtil.addPrefixedMessage("Enemy", "Added " + args[2] + " to enemies");
                 break;
             }
+            case "remove":
             case "del": {
                 if (!Osiris.getInstance().getRelationManager().isEnemy(args[2])) {
                     ChatUtil.addPrefixedMessage("Enemy", "Not enemies with " + args[2]);

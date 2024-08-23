@@ -10,7 +10,7 @@ public class ToggleCommand extends Command {
     public ToggleCommand() {
         super("Toggle", "Toggles a given module");
 
-        this.setAliases(new String[]{"t"});
+        this.getAliases().add("T");
         this.setUsage("toggle <module>");
     }
 
