@@ -24,6 +24,11 @@ public class GreenTextModule extends Module {
                 return;
             }
 
+            // check if length would be over 100 characters
+            if (packet.message.length() + 2 > 100) {
+                return;
+            }
+
             packet.message = "> " + message;
         }
     };

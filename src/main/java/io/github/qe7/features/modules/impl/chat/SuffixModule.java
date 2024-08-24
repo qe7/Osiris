@@ -24,6 +24,10 @@ public class SuffixModule extends Module {
                 return;
             }
 
+            if (packet.message.length() + 7 > 100) {
+                return;
+            }
+
             packet.message = packet.message + " ᴏꜱɪʀɪꜱ";
         }
     };
