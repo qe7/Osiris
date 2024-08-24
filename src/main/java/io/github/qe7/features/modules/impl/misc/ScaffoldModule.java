@@ -29,7 +29,7 @@ public class ScaffoldModule extends Module {
         if (mc.thePlayer.inventory.getCurrentItem() == null) return;
         if (mc.thePlayer.inventory.getCurrentItem().getItem() == null && !(mc.thePlayer.inventory.getCurrentItem().getItem() instanceof ItemBlock)) return;
 
-        if (!(mc.theWorld.isAirBlock((int)pos.xCoord, (int)pos.yCoord, (int)pos.zCoord))) return;
+        if (!isAirOrLiquid(pos)) return;
 
         event.setYaw(mc.thePlayer.rotationYaw + 180);
         event.setPitch(90);
@@ -42,6 +42,14 @@ public class ScaffoldModule extends Module {
         mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.inventory.getCurrentItem(), placement.getX(), placement.getY(), placement.getZ(), placement.getSide());
     };
 
+    private boolean isAirOrLiquid(Vec3D pos) {
+        Minecraft mc = Minecraft.getMinecraft();
+
+        if (mc.theWorld.getBlockId((int) pos.xCoord, (int) pos.yCoord, (int) pos.zCoord) == 0) return true;
+
+        return mc.theWorld.getBlockMaterial((int) pos.xCoord, (int) pos.yCoord, (int) pos.zCoord).isLiquid();
+    }
+
     private BlockPlacement getPossiblePlacement(Vec3D pos) {
         Vec3D posCopy = new Vec3D(pos.xCoord, pos.yCoord, pos.zCoord);
         Minecraft mc = Minecraft.getMinecraft();
@@ -53,37 +61,37 @@ public class ScaffoldModule extends Module {
         // yes this method is shit code, fuck you and fuck Java. - shae
         // check sides
 
-        if (!mc.theWorld.isAirBlock(x, y - 1, z)) return new BlockPlacement(posCopy.offset(0, -1, 0), 1);
+        if (!this.isAirOrLiquid(new Vec3D(x, y - 1, z))) return new BlockPlacement(posCopy.offset(0, -1, 0), 1);
 
-        if (!mc.theWorld.isAirBlock(x + 1, y, z)) return new BlockPlacement(posCopy.offset(1, 0, 0), 4);
+        if (!this.isAirOrLiquid(new Vec3D(x + 1, y, z))) return new BlockPlacement(posCopy.offset(1, 0, 0), 4);
 
-        if (!mc.theWorld.isAirBlock(x - 1, y, z)) return new BlockPlacement(posCopy.offset(-1, 0, 0), 5);
+        if (!this.isAirOrLiquid(new Vec3D(x - 1, y, z))) return new BlockPlacement(posCopy.offset(-1, 0, 0), 5);
 
-        if (!mc.theWorld.isAirBlock(x, y, z + 1)) return new BlockPlacement(posCopy.offset(0, 0, 1), 2);
+        if (!this.isAirOrLiquid(new Vec3D(x, y, z + 1))) return new BlockPlacement(posCopy.offset(0, 0, 1), 2);
 
-        if (!mc.theWorld.isAirBlock(x, y, z - 1)) return new BlockPlacement(posCopy.offset(0, 0, -1), 3);
+        if (!this.isAirOrLiquid(new Vec3D(x, y, z - 1))) return new BlockPlacement(posCopy.offset(0, 0, -1), 3);
 
-        if (!mc.theWorld.isAirBlock(x, y + 1, z)) return new BlockPlacement(posCopy.offset(0, 1, 0), 0);
+        if (!this.isAirOrLiquid(new Vec3D(x, y + 1, z))) return new BlockPlacement(posCopy.offset(0, 1, 0), 0);
 
         // check diagonals
 
-        if (!mc.theWorld.isAirBlock(x + 1, y, z + 1)) return new BlockPlacement(posCopy.offset(1, 0, 1), 2);
+        if (!this.isAirOrLiquid(new Vec3D(x + 1, y, z + 1))) return new BlockPlacement(posCopy.offset(1, 0, 1), 2);
 
-        if (!mc.theWorld.isAirBlock(x - 1, y, z - 1)) return new BlockPlacement(posCopy.offset(-1, 0, -1), 3);
+        if (!this.isAirOrLiquid(new Vec3D(x - 1, y, z - 1))) return new BlockPlacement(posCopy.offset(-1, 0, -1), 3);
 
-        if (!mc.theWorld.isAirBlock(x + 1, y, z - 1)) return new BlockPlacement(posCopy.offset(1, 0, -1), 3);
+        if (!this.isAirOrLiquid(new Vec3D(x - 1, y, z - 1))) return new BlockPlacement(posCopy.offset(1, 0, -1), 3);
 
-        if (!mc.theWorld.isAirBlock(x - 1, y, z + 1)) return new BlockPlacement(posCopy.offset(-1, 0, 1), 2);
+        if (!this.isAirOrLiquid(new Vec3D(x - 1, y, z - 1))) return new BlockPlacement(posCopy.offset(-1, 0, 1), 2);
 
         // back and down
 
-        if (!mc.theWorld.isAirBlock(x, y - 1, z + 1)) return new BlockPlacement(posCopy.offset(0, -1, 1), 2);
+        if (!this.isAirOrLiquid(new Vec3D(x, y - 1, z + 1))) return new BlockPlacement(posCopy.offset(0, -1, 1), 2);
 
-        if (!mc.theWorld.isAirBlock(x, y - 1, z - 1)) return new BlockPlacement(posCopy.offset(0, -1, -1), 3);
+        if (!this.isAirOrLiquid(new Vec3D(x, y - 1, z - 1))) return new BlockPlacement(posCopy.offset(0, -1, -1), 3);
 
-        if (!mc.theWorld.isAirBlock(x + 1, y - 1, z)) return new BlockPlacement(posCopy.offset(1, -1, 0), 4);
+        if (!this.isAirOrLiquid(new Vec3D(x + 1, y - 1, z))) return new BlockPlacement(posCopy.offset(1, -1, 0), 4);
 
-        if (!mc.theWorld.isAirBlock(x - 1, y - 1, z)) return new BlockPlacement(posCopy.offset(-1, -1, 0), 5);
+        if (!this.isAirOrLiquid(new Vec3D(x - 1, y - 1, z))) return new BlockPlacement(posCopy.offset(-1, -1, 0), 5);
 
         return null;
     }

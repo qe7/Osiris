@@ -18,6 +18,7 @@ import io.github.qe7.features.modules.impl.combat.KillAuraModule;
 import io.github.qe7.features.modules.impl.combat.VelocityModule;
 import io.github.qe7.features.modules.impl.exploit.AntiHungerModule;
 import io.github.qe7.features.modules.impl.exploit.FastUseModule;
+import io.github.qe7.features.modules.impl.exploit.LightningTrackerModule;
 import io.github.qe7.features.modules.impl.exploit.RegenModule;
 import io.github.qe7.features.modules.impl.misc.*;
 import io.github.qe7.features.modules.impl.movement.*;
@@ -47,13 +48,17 @@ public final class ModuleManager extends Manager<Class<? extends Module>, Module
             /* Exploits */
             AntiHungerModule.class,
             FastUseModule.class,
+            LightningTrackerModule.class,
             RegenModule.class,
 
             /* Misc */
             AntiPortalModule.class,
+            AutoDisconnectModule.class,
             AutoToolModule.class,
+            AutoTunnelModule.class,
             AutoWalkModule.class,
             FastBreakModule.class,
+            FastPlaceModule.class,
             FreeCamModule.class,
             NoFallDamageModule.class,
             ScaffoldModule.class,

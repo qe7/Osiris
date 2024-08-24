@@ -34,9 +34,10 @@ public class FastBreakModule extends Module {
             return;
         }
 
+        mc.leftClickCounter = 0;
+
         PlayerControllerMP playerController = (PlayerControllerMP) mc.playerController;
 
-        // Check if the player is mining a block
         if (playerController.curBlockDamageMP == 0.0F) {
             return;
         }
