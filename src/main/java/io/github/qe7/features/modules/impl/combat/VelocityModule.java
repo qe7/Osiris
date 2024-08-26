@@ -5,6 +5,7 @@ import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.packet.IncomingPacketEvent;
 import io.github.qe7.features.modules.api.Module;
 import io.github.qe7.features.modules.api.enums.ModuleCategory;
+import io.github.qe7.features.modules.api.settings.impl.BooleanSetting;
 import io.github.qe7.features.modules.api.settings.impl.IntSetting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Packet;
@@ -14,6 +15,8 @@ public class VelocityModule extends Module {
 
     private final IntSetting horizontal = new IntSetting("Horizontal", 0, -100, 100, 1);
     private final IntSetting vertical = new IntSetting("Vertical", 0, -100, 100, 1);
+
+    public static final BooleanSetting entityPush = new BooleanSetting("No Push", true);
 
     public VelocityModule() {
         super("Velocity", "Manipulates velocity given to local player", ModuleCategory.COMBAT);
