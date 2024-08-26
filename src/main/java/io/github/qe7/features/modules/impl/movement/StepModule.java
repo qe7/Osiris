@@ -19,6 +19,10 @@ public class StepModule extends Module {
     public void onEnable() {
         super.onEnable();
 
+        if (Minecraft.getMinecraft().thePlayer == null) {
+            return;
+        }
+
         oldStepHeight = Minecraft.getMinecraft().thePlayer.stepHeight;
     }
 
@@ -26,6 +30,10 @@ public class StepModule extends Module {
     public void onDisable() {
         super.onDisable();
 
+        if (Minecraft.getMinecraft().thePlayer == null) {
+            return;
+        }
+        
         Minecraft.getMinecraft().thePlayer.stepHeight = oldStepHeight;
     }
 

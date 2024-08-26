@@ -33,8 +33,6 @@ public class WelcomerModule extends Module {
 
             final String message = packet.message;
 
-            System.out.println(message);
-
             if (Minecraft.getMinecraft().thePlayer == null) return;
             if (this.welcomerStopwatch.elapsed(5000)) {
                 if (message.startsWith("§e") && message.contains("joined the game.")) {

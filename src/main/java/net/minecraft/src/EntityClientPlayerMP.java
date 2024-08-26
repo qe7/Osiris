@@ -85,6 +85,10 @@ public class EntityClientPlayerMP extends EntityPlayerSP {
      * Send updated motion and position information to the server
      */
     public void sendMotionUpdates() {
+        if (this.isDead) {
+            return;
+        }
+
         if (inventoryUpdateTickCounter++ == 20) {
             inventoryUpdateTickCounter = 0;
         }
