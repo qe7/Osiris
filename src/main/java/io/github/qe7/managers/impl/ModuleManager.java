@@ -81,6 +81,7 @@ public final class ModuleManager extends Manager<Class<? extends Module>, Module
             NameTagsModule.class,
             NoRenderModule.class,
             TracersModule.class,
+            WorldTimeModule.class,
             XRayModule.class,
     };
 
