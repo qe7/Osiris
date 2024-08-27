@@ -7,6 +7,7 @@ import io.github.qe7.utils.math.MathUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.Gui;
+import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 
@@ -32,6 +33,21 @@ public class BooleanComponent extends Component {
         this.positionY = y;
 
         if (MathUtil.isHovered(x, y, this.width, this.height, mouseX, mouseY)) {
+            if(Mouse.hasWheel()) {
+                int dWheelVariable = Mouse.getDWheel();
+                if (dWheelVariable < 0) {
+                    if(this.setting.getValue()) {
+                        this.setting.setValue(false);
+                    } else
+                        this.setting.setValue(true);
+                } else if (dWheelVariable > 0){
+                    if(this.setting.getValue()) {
+                        this.setting.setValue(false);
+                    } else
+                        this.setting.setValue(true);
+                }
+            }
+
             Gui.drawRect(x, y, x + width, y + height, new Color(0, 0, 0, 100).getRGB());
         }
 

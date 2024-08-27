@@ -7,6 +7,7 @@ import io.github.qe7.utils.math.MathUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.Gui;
+import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 
@@ -48,6 +49,15 @@ public class DoubleComponent extends Component {
         }
 
         if (MathUtil.isHovered(this.x, this.y, this.width, this.height, mouseX, mouseY)) {
+            if(Mouse.hasWheel()) {
+                int dWheelVariable = Mouse.getDWheel();
+                if (dWheelVariable < 0 && this.setting.getValue() > this.setting.getMinimum()) {
+                    this.setting.setValue(this.setting.getValue() - this.setting.getStep());
+                } else if (dWheelVariable > 0 && this.setting.getValue() < this.setting.getMaximum()){
+                    this.setting.setValue(this.setting.getValue() + this.setting.getStep());
+                }
+            }
+
             Gui.drawRect(this.x, this.y, this.x + this.width, this.y + this.height, new Color(0, 0, 0, 100).getRGB());
         }
 
