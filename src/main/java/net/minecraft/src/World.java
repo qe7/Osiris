@@ -169,6 +169,11 @@ public class World implements IBlockAccess {
     public boolean isRemote;
 
     /**
+     * Minecraft won't render weather if this field is true.
+     */
+	public boolean noRenderWeather;
+
+    /**
      * Gets the biome for a given set of x/z coordinates
      */
     public BiomeGenBase getBiomeGenForCoords(int par1, int par2) {
@@ -3744,6 +3749,8 @@ public class World implements IBlockAccess {
      * Not sure about this actually. Reverting this one myself.
      */
     public float getRainStrength(float par1) {
+    	if(this.noRenderWeather)
+    		return 0f;
         return prevRainingStrength + (rainingStrength - prevRainingStrength) * par1;
     }
 

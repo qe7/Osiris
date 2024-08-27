@@ -1,5 +1,6 @@
 package io.github.qe7.features.modules.impl.render;
 
+import io.github.qe7.Osiris;
 import io.github.qe7.events.api.EventLink;
 import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.render.*;
@@ -26,13 +27,11 @@ public class NoRenderModule extends Module {
 
     @EventLink
     public final Listener<RenderScreenEvent> renderScreenEventListener = event -> {
-        if (!noWeather.getValue()) return;
         if (Minecraft.getMinecraft().theWorld == null) return;
-
-        Minecraft.getMinecraft().theWorld.rainingStrength = 0;
-        Minecraft.getMinecraft().theWorld.prevRainingStrength = 0;
-        Minecraft.getMinecraft().theWorld.thunderingStrength = 0;
-        Minecraft.getMinecraft().theWorld.prevThunderingStrength = 0;
+        if (!noWeather.getValue()) {
+            Minecraft.getMinecraft().theWorld.noRenderWeather = false;
+        } else
+            Minecraft.getMinecraft().theWorld.noRenderWeather = true;
     };
 
     @EventLink
@@ -58,4 +57,11 @@ public class NoRenderModule extends Module {
 
     @EventLink
     public final Listener<RenderBlockBreakingParticlesEvent> renderBlockBreakingParticlesEventListener = event -> event.setCancelled(noBlockBreakingParticles.getValue());
+
+    @Override
+    public void onDisable() {
+        super.onDisable();
+        if (Minecraft.getMinecraft().theWorld == null) return;
+            Minecraft.getMinecraft().theWorld.noRenderWeather = false;
+    }
 }

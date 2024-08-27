@@ -6,7 +6,7 @@ public class PlayerControllerSP extends PlayerController {
     private int curBlockX;
     private int curBlockY;
     private int curBlockZ;
-    private float curBlockDamage;
+    public float curBlockDamage;
     private float prevBlockDamage;
     private float blockDestroySoundCounter;
     private int blockHitWait;

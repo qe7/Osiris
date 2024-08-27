@@ -12,6 +12,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.PlayerController;
 import net.minecraft.src.PlayerControllerMP;
+import net.minecraft.src.PlayerControllerSP;
 import net.minecraft.src.Vec3D;
 
 public class FastBreakModule extends Module {
@@ -36,14 +37,26 @@ public class FastBreakModule extends Module {
 
         mc.leftClickCounter = 0;
 
-        PlayerControllerMP playerController = (PlayerControllerMP) mc.playerController;
+        if(mc.playerController instanceof PlayerControllerMP) {
+            PlayerControllerMP playerController = (PlayerControllerMP) mc.playerController;
 
-        if (playerController.curBlockDamageMP == 0.0F) {
-            return;
-        }
+            if (playerController.curBlockDamageMP == 0.0F) {
+                return;
+            }
 
-        if (playerController.curBlockDamageMP < minDamage.getValue()) {
-            playerController.curBlockDamageMP = minDamage.getValue().floatValue();
+            if (playerController.curBlockDamageMP < minDamage.getValue()) {
+                playerController.curBlockDamageMP = minDamage.getValue().floatValue();
+            }
+        } else if(mc.playerController instanceof PlayerControllerSP) {
+            PlayerControllerSP playerController = (PlayerControllerSP) mc.playerController;
+
+            if (playerController.curBlockDamage == 0.0F) {
+                return;
+            }
+
+            if (playerController.curBlockDamage < minDamage.getValue()) {
+                playerController.curBlockDamage = minDamage.getValue().floatValue();
+            }
         }
     };
 }
