@@ -20,6 +20,7 @@ public final class Osiris {
     private final RelationManager relationManager;
     private final ModuleManager moduleManager;
     private final CommandManager commandManager;
+    private final PanelManager panelManager;
 
     // Private constructor, to prevent instantiation
     private Osiris() {
@@ -35,6 +36,7 @@ public final class Osiris {
         this.relationManager = new RelationManager();
         this.moduleManager = new ModuleManager();
         this.commandManager = new CommandManager();
+        this.panelManager = new PanelManager();
     }
 
     /**
@@ -50,6 +52,7 @@ public final class Osiris {
         this.getRelationManager().initialise();
         this.getModuleManager().initialise();
         this.getCommandManager().initialise();
+        this.getPanelManager().initialise();
 
         // register shutdown hook, save configs on shutdown
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -59,6 +62,7 @@ public final class Osiris {
             this.getRelationManager().saveRelations();
             this.getWaypointManager().saveWaypoints();
             this.getModuleManager().saveModules();
+            this.getPanelManager().savePanels();
 
             System.out.println("Osiris shut down!");
         }));
@@ -96,6 +100,10 @@ public final class Osiris {
 
     public ModuleManager getModuleManager() {
         return moduleManager;
+    }
+    
+    public PanelManager getPanelManager() {
+        return panelManager;
     }
 
     public CommandManager getCommandManager() {

@@ -113,7 +113,7 @@ public class EntityPlayerSP extends EntityPlayer {
                 mountEntity(null);
             }
 
-            if (mc.currentScreen != null) {
+            if (mc.currentScreen != null && !Osiris.getInstance().getModuleManager().getMap().get(PortalGuiModule.class).isEnabled()) {
                 mc.displayGuiScreen(null);
             }
 

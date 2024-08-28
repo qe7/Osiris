@@ -6,9 +6,10 @@ import io.github.qe7.utils.math.MathUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.Gui;
-import org.lwjgl.input.Mouse;
 
 import java.awt.*;
+
+import org.lwjgl.input.Mouse;
 
 public class EnumComponent extends Component {
 
@@ -31,16 +32,15 @@ public class EnumComponent extends Component {
         this.positionX = x;
         this.positionY = y;
 
-        if (MathUtil.isHovered(x, y, this.width, this.height, mouseX, mouseY)) {
-            if(Mouse.hasWheel()) {
-                int dWheelVariable = Mouse.getDWheel();
-                if (dWheelVariable < 0) {
-                    this.decrement(this.setting);
-                } else if (dWheelVariable > 0){
-                    this.increment(this.setting);
-                }
+        if(Mouse.hasWheel() && MathUtil.isHovered(x, y, this.width, this.height, mouseX, mouseY)) {
+       	 	int dWheelVariable = Mouse.getDWheel();
+            if (dWheelVariable < 0) {
+            	this.decrement(this.setting);
+            } else if (dWheelVariable > 0){
+            	this.increment(this.setting);
             }
-
+        }
+        if (MathUtil.isHovered(x, y, this.width, this.height, mouseX, mouseY)) {
             Gui.drawRect(x, y, x + width, y + height, new Color(0, 0, 0, 100).getRGB());
         }
 

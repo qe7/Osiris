@@ -44,9 +44,9 @@ public class HUDModule extends Module {
     private static final DoubleSetting rainbowSaturation = new DoubleSetting("Saturation", 1.0, 0.1, 1.0, 0.1).supplyIf(rainbow::getValue);
     private static final DoubleSetting rainbowBrightness = new DoubleSetting("Brightness", 1.0, 0.1, 1.0, 0.1).supplyIf(rainbow::getValue);
 
-    public static final IntSetting red = new IntSetting("Red", 255, 0, 255, 1);
-    public static final IntSetting green = new IntSetting("Green", 255, 0, 255, 1);
-    public static final IntSetting blue = new IntSetting("Blue", 255, 0, 255, 1);
+    private static final IntSetting red = new IntSetting("Red", 255, 0, 255, 1).supplyIf(() -> !rainbow.getValue());
+    private static final IntSetting green = new IntSetting("Green", 255, 0, 255, 1).supplyIf(() -> !rainbow.getValue());
+    private static final IntSetting blue = new IntSetting("Blue", 255, 0, 255, 1).supplyIf(() -> !rainbow.getValue());
 
     private final Minecraft mc = Minecraft.getMinecraft();
 
@@ -202,7 +202,7 @@ public class HUDModule extends Module {
         }
     }
 
-    private Color getColour(final int offset) {
+    public static Color getColour(final int offset) {
         if (rainbow.getValue()) {
             return new Color(ColourUtil.getRainbow(rainbowSpeed.getValue(), rainbowSaturation.getValue().floatValue(), rainbowBrightness.getValue().floatValue(), offset * 10 /* offset by 10 to make more noticeable */));
         } else {

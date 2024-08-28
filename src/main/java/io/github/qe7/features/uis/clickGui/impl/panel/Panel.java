@@ -4,6 +4,7 @@ import io.github.qe7.Osiris;
 import io.github.qe7.features.uis.clickGui.impl.panel.button.Button;
 import io.github.qe7.features.modules.api.Module;
 import io.github.qe7.features.modules.api.enums.ModuleCategory;
+import io.github.qe7.features.modules.api.settings.api.Setting;
 import io.github.qe7.features.modules.impl.render.HUDModule;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;
@@ -13,6 +14,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.google.gson.JsonObject;
 
 
 public class       Panel {
@@ -27,7 +30,7 @@ public class       Panel {
 
     private float totalHeight = 0;
 
-    private boolean dragging, extended = true;
+    private boolean dragging, extended = false;
 
     public Panel(ModuleCategory moduleCategory, float positionX, float positionY) {
         this.moduleCategory = moduleCategory;
@@ -46,6 +49,14 @@ public class       Panel {
             buttons.add(new Button(module));
         }
     }
+    
+    public String getPanelName() {
+    	return this.moduleCategory.getName();
+    }
+    
+    public ModuleCategory getModuleCategory() {
+    	return this.moduleCategory;
+    }
 
     public void drawScreen(int par1, int par2, float par3) {
         final FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
@@ -55,7 +66,7 @@ public class       Panel {
             positionY = getDraggingX + par2;
         }
 
-        final Color themeColor = new Color(HUDModule.red.getValue(), HUDModule.green.getValue(), HUDModule.blue.getValue());
+        final Color themeColor = HUDModule.getColour(1);
 
         Gui.drawRect(positionX - 1, positionY - 1, positionX + width + 1, positionY + height, themeColor.getRGB());
         fontRenderer.drawStringWithShadow(moduleCategory.getName(), positionX + ((float) width / 2 - (float) fontRenderer.getStringWidth(moduleCategory.getName()) / 2), positionY + 2, 0xFFFFFFFF);
@@ -118,5 +129,17 @@ public class       Panel {
                 button.keyTyped(par1, par2);
             }
         }
+    }
+    public JsonObject serialize() {
+        JsonObject object = new JsonObject();
+        object.addProperty("posX", this.positionX);
+        object.addProperty("posY", this.positionY);
+        object.addProperty("extended", this.extended);
+        return object;
+    }
+    public void deserialize(JsonObject object) {
+        this.positionX = (object.get("posX").getAsInt());
+        this.positionY = (object.get("posY").getAsInt());
+        this.extended = (object.get("extended").getAsBoolean());
     }
 }

@@ -35,6 +35,9 @@ public final class ModuleManager extends Manager<Class<? extends Module>, Module
 
     private static final Class<Module>[] MODULES = new Class[]{
             /* Chat */
+            ChatEncryptModule.class,
+    	    MuteDMsModule.class,
+    	    HideChatModule.class,
             AutoLoginModule.class,
             GreenTextModule.class,
             SuffixModule.class,
@@ -53,6 +56,7 @@ public final class ModuleManager extends Manager<Class<? extends Module>, Module
 
             /* Misc */
             AntiPortalModule.class,
+	    PortalGuiModule.class,
             AutoDisconnectModule.class,
             AutoToolModule.class,
             AutoWalkModule.class,

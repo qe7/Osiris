@@ -7,9 +7,10 @@ import io.github.qe7.utils.math.MathUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.Gui;
-import org.lwjgl.input.Mouse;
 
 import java.awt.*;
+
+import org.lwjgl.input.Mouse;
 
 public class IntComponent extends Component {
 
@@ -40,6 +41,15 @@ public class IntComponent extends Component {
 
         final double percent = (value - min) / (double) (max - min);
 
+        if(Mouse.hasWheel() && MathUtil.isHovered(x, y, this.width, this.height, mouseX, mouseY)) {
+        	int dWheelVariable = Mouse.getDWheel();
+            if (dWheelVariable < 0 && this.setting.getValue() > this.setting.getMinimum()) {
+            	 this.setting.setValue(this.setting.getValue() - this.setting.getStep());
+            } else if (dWheelVariable > 0 && this.setting.getValue() < this.setting.getMaximum()){
+            	 this.setting.setValue(this.setting.getValue() + this.setting.getStep());
+           }
+        }
+        
         if (this.dragging) {
             final double diff = mouseX - x;
             double newValue = min + (diff / width) * (max - min);
@@ -47,19 +57,10 @@ public class IntComponent extends Component {
         }
 
         if (MathUtil.isHovered(this.x, this.y, this.width, this.height, mouseX, mouseY)) {
-            if(Mouse.hasWheel()) {
-                int dWheelVariable = Mouse.getDWheel();
-                if (dWheelVariable < 0 && this.setting.getValue() > this.setting.getMinimum()) {
-                    this.setting.setValue(this.setting.getValue() - this.setting.getStep());
-                } else if (dWheelVariable > 0 && this.setting.getValue() < this.setting.getMaximum()){
-                    this.setting.setValue(this.setting.getValue() + this.setting.getStep());
-                }
-            }
-
             Gui.drawRect(this.x, this.y, this.x + this.width, this.y + this.height, new Color(0, 0, 0, 100).getRGB());
         }
 
-        Gui.drawRect(this.x, this.y + this.height - 2, this.x + (int) (this.width * percent), this.y + this.height, new Color(HUDModule.red.getValue(), HUDModule.green.getValue(), HUDModule.blue.getValue(), 150).getRGB());
+        Gui.drawRect(this.x, this.y + this.height - 2, this.x + (int) (this.width * percent), this.y + this.height, new Color(HUDModule.getColour(1).getRed(), HUDModule.getColour(1).getGreen(), HUDModule.getColour(1).getBlue(), 150).getRGB());
 
         fontRenderer.drawStringWithShadow(this.getSetting().getName(), x + 2, y + 3, new Color(255, 255, 255).getRGB());
         fontRenderer.drawStringWithShadow(String.valueOf(this.getSetting().getValue()), x + width - 2 - fontRenderer.getStringWidth(String.valueOf(this.getSetting().getValue())), y + 3, new Color(255, 255, 255).getRGB());

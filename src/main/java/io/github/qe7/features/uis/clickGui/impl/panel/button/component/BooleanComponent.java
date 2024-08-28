@@ -7,9 +7,10 @@ import io.github.qe7.utils.math.MathUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.Gui;
-import org.lwjgl.input.Mouse;
 
 import java.awt.*;
+
+import org.lwjgl.input.Mouse;
 
 public class BooleanComponent extends Component {
 
@@ -32,27 +33,27 @@ public class BooleanComponent extends Component {
         this.positionX = x;
         this.positionY = y;
 
-        if (MathUtil.isHovered(x, y, this.width, this.height, mouseX, mouseY)) {
-            if(Mouse.hasWheel()) {
-                int dWheelVariable = Mouse.getDWheel();
-                if (dWheelVariable < 0) {
-                    if(this.setting.getValue()) {
-                        this.setting.setValue(false);
-                    } else
-                        this.setting.setValue(true);
-                } else if (dWheelVariable > 0){
-                    if(this.setting.getValue()) {
-                        this.setting.setValue(false);
-                    } else
-                        this.setting.setValue(true);
-                }
+        if(Mouse.hasWheel() && MathUtil.isHovered(x, y, this.width, this.height, mouseX, mouseY)) {
+        	 int dWheelVariable = Mouse.getDWheel();
+             if (dWheelVariable < 0) {
+            	 if(this.setting.getValue()) { 
+            		 this.setting.setValue(false);
+            	 } else
+            		 this.setting.setValue(true);
+             } else if (dWheelVariable > 0){
+            	if(this.setting.getValue()) { 
+            		 this.setting.setValue(false);
+           	 	} else
+           	 		 this.setting.setValue(true);
             }
-
+        }
+        
+        if (MathUtil.isHovered(x, y, this.width, this.height, mouseX, mouseY)) {
             Gui.drawRect(x, y, x + width, y + height, new Color(0, 0, 0, 100).getRGB());
         }
 
         if (this.setting.getValue()) {
-            Gui.drawRect(x, y, x + width, y + height, new Color(HUDModule.red.getValue(), HUDModule.green.getValue(), HUDModule.blue.getValue(), 150).getRGB());
+            Gui.drawRect(x, y, x + width, y + height, new Color(HUDModule.getColour(1).getRed(), HUDModule.getColour(1).getGreen(), HUDModule.getColour(1).getBlue(), 150).getRGB());
         }
 
         fontRenderer.drawStringWithShadow(this.setting.getName(), x + 3, y + 3, -1);

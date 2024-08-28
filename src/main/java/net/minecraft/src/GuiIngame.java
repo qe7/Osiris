@@ -705,6 +705,8 @@ public class GuiIngame extends Gui {
      * Adds a chat message to the list of chat messages. Args: msg
      */
     public void addChatMessage(String par1Str) {
+	if(par1Str.equals(""))
+    		return;
         boolean flag = isChatOpen();
         boolean flag1 = true;
         String s;
