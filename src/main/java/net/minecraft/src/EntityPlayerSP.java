@@ -4,6 +4,7 @@ import io.github.qe7.Osiris;
 import io.github.qe7.events.impl.player.LivingUpdateEvent;
 import io.github.qe7.events.impl.player.SlowdownEvent;
 import io.github.qe7.features.modules.impl.misc.FreeCamModule;
+import io.github.qe7.features.modules.impl.misc.PortalGuiModule;
 import io.github.qe7.features.modules.impl.misc.SprintModule;
 import net.minecraft.client.Minecraft;
 

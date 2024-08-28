@@ -1,20 +1,18 @@
 package io.github.qe7.features.uis.clickGui.impl.panel.button;
 
 import io.github.qe7.Osiris;
-import io.github.qe7.features.uis.clickGui.api.types.Component;
-import io.github.qe7.features.uis.clickGui.impl.panel.button.component.BooleanComponent;
-import io.github.qe7.features.uis.clickGui.impl.panel.button.component.DoubleComponent;
-import io.github.qe7.features.uis.clickGui.impl.panel.button.component.EnumComponent;
-import io.github.qe7.features.uis.clickGui.impl.panel.button.component.IntComponent;
-import io.github.qe7.features.uis.clickGui.impl.panel.button.component.LongComponent;
 import io.github.qe7.features.modules.api.Module;
 import io.github.qe7.features.modules.api.settings.api.Setting;
 import io.github.qe7.features.modules.api.settings.impl.BooleanSetting;
 import io.github.qe7.features.modules.api.settings.impl.DoubleSetting;
 import io.github.qe7.features.modules.api.settings.impl.EnumSetting;
 import io.github.qe7.features.modules.api.settings.impl.IntSetting;
-import io.github.qe7.features.modules.api.settings.impl.LongSetting;
 import io.github.qe7.features.modules.impl.render.HUDModule;
+import io.github.qe7.features.uis.clickGui.api.types.Component;
+import io.github.qe7.features.uis.clickGui.impl.panel.button.component.BooleanComponent;
+import io.github.qe7.features.uis.clickGui.impl.panel.button.component.DoubleComponent;
+import io.github.qe7.features.uis.clickGui.impl.panel.button.component.EnumComponent;
+import io.github.qe7.features.uis.clickGui.impl.panel.button.component.IntComponent;
 import io.github.qe7.utils.math.MathUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;
@@ -53,9 +51,6 @@ public class Button {
             }
             if (setting instanceof DoubleSetting) {
                 components.add(new DoubleComponent((DoubleSetting) setting));
-            }
-            if (setting instanceof LongSetting) {
-                components.add(new LongComponent((LongSetting) setting));
             }
         }
     }

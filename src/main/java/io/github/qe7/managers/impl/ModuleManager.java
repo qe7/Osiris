@@ -9,10 +9,7 @@ import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.game.KeyInputEvent;
 import io.github.qe7.features.modules.api.Module;
 import io.github.qe7.features.modules.api.settings.api.Setting;
-import io.github.qe7.features.modules.impl.chat.AutoLoginModule;
-import io.github.qe7.features.modules.impl.chat.GreenTextModule;
-import io.github.qe7.features.modules.impl.chat.SuffixModule;
-import io.github.qe7.features.modules.impl.chat.WelcomerModule;
+import io.github.qe7.features.modules.impl.chat.*;
 import io.github.qe7.features.modules.impl.combat.CriticalsModule;
 import io.github.qe7.features.modules.impl.combat.KillAuraModule;
 import io.github.qe7.features.modules.impl.combat.VelocityModule;
@@ -35,7 +32,6 @@ public final class ModuleManager extends Manager<Class<? extends Module>, Module
 
     private static final Class<Module>[] MODULES = new Class[]{
             /* Chat */
-            ChatEncryptModule.class,
     	    MuteDMsModule.class,
     	    HideChatModule.class,
             AutoLoginModule.class,
