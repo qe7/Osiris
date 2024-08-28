@@ -24,6 +24,7 @@ public class ShortTellModule extends Module {
             } else if(message.split(" ").length < 2) {
             	return;
             }
+
             String username = message.split(" ")[0].substring(1);
             String messageToSend = message.substring(message.split(" ")[0].length() + 1);
             packet.message = "/tell " + username + " " + messageToSend;
