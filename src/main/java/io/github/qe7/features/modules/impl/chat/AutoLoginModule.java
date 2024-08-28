@@ -19,26 +19,24 @@ public class AutoLoginModule extends Module {
 
     @EventLink
     public final Listener<IncomingPacketEvent> incomingPacketEvent = event -> {
-        if (Minecraft.getMinecraft().theWorld == null && Minecraft.getMinecraft().thePlayer == null) {
+        if (Minecraft.getMinecraft().theWorld == null) {
             return;
         }
 
         if (event.getPacket() instanceof Packet3Chat) {
             Packet3Chat chat = (Packet3Chat) event.getPacket();
 
-            System.out.println(chat.message);
+            if (chat.message.startsWith("§c") && chat.message.contains("please login with")) {
+                final String normalizedName = Minecraft.getMinecraft().session.username;
 
-            if (!chat.message.startsWith("§c") && !chat.message.contains("please login with")) return;
+                Account account = Osiris.getInstance().getAccountManager().getMap().get(normalizedName);
 
-            final String normalizedName = Minecraft.getMinecraft().session.username;
-
-            Account account = Osiris.getInstance().getAccountManager().getMap().get(normalizedName);
-
-            if (account != null) {
-                ChatUtil.sendMessage("/login " + account.getPassword());
-                ChatUtil.addPrefixedMessage("Auto Login", "Logged in as " + normalizedName);
-            } else {
-                ChatUtil.addPrefixedMessage("Auto Login", "No account found for " + normalizedName);
+                if (account != null) {
+                    ChatUtil.sendMessage("/login " + account.getPassword());
+                    ChatUtil.addPrefixedMessage("Auto Login", "Logged in as " + normalizedName);
+                } else {
+                    ChatUtil.addPrefixedMessage("Auto Login", "No account found for " + normalizedName);
+                }
             }
         }
     };

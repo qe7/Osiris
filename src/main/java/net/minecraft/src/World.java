@@ -11,8 +11,8 @@ public class World implements IBlockAccess {
     /**
      * A list of all Entities in all currently-loaded chunks
      */
-    public List loadedEntityList;
-    private List unloadedEntityList;
+    public List<Entity> loadedEntityList;
+    private List<Entity> unloadedEntityList;
 
     /**
      * TreeSet of scheduled ticks which is used as a priority queue for the ticks
