@@ -14,6 +14,7 @@ public class GuiConnecting extends GuiScreen
     {
         cancelled = false;
         System.out.println((new StringBuilder()).append("Connecting to ").append(par2Str).append(", ").append(par3).toString());
+        par1Minecraft.gameSettings.lastServer = par2Str + ":" + par3;
         par1Minecraft.changeWorld1(null);
         (new ThreadConnectToServer(this, par1Minecraft, par2Str, par3)).start();
     }

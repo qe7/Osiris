@@ -27,7 +27,7 @@ public final class Osiris {
         System.out.println("Osiris instance created!");
 
         this.name = "Osiris";
-        this.version = "1.0.4";
+        this.version = "1.0.5";
 
         this.eventBus = new EventBus();
 
