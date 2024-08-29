@@ -13,6 +13,7 @@ import io.github.qe7.utils.render.ColourUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.GuiChat;
+import net.minecraft.src.MathHelper;
 import net.minecraft.src.ScaledResolution;
 
 import java.awt.*;
@@ -30,6 +31,7 @@ public class HUDModule extends Module {
     private final BooleanSetting modules = new BooleanSetting("Modules", true);
     private final BooleanSetting modulesSuffix = new BooleanSetting("Suffix", true).supplyIf(this.modules::getValue);
 
+    private final BooleanSetting direction = new BooleanSetting("Direction", true);
     private final BooleanSetting coordinates = new BooleanSetting("Coordinates", true);
     private final BooleanSetting netherCoordinates = new BooleanSetting("Nether Coordinates", true).supplyIf(this.coordinates::getValue);
 
@@ -79,10 +81,9 @@ public class HUDModule extends Module {
 
             fontRenderer.drawStringWithShadow(display, 2, 2, getColour(2).getRGB());
         }
-
         if (this.coordinates.getValue()) {
             if (this.netherCoordinates.getValue()) {
-                // get the deminsion the player is in (0 = overworld, -1 = nether, 1 = end)
+                // get the dimension the player is in (0 = overworld, -1 = nether, 1 = end)
                 final int dimension = mc.thePlayer.dimension;
 
                 // create overworld coordinates (if in nether * 8)
@@ -105,6 +106,7 @@ public class HUDModule extends Module {
                 netherZ = Math.round(netherZ * 10.0) / 10.0;
 
                 fontRenderer.drawStringWithShadow(String.format("Nether§7 %.1f %.1f", netherX, netherZ), 2, scaledResolution.getScaledHeight() - bottomLeftOffset, getColour(bottomLeftOffset).getRGB());
+                bottomLeftOffset += 10;
             } else {
                 double x = mc.thePlayer.posX;
                 double y = mc.thePlayer.posY;
@@ -115,7 +117,27 @@ public class HUDModule extends Module {
                 z = Math.round(z * 10.0) / 10.0;
 
                 fontRenderer.drawStringWithShadow(String.format("XYZ§7 %.1f %.1f %.1f", x, y, z), 2, scaledResolution.getScaledHeight() - bottomLeftOffset - 10, getColour(bottomLeftOffset).getRGB());
+                bottomLeftOffset += 10;
             }
+        }
+        if(this.direction.getValue()) {
+        	String direction = "";
+        	switch(MathHelper.floor_double((double) ((mc.thePlayer.rotationYaw * 4F) / 360F) + 0.5D) & 3) {
+        		case 0:
+        			direction = "South, Z+";
+        			break;
+        		case 1:
+        			direction = "West,  X-";
+        			break;
+        		case 2:
+        			direction = "North, Z-";
+        			break;
+        		case 3:
+        			direction = "East,  X+";
+        			break;
+        	}
+        	fontRenderer.drawStringWithShadow("Direction: §7" + direction, 2, scaledResolution.getScaledHeight() - bottomLeftOffset, getColour(bottomLeftOffset).getRGB());
+            bottomLeftOffset += 10;
         }
 
         if (this.durability.getValue()) {

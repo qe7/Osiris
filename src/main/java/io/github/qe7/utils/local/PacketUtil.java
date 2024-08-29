@@ -15,6 +15,7 @@ public final class PacketUtil extends UtilBase {
      * @param packet the packet to send
      */
     public static void sendPacket(Packet packet) {
-        Minecraft.getMinecraft().getSendQueue().addToSendQueue(packet);
+        if(Minecraft.getMinecraft().theWorld.isRemote)
+    		Minecraft.getMinecraft().getSendQueue().addToSendQueue(packet);
     }
 }

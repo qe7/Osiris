@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import java.util.HashSet;
+
 public class LongHashMap
 {
     private transient LongHashMapEntry hashArray[];
@@ -41,6 +43,15 @@ public class LongHashMap
     {
         par0 ^= par0 >>> 20 ^ par0 >>> 12;
         return par0 ^ par0 >>> 7 ^ par0 >>> 4;
+    }
+    
+    public HashSet<Long> keySet() {
+    	HashSet<Long> keySet = new HashSet<Long>();
+    	for(LongHashMapEntry entry : this.hashArray) {
+    		if(entry != null)
+    			keySet.add(entry.key);
+    	}
+    	return keySet;
     }
 
     /**

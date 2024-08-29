@@ -2,6 +2,8 @@ package net.minecraft.src;
 
 import java.util.*;
 
+import io.github.qe7.features.modules.impl.misc.WorldDLModule;
+
 public class WorldClient extends World
 {
     /**
@@ -28,9 +30,14 @@ public class WorldClient extends World
      */
     private Set entitySpawnQueue;
 
+    public SaveHandler downloadSaveHandler;
+    public IChunkLoader downloadChunkLoader;
+    public boolean downloadThisWorld;
+
     public WorldClient(NetClientHandler par1NetClientHandler, WorldSettings par2WorldSettings, int par3, int par4)
     {
         super(new SaveHandlerMP(), "MpServer", WorldProvider.getProviderForDimension(par3), par2WorldSettings);
+        this.downloadThisWorld = false;
         blocksToReceive = new LinkedList();
         entityHashSet = new IntHashMap();
         entityList = new HashSet();
@@ -41,12 +48,41 @@ public class WorldClient extends World
         mapStorage = par1NetClientHandler.mapStorage;
     }
 
+    @Override
+    public void saveWorld(boolean var1, IProgressUpdate var2) {
+    	if(this.downloadThisWorld) {
+    		this.downloadSaveHandler.saveWorldInfoAndPlayer(this.worldInfo, this.playerEntities);
+            this.chunkProvider.saveChunks(var1, var2);
+        }
+        super.saveWorld(var1, var2);
+    }
+    @Override
+    public void playNoteAt(int x, int y, int z, int var4, int var5) {
+        super.playNoteAt(x, y, z, var4, var5);
+        if (this.downloadThisWorld && getBlockId(x, y, z) == Block.music.blockID) {
+            TileEntityNote tileentitynote = (TileEntityNote) getBlockTileEntity(x, y, z);
+            if (tileentitynote == null) {
+                setBlockTileEntity(x, y, z, new TileEntityNote());
+            }
+            tileentitynote.note = (byte) (var5 % 25);
+            tileentitynote.onInventoryChanged();
+            setNewBlockTileEntity(x, y, z, tileentitynote);
+        }
+    }
+    public void setNewBlockTileEntity(int x, int y, int z, TileEntity tile) {
+        Chunk chunk = getChunkFromChunkCoords(x >> 4, z >> 4);
+        if (chunk != null) {
+            chunk.setNewChunkBlockTileEntity(x & 15, y, z & 15, tile);
+        }
+    }
     /**
      * Runs a single tick for the world
      */
     public void tick()
     {
         setWorldTime(getWorldTime() + 1L);
+        if(this.downloadThisWorld && this.worldInfo.getWorldTime() % 10 == 0)
+        	saveWorld(false, null);
 
         for (int i = 0; i < 10 && !entitySpawnQueue.isEmpty(); i++)
         {
@@ -275,6 +311,10 @@ public class WorldClient extends World
      */
     public void sendQuittingDisconnectingPacket()
     {
+    	if(WorldDLModule.instance.isDownloading) {
+    		WorldDLModule.instance.stopDownload();
+    		WorldDLModule.instance.setEnabled(false);
+    	}
         sendQueue.quitWithPacket(new Packet255KickDisconnect("Quitting"));
     }
 

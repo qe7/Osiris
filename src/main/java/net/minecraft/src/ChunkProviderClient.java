@@ -1,5 +1,6 @@
 package net.minecraft.src;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +36,15 @@ public class ChunkProviderClient implements IChunkProvider
     {
         return true;
     }
+    
+    public void importOldTileEntities() {
+        for (Long obj : this.chunkMapping.keySet()) {
+            Chunk chunk = (Chunk) this.chunkMapping.getValueByKey(obj);
+            if (chunk != null && chunk.isFilled) {
+                chunk.importOldChunkTileEntities();
+            }
+        }
+    }
 
     public void func_539_c(int par1, int par2)
     {
@@ -45,6 +55,14 @@ public class ChunkProviderClient implements IChunkProvider
             chunk.onChunkUnload();
         }
 
+        if (((WorldClient) this.worldObj).downloadThisWorld && !chunk.neverSave && chunk.isFilled) {
+            saveChunk(chunk);
+            try {
+                ((WorldClient) this.worldObj).downloadChunkLoader.saveExtraChunkData(this.worldObj, chunk);
+            } catch (IOException ioexception) {
+                ioexception.printStackTrace();
+            }
+        }
         chunkMapping.remove(ChunkCoordIntPair.chunkXZ2Int(par1, par2));
         field_889_c.remove(chunk);
     }
@@ -82,9 +100,50 @@ public class ChunkProviderClient implements IChunkProvider
      * Two modes of operation: if passed true, save all Chunks in one go.  If passed false, save up to two chunks.
      * Return true if all chunks have been saved.
      */
-    public boolean saveChunks(boolean par1, IProgressUpdate par2IProgressUpdate)
-    {
+    public boolean saveChunks(boolean flag, IProgressUpdate iprogressupdate) {
+        if (!((WorldClient) this.worldObj).downloadThisWorld) {
+            return true;
+        }
+        for (long obj : this.chunkMapping.keySet()) {
+            Chunk chunk = (Chunk) this.chunkMapping.getValueByKey(obj);
+            if (flag && chunk != null && !chunk.neverSave && chunk.isFilled) {
+                try {
+                    ((WorldClient) this.worldObj).downloadChunkLoader.saveExtraChunkData(this.worldObj, chunk);
+                } catch (IOException ioexception) {
+                    ioexception.printStackTrace();
+                }
+            }
+            if (chunk != null && !chunk.neverSave && chunk.isFilled) {
+                saveChunk(chunk);
+            }
+        }
+        if (flag) {
+            ((WorldClient) this.worldObj).downloadChunkLoader.saveExtraData();
+            return true;
+        }
         return true;
+    }
+
+    private void saveChunk(Chunk chunk) {
+        if (!((WorldClient) this.worldObj).downloadThisWorld) {
+            return;
+        }
+        chunk.lastSaveTime = this.worldObj.getWorldTime();
+        chunk.isTerrainPopulated = true;
+        try {
+            for (Object obj : chunk.newChunkTileEntityMap.keySet()) {
+                TileEntity tileentity = (TileEntity) chunk.newChunkTileEntityMap.get(obj);
+                if (tileentity != null) {
+                    Block block = Block.blocksList[this.worldObj.getBlockId(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord)];
+                    if ((block instanceof BlockChest) || (block instanceof BlockDispenser) || (block instanceof BlockFurnace) || (block instanceof BlockNote)) {
+                        chunk.chunkTileEntityMap.put(obj, tileentity);
+                    }
+                }
+            }
+            ((WorldClient) this.worldObj).downloadChunkLoader.saveChunk(this.worldObj, chunk);
+        } catch (IOException ioexception) {
+            ioexception.printStackTrace();
+        }
     }
 
     /**

@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.*;
+import io.github.qe7.features.modules.impl.misc.WorldDLModule;
 
 public class NetClientHandler extends NetHandler {
     /**
@@ -416,6 +417,10 @@ public class NetClientHandler extends NetHandler {
     }
 
     public void handleKickDisconnect(Packet255KickDisconnect par1Packet255KickDisconnect) {
+    	if(WorldDLModule.instance.isDownloading) {
+    		WorldDLModule.instance.stopDownload();
+    		WorldDLModule.instance.setEnabled(false);
+    	}
         netManager.networkShutdown("disconnect.kicked", new Object[0]);
         disconnected = true;
         mc.changeWorld1(null);
@@ -426,6 +431,10 @@ public class NetClientHandler extends NetHandler {
     }
 
     public void handleErrorMessage(String par1Str, Object par2ArrayOfObj[]) {
+    	if(WorldDLModule.instance.isDownloading) {
+    		WorldDLModule.instance.stopDownload();
+    		WorldDLModule.instance.setEnabled(false);
+    	}
         if (disconnected) {
             return;
         } else {

@@ -1,5 +1,8 @@
 package net.minecraft.src;
 
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 public class Chunk
@@ -8,6 +11,7 @@ public class Chunk
      * Determines if the chunk is lit or not at a light value greater than 0.
      */
     public static boolean isLit;
+	public static WorldClient worldClient;
     private ExtendedBlockStorage storageArrays[];
     private byte blockBiomeArray[];
     public int precipitationHeightMap[];
@@ -53,9 +57,15 @@ public class Chunk
      */
     private int queuedLightChecks;
     boolean field_35846_u;
+    
+    public Map newChunkTileEntityMap;
+	public boolean isFilled;
+	public boolean neverSave;
 
     public Chunk(World par1World, int par2, int par3)
     {
+    	this.isFilled = false;
+    	this.newChunkTileEntityMap = new HashMap();
         storageArrays = new ExtendedBlockStorage[16];
         blockBiomeArray = new byte[256];
         precipitationHeightMap = new int[256];
@@ -113,6 +123,15 @@ public class Chunk
                 }
             }
         }
+    }
+    
+    public void setNewChunkBlockTileEntity(int i, int j, int k, TileEntity tileentity) {
+        ChunkPosition chunkposition = new ChunkPosition(i, j, k);
+        tileentity.worldObj = this.worldObj;
+        tileentity.xCoord = (this.xPosition * 16) + i;
+        tileentity.yCoord = j;
+        tileentity.zCoord = (this.zPosition * 16) + k;
+        this.newChunkTileEntityMap.put(chunkposition, tileentity);
     }
 
     /**
@@ -1083,6 +1102,9 @@ public class Chunk
      */
     public boolean needsSaving(boolean par1)
     {
+    	if (this.neverSave) {
+            return false;
+        }
         if (par1)
         {
             if (hasEntities && worldObj.getWorldTime() != lastSaveTime)
@@ -1235,6 +1257,32 @@ public class Chunk
     {
         storageArrays = par1ArrayOfExtendedBlockStorage;
     }
+    
+    public void importOldChunkTileEntities() {
+        NBTTagList nbttaglist;
+        File file = worldClient.downloadSaveHandler.getSaveDirectory();
+        if (worldClient.worldProvider instanceof WorldProviderHell) {
+            file = new File(file, "DIM-1");
+            file.mkdirs();
+        }
+        DataInputStream datainputstream = RegionFileCache.getChunkInputStream(file, this.xPosition, this.zPosition);
+        if (datainputstream != null) {
+            try {
+                NBTTagCompound nbttagcompound = CompressedStreamTools.readCompressed(datainputstream);
+                if (nbttagcompound.hasKey("Level") && (nbttaglist = nbttagcompound.getCompoundTag("Level").getTagList("TileEntities")) != null) {
+                    for (int i = 0; i < nbttaglist.tagCount(); i++) {
+                        NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.tagAt(i);
+                        TileEntity tileentity = TileEntity.createAndLoadEntity(nbttagcompound1);
+                        if (tileentity != null) {
+                            ChunkPosition chunkposition = new ChunkPosition(tileentity.xCoord & 15, tileentity.yCoord, tileentity.zCoord & 15);
+                            this.newChunkTileEntityMap.put(chunkposition, tileentity);
+                        }
+                    }
+                }
+            } catch (IOException e) {
+            }
+        }
+    }
 
     public void func_48494_a(byte par1ArrayOfByte[], int par2, int par3, boolean par4)
     {
@@ -1340,6 +1388,7 @@ public class Chunk
         {
             tileentity = (TileEntity)iterator.next();
         }
+        this.isFilled = true;
     }
 
     public BiomeGenBase func_48490_a(int par1, int par2, WorldChunkManager par3WorldChunkManager)

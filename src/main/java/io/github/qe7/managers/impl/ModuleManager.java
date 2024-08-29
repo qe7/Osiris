@@ -48,6 +48,7 @@ public final class ModuleManager extends Manager<Class<? extends Module>, Module
             RegenModule.class,
 
             /* Misc */
+	    WorldDLModule.class,
             AntiPortalModule.class,
 	    PortalGuiModule.class,
             AutoDisconnectModule.class,

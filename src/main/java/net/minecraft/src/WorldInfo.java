@@ -455,4 +455,8 @@ public class WorldInfo
     {
         terrainType = par1WorldType;
     }
+    
+    public void setSizeOnDisk(long newSizeOnDisk) {
+    	this.sizeOnDisk = newSizeOnDisk;
+    }
 }

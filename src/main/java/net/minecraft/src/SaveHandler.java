@@ -70,7 +70,7 @@ public class SaveHandler implements ISaveHandler
     /**
      * gets the File object corresponding to the base directory of this save (saves/404 for a save called 404 etc)
      */
-    protected File getSaveDirectory()
+    public File getSaveDirectory()
     {
         return saveDirectory;
     }
