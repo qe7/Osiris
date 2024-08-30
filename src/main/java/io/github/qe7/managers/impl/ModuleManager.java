@@ -10,13 +10,19 @@ import io.github.qe7.events.impl.game.KeyInputEvent;
 import io.github.qe7.features.modules.api.Module;
 import io.github.qe7.features.modules.api.settings.api.Setting;
 import io.github.qe7.features.modules.impl.chat.*;
-import io.github.qe7.features.modules.impl.combat.*;
-import io.github.qe7.features.modules.impl.exploit.*;
+import io.github.qe7.features.modules.impl.combat.CriticalsModule;
+import io.github.qe7.features.modules.impl.combat.KillAuraModule;
+import io.github.qe7.features.modules.impl.combat.VelocityModule;
+import io.github.qe7.features.modules.impl.exploit.AntiHungerModule;
+import io.github.qe7.features.modules.impl.exploit.FastUseModule;
+import io.github.qe7.features.modules.impl.exploit.LightningTrackerModule;
+import io.github.qe7.features.modules.impl.exploit.RegenModule;
 import io.github.qe7.features.modules.impl.misc.*;
 import io.github.qe7.features.modules.impl.movement.*;
 import io.github.qe7.features.modules.impl.render.*;
 import io.github.qe7.managers.api.Manager;
 import io.github.qe7.utils.configs.FileUtil;
+import lombok.Getter;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -25,87 +31,63 @@ public final class ModuleManager extends Manager<Class<? extends Module>, Module
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
-    private static final Class<Module>[] MODULES = new Class[]{
-            /* Chat */
-	    ShortTellModule.class,
-    	    ChatLoggerModule.class,
-    	    MuteDMsModule.class,
-    	    HideChatModule.class,
-            AutoLoginModule.class,
-            GreenTextModule.class,
-            SuffixModule.class,
-            WelcomerModule.class,
-
-            /* Combat */
-            CriticalsModule.class,
-            KillAuraModule.class,
-            VelocityModule.class,
-
-            /* Exploits */
-            AntiHungerModule.class,
-            FastUseModule.class,
-            LightningTrackerModule.class,
-            RegenModule.class,
-
-            /* Misc */
-	    WorldDLModule.class,
-            AntiPortalModule.class,
-	    PortalGuiModule.class,
-            AutoDisconnectModule.class,
-            AutoToolModule.class,
-            AutoWalkModule.class,
-            FastBreakModule.class,
-            FastPlaceModule.class,
-            FreeCamModule.class,
-            GameSpeedModule.class,
-            NoFallDamageModule.class,
-            ScaffoldModule.class,
-            SprintModule.class,
-            YawModule.class,
-
-            /* Movement */
-            FlyModule.class,
-            InventoryMoveModule.class,
-            NoSlowdownModule.class,
-            SpeedModule.class,
-            StepModule.class,
-
-            /* Render */
-            BrightnessModule.class,
-            CameraModule.class,
-            ClickGUIModule.class,
-            ESPModule.class,
-            HUDModule.class,
-            NameTagsModule.class,
-            NoRenderModule.class,
-            TracersModule.class,
-            WorldTimeModule.class,
-            XRayModule.class,
-    };
-
+    @Getter
     private final Map<Module, List<Setting<?>>> setting = new HashMap<>();
 
     public void initialise() {
-        for (Class<Module> clazz : MODULES) {
-            try {
-                register(clazz);
+        List<Module> modules = new ArrayList<>();
 
-                System.out.println("Registered module: " + clazz.getSimpleName());
+        modules.add(new ShortTellModule());
+        modules.add(new ChatLoggerModule());
+        modules.add(new MuteDMsModule());
+        modules.add(new HideChatModule());
+        modules.add(new AutoLoginModule());
+        modules.add(new GreenTextModule());
+        modules.add(new SuffixModule());
+        modules.add(new WelcomerModule());
 
-                for (Field declaredField : clazz.getDeclaredFields()) {
-                    if (declaredField.getType().getSuperclass() == null) continue;
-                    if (!declaredField.getType().getSuperclass().equals(Setting.class)) continue;
+        modules.add(new CriticalsModule());
+        modules.add(new KillAuraModule());
+        modules.add(new VelocityModule());
 
-                    declaredField.setAccessible(true);
+        modules.add(new AntiHungerModule());
+        modules.add(new FastUseModule());
+        modules.add(new LightningTrackerModule());
+        modules.add(new RegenModule());
 
-                    this.addSetting(this.getMap().get(clazz), (Setting<?>) declaredField.get(this.getMap().get(clazz)));
-                    System.out.println("Registered setting: " + declaredField.getName() + " for module: " + clazz.getSimpleName());
-                }
-            } catch (Exception e) {
-                System.out.println("Failed to initialise module: " + clazz.getSimpleName() + " - " + e.getMessage());
-                throw new RuntimeException("Failed to initialise module: " + clazz.getSimpleName() + " - " + e.getMessage());
-            }
-        }
+        modules.add(new WorldDLModule());
+        modules.add(new AntiPortalModule());
+        modules.add(new PortalGuiModule());
+        modules.add(new AutoDisconnectModule());
+        modules.add(new AutoToolModule());
+        modules.add(new AutoWalkModule());
+        modules.add(new FastBreakModule());
+        modules.add(new FastPlaceModule());
+        modules.add(new FreeCamModule());
+        modules.add(new GameSpeedModule());
+        modules.add(new NoFallDamageModule());
+        modules.add(new ScaffoldModule());
+        modules.add(new SprintModule());
+        modules.add(new YawModule());
+
+        modules.add(new FlyModule());
+        modules.add(new InventoryMoveModule());
+        modules.add(new NoSlowdownModule());
+        modules.add(new SpeedModule());
+        modules.add(new StepModule());
+
+        modules.add(new BrightnessModule());
+        modules.add(new CameraModule());
+        modules.add(new ClickGUIModule());
+        modules.add(new ESPModule());
+        modules.add(new HUDModule());
+        modules.add(new NameTagsModule());
+        modules.add(new NoRenderModule());
+        modules.add(new TracersModule());
+        modules.add(new WorldTimeModule());
+        modules.add(new XRayModule());
+
+        modules.forEach(module -> register(module.getClass()));
 
         this.loadModules();
 
@@ -117,13 +99,19 @@ public final class ModuleManager extends Manager<Class<? extends Module>, Module
         try {
             Module module = type.newInstance();
             getMap().putIfAbsent(type, module);
+
+            for (Field declaredField : type.getDeclaredFields()) {
+                if (declaredField.getType().getSuperclass() == null) continue;
+                if (!declaredField.getType().getSuperclass().equals(Setting.class)) continue;
+
+                declaredField.setAccessible(true);
+
+                this.addSetting(this.getMap().get(type), (Setting<?>) declaredField.get(this.getMap().get(type)));
+                System.out.println("Registered setting: " + declaredField.getName() + " for module: " + type.getSimpleName());
+            }
         } catch (Exception e) {
             System.out.println("Failed to register module: " + type.getSimpleName() + " - " + e.getMessage());
         }
-    }
-
-    public Map<Module, List<Setting<?>>> getSetting() {
-        return setting;
     }
 
     public List<Setting<?>> getSettingsByFeature(Module feature) {

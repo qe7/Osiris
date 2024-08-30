@@ -3,7 +3,6 @@ package io.github.qe7.features.uis.account;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.GuiButton;
 import net.minecraft.src.GuiScreen;
-import net.minecraft.src.GuiSmallButton;
 import net.minecraft.src.GuiTextField;
 import org.lwjgl.input.Keyboard;
 

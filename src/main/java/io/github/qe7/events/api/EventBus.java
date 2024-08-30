@@ -65,13 +65,28 @@ public class EventBus {
      */
     public void post(Event event) {
         Map<EventBusPriorities, Set<Listener<? extends Event>>> listenersByPriority = listeners.get(event.getClass());
+
+        // If there are listeners for the event, call them
         if (listenersByPriority != null) {
+            List<Listener<? extends Event>> listenersToCall = new ArrayList<>();
+
+            // Collect listeners from all priority levels in order
             for (EventBusPriorities priority : EventBusPriorities.values()) {
                 Set<Listener<? extends Event>> listenersSet = listenersByPriority.get(priority);
+                // Add all listeners from the current priority level
                 if (listenersSet != null) {
-                    for (Listener listener : listenersSet) {
-                        listener.onEvent(event);
-                    }
+                    listenersToCall.addAll(listenersSet);
+                }
+            }
+
+            // Call each listener separately
+            for (Listener<?> listener : listenersToCall) {
+                Listener<Event> castedListener = (Listener<Event>) listener;
+
+                try {
+                    castedListener.onEvent(event);
+                } catch (Exception e) {
+                    System.out.println("An error occurred while calling a listener: " + e);
                 }
             }
         }

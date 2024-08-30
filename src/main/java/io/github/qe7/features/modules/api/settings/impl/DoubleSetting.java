@@ -2,7 +2,9 @@ package io.github.qe7.features.modules.api.settings.impl;
 
 import com.google.gson.JsonObject;
 import io.github.qe7.features.modules.api.settings.api.Setting;
+import lombok.Getter;
 
+@Getter
 public final class DoubleSetting extends Setting<Double> {
 
     private final double minimum, maximum, step;
@@ -12,18 +14,6 @@ public final class DoubleSetting extends Setting<Double> {
         this.minimum = minimum;
         this.maximum = maximum;
         this.step = step;
-    }
-
-    public double getMinimum() {
-        return minimum;
-    }
-
-    public double getMaximum() {
-        return maximum;
-    }
-
-    public double getStep() {
-        return step;
     }
 
     @Override

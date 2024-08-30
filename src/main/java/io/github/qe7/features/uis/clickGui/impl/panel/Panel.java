@@ -1,11 +1,12 @@
 package io.github.qe7.features.uis.clickGui.impl.panel;
 
+import com.google.gson.JsonObject;
 import io.github.qe7.Osiris;
-import io.github.qe7.features.uis.clickGui.impl.panel.button.Button;
 import io.github.qe7.features.modules.api.Module;
 import io.github.qe7.features.modules.api.enums.ModuleCategory;
-import io.github.qe7.features.modules.api.settings.api.Setting;
 import io.github.qe7.features.modules.impl.render.HUDModule;
+import io.github.qe7.features.uis.clickGui.impl.panel.button.Button;
+import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.Gui;
@@ -15,13 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.google.gson.JsonObject;
-
-
-public class       Panel {
+public class Panel {
 
     private final List<Button> buttons = new ArrayList<>();
 
+    @Getter
     private final ModuleCategory moduleCategory;
 
     private float positionX, positionY, draggingX, getDraggingX;
@@ -37,28 +36,22 @@ public class       Panel {
         this.positionX = positionX;
         this.positionY = positionY;
 
-        final List<Module> moduleList = Osiris.getInstance().getModuleManager().getMap().values().stream().filter(module -> module.getCategory() == moduleCategory).collect(Collectors.toList());
-
-        moduleList.sort((module1, module2) -> {
+        final List<Module> moduleList = Osiris.getInstance().getModuleManager().getMap().values().stream().filter(module -> module.getCategory() == moduleCategory).sorted((module1, module2) -> {
             final String name1 = module1.getName();
             final String name2 = module2.getName();
             return name1.compareTo(name2);
-        });
+        }).collect(Collectors.toList());
 
         for (Module module : moduleList) {
             buttons.add(new Button(module));
         }
     }
-    
+
     public String getPanelName() {
-    	return this.moduleCategory.getName();
-    }
-    
-    public ModuleCategory getModuleCategory() {
-    	return this.moduleCategory;
+        return this.moduleCategory.getName();
     }
 
-    public void drawScreen(int par1, int par2, float par3) {
+    public void drawScreen(int par1, int par2) {
         final FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
 
         if (dragging) {
@@ -130,6 +123,7 @@ public class       Panel {
             }
         }
     }
+
     public JsonObject serialize() {
         JsonObject object = new JsonObject();
         object.addProperty("posX", this.positionX);
@@ -137,6 +131,7 @@ public class       Panel {
         object.addProperty("extended", this.extended);
         return object;
     }
+
     public void deserialize(JsonObject object) {
         this.positionX = (object.get("posX").getAsInt());
         this.positionY = (object.get("posY").getAsInt());

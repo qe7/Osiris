@@ -2,7 +2,9 @@ package io.github.qe7.features.modules.api.settings.impl;
 
 import com.google.gson.JsonObject;
 import io.github.qe7.features.modules.api.settings.api.Setting;
+import lombok.Getter;
 
+@Getter
 public final class IntSetting extends Setting<Integer> {
 
     private final int minimum, maximum, step;
@@ -12,18 +14,6 @@ public final class IntSetting extends Setting<Integer> {
         this.minimum = minimum;
         this.maximum = maximum;
         this.step = step;
-    }
-
-    public int getMinimum() {
-        return minimum;
-    }
-
-    public int getMaximum() {
-        return maximum;
-    }
-
-    public int getStep() {
-        return step;
     }
 
     @Override

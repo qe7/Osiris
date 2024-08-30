@@ -1,9 +1,11 @@
 package io.github.qe7.events.impl.render;
 
 import io.github.qe7.events.api.types.CancellableEvent;
+import lombok.Getter;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.RenderManager;
 
+@Getter
 public class RenderLivingLabelEvent extends CancellableEvent {
 
     private final EntityLiving entity;
@@ -18,25 +20,5 @@ public class RenderLivingLabelEvent extends CancellableEvent {
         this.x = x;
         this.y = y;
         this.z = z;
-    }
-
-    public EntityLiving getEntity() {
-        return entity;
-    }
-
-    public RenderManager getRenderManager() {
-        return renderManager;
-    }
-
-    public double getX() {
-        return x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public double getZ() {
-        return z;
     }
 }

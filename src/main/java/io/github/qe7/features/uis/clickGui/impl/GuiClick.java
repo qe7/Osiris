@@ -5,12 +5,13 @@ import io.github.qe7.Osiris;
 import net.minecraft.src.GuiScreen;
 
 public class GuiClick extends GuiScreen {
+
     @Override
     public void drawScreen(int par1, int par2, float par3) {
         super.drawScreen(par1, par2, par3);
 
         for (Panel panel : Osiris.getInstance().getPanelManager().getMap().values()) {
-            panel.drawScreen(par1, par2, par3);
+            panel.drawScreen(par1, par2);
         }
     }
 

@@ -26,7 +26,7 @@ public class AutoLoginModule extends Module {
         if (event.getPacket() instanceof Packet3Chat) {
             Packet3Chat chat = (Packet3Chat) event.getPacket();
 
-            if (chat.message.startsWith("§c") && chat.message.contains("please login with")) {
+            if (chat.message.startsWith("§c") && chat.message.contains("Please login with")) {
                 final String normalizedName = Minecraft.getMinecraft().session.username;
 
                 Account account = Osiris.getInstance().getAccountManager().getMap().get(normalizedName);

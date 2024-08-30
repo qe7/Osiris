@@ -2,31 +2,19 @@ package io.github.qe7.features.accounts;
 
 import com.google.gson.JsonObject;
 import io.github.qe7.utils.configs.Serialized;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
 public class Account implements Serialized {
 
     private final String username;
 
+    @Setter
     private String password;
-
-    public Account(String username) {
-        this.username = username;
-    }
 
     public Account(String username, String password) {
         this.username = username;
-        this.password = password;
-    }
-
-    public String getUsername() {
-        return this.username;
-    }
-
-    public String getPassword() {
-        return this.password;
-    }
-
-    public void setPassword(String password) {
         this.password = password;
     }
 

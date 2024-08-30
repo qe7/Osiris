@@ -1,7 +1,9 @@
 package io.github.qe7.events.impl.game;
 
 import io.github.qe7.events.api.types.Event;
+import lombok.Getter;
 
+@Getter
 public class KeyInputEvent extends Event {
 
     private final int keyCode;
@@ -10,7 +12,4 @@ public class KeyInputEvent extends Event {
         this.keyCode = keyCode;
     }
 
-    public int getKeyCode() {
-        return keyCode;
-    }
 }

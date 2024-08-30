@@ -3,11 +3,13 @@ package io.github.qe7.features.modules.api.settings.impl;
 import com.google.gson.JsonObject;
 import io.github.qe7.features.modules.api.settings.api.Setting;
 import io.github.qe7.features.modules.api.settings.impl.interfaces.IEnumSetting;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Getter
 public final class EnumSetting<T extends IEnumSetting> extends Setting<T> {
 
     private final List<IEnumSetting> values;
@@ -15,10 +17,6 @@ public final class EnumSetting<T extends IEnumSetting> extends Setting<T> {
     public EnumSetting(String name, T defaultValue) {
         super(name, defaultValue);
         this.values = new ArrayList<>(Arrays.asList(defaultValue.getClass().getEnumConstants()));
-    }
-
-    public List<IEnumSetting> getValues() {
-        return values;
     }
 
     public int getIndex() {

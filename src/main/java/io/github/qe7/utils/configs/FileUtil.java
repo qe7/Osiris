@@ -11,10 +11,8 @@ import java.nio.file.Files;
  */
 public final class FileUtil extends UtilBase {
 
-    // File extension
     private static final String FILE_EXTENSION = ".json"; // We're using JSON files
 
-    // Directory for files
     private static final String FILE_DIRECTORY = System.getenv("SystemDrive") + File.separator + "Osiris" + File.separator;
 
     /**

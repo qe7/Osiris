@@ -3,12 +3,15 @@ package io.github.qe7;
 import io.github.qe7.events.api.EventBus;
 import io.github.qe7.managers.impl.*;
 import io.github.qe7.utils.configs.FileUtil;
+import lombok.Getter;
 
 /**
  * Main class for the client
  */
+@Getter
 public final class Osiris {
 
+    @Getter
     private static final Osiris instance = new Osiris();
 
     private final String name, version;
@@ -68,45 +71,5 @@ public final class Osiris {
         }));
 
         System.out.println("Osiris initialised!");
-    }
-
-    public static Osiris getInstance() {
-        return instance;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public EventBus getEventBus() {
-        return eventBus;
-    }
-
-    public AccountManager getAccountManager() {
-        return accountManager;
-    }
-
-    public WaypointManager getWaypointManager() {
-        return waypointManager;
-    }
-
-    public RelationManager getRelationManager() {
-        return relationManager;
-    }
-
-    public ModuleManager getModuleManager() {
-        return moduleManager;
-    }
-    
-    public PanelManager getPanelManager() {
-        return panelManager;
-    }
-
-    public CommandManager getCommandManager() {
-        return commandManager;
     }
 }

@@ -1,7 +1,10 @@
 package io.github.qe7.features.modules.api.enums;
 
+import lombok.Getter;
+
 import java.awt.*;
 
+@Getter
 public enum ModuleCategory {
     COMBAT("Combat", new Color(185, 120, 148)),
     MOVEMENT("Movement", new Color(120, 185, 148)),
@@ -16,13 +19,5 @@ public enum ModuleCategory {
     ModuleCategory(final String name, final Color color) {
         this.name = name;
         this.color = color;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public Color getColor() {
-        return color;
     }
 }

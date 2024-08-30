@@ -11,26 +11,23 @@ import io.github.qe7.utils.local.ChatUtil;
 import net.minecraft.src.Packet;
 import net.minecraft.src.Packet3Chat;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public final class CommandManager extends Manager<Class<? extends Command>, Command> {
 
-    private static final Class<Command>[] COMMANDS = new Class[]{
-            BindCommand.class,
-            CommandsCommand.class,
-            EnemyCommand.class,
-            FriendCommand.class,
-            HelpCommand.class,
-            ModulesCommand.class,
-            ToggleCommand.class,
-    };
-
     public void initialise() {
-        for (Class<Command> clazz : COMMANDS) {
-            try {
-                register(clazz);
-            } catch (Exception e) {
-                throw new RuntimeException("Failed to initialize command: " + clazz.getSimpleName() + " - " + e.getMessage());
-            }
-        }
+        List<Command> commands = new ArrayList<>();
+
+        commands.add(new BindCommand());
+        commands.add(new CommandsCommand());
+        commands.add(new EnemyCommand());
+        commands.add(new FriendCommand());
+        commands.add(new HelpCommand());
+        commands.add(new ModulesCommand());
+        commands.add(new ToggleCommand());
+
+        commands.forEach(command -> register(command.getClass()));
 
         Osiris.getInstance().getEventBus().register(this);
         System.out.println("CommandManager initialised!");
