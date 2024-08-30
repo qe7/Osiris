@@ -6,6 +6,6 @@ import io.github.qe7.features.modules.api.enums.ModuleCategory;
 public class PortalGuiModule extends Module {
 
     public PortalGuiModule() {
-        super("PortalGUI", "Makes it so you can open GUI in portal?", ModuleCategory.MISC);
+        super("Portal GUI", "Makes it so you can open GUI in portal?", ModuleCategory.MISC);
     }
 }

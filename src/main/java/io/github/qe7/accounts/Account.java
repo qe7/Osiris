@@ -1,4 +1,4 @@
-package io.github.qe7.features.accounts;
+package io.github.qe7.accounts;
 
 import com.google.gson.JsonObject;
 import io.github.qe7.utils.configs.Serialized;

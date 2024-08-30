@@ -1,7 +1,7 @@
-package io.github.qe7.features.relations;
+package io.github.qe7.relations;
 
 import com.google.gson.JsonObject;
-import io.github.qe7.features.relations.enums.RelationType;
+import io.github.qe7.relations.enums.RelationType;
 import io.github.qe7.utils.configs.Serialized;
 import lombok.Getter;
 import lombok.Setter;

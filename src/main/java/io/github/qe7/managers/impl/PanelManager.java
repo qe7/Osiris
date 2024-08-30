@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import io.github.qe7.Osiris;
 import io.github.qe7.features.modules.api.enums.ModuleCategory;
-import io.github.qe7.features.uis.clickGui.impl.panel.Panel;
+import io.github.qe7.uis.clickGui.impl.panel.Panel;
 import io.github.qe7.managers.api.Manager;
 import io.github.qe7.utils.configs.FileUtil;
 

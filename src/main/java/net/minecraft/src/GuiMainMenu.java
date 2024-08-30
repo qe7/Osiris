@@ -1,6 +1,6 @@
 package net.minecraft.src;
 
-import io.github.qe7.features.uis.account.GuiAccountLogin;
+import io.github.qe7.uis.account.GuiAccountLogin;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 

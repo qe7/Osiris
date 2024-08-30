@@ -1,6 +1,6 @@
-package io.github.qe7.features.uis.clickGui.impl.panel.button.component;
+package io.github.qe7.uis.clickGui.impl.panel.button.component;
 
-import io.github.qe7.features.uis.clickGui.api.types.Component;
+import io.github.qe7.uis.clickGui.api.types.Component;
 import io.github.qe7.features.modules.api.settings.impl.IntSetting;
 import io.github.qe7.features.modules.impl.render.HUDModule;
 import io.github.qe7.utils.math.MathUtil;

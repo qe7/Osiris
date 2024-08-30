@@ -1,4 +1,4 @@
-package io.github.qe7.features.waypoints.enums;
+package io.github.qe7.waypoints.enums;
 
 import lombok.Getter;
 

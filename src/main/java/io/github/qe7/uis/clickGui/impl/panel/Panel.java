@@ -1,11 +1,11 @@
-package io.github.qe7.features.uis.clickGui.impl.panel;
+package io.github.qe7.uis.clickGui.impl.panel;
 
 import com.google.gson.JsonObject;
 import io.github.qe7.Osiris;
 import io.github.qe7.features.modules.api.Module;
 import io.github.qe7.features.modules.api.enums.ModuleCategory;
 import io.github.qe7.features.modules.impl.render.HUDModule;
-import io.github.qe7.features.uis.clickGui.impl.panel.button.Button;
+import io.github.qe7.uis.clickGui.impl.panel.button.Button;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;

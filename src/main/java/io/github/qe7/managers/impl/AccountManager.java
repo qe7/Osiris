@@ -8,7 +8,7 @@ import io.github.qe7.events.api.EventLink;
 import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.packet.IncomingPacketEvent;
 import io.github.qe7.events.impl.packet.OutgoingPacketEvent;
-import io.github.qe7.features.accounts.Account;
+import io.github.qe7.accounts.Account;
 import io.github.qe7.managers.api.Manager;
 import io.github.qe7.utils.configs.FileUtil;
 import io.github.qe7.utils.local.ChatUtil;

@@ -1,4 +1,4 @@
-package io.github.qe7.features.relations.enums;
+package io.github.qe7.relations.enums;
 
 public enum RelationType {
     FRIEND,

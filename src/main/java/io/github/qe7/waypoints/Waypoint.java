@@ -1,7 +1,7 @@
-package io.github.qe7.features.waypoints;
+package io.github.qe7.waypoints;
 
 import com.google.gson.JsonObject;
-import io.github.qe7.features.waypoints.enums.WaypointDimension;
+import io.github.qe7.waypoints.enums.WaypointDimension;
 import io.github.qe7.utils.configs.Serialized;
 import lombok.Getter;
 

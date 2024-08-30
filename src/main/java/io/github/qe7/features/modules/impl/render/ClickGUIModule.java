@@ -1,6 +1,6 @@
 package io.github.qe7.features.modules.impl.render;
 
-import io.github.qe7.features.uis.clickGui.impl.GuiClick;
+import io.github.qe7.uis.clickGui.impl.GuiClick;
 import io.github.qe7.features.modules.api.Module;
 import io.github.qe7.features.modules.api.enums.ModuleCategory;
 import net.minecraft.client.Minecraft;

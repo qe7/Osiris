@@ -2,8 +2,8 @@ package io.github.qe7.features.commands.impl;
 
 import io.github.qe7.Osiris;
 import io.github.qe7.features.commands.api.Command;
-import io.github.qe7.features.relations.Relation;
-import io.github.qe7.features.relations.enums.RelationType;
+import io.github.qe7.relations.Relation;
+import io.github.qe7.relations.enums.RelationType;
 import io.github.qe7.utils.local.ChatUtil;
 
 import java.util.List;

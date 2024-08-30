@@ -3,8 +3,8 @@ package io.github.qe7.managers.impl;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import io.github.qe7.features.relations.Relation;
-import io.github.qe7.features.relations.enums.RelationType;
+import io.github.qe7.relations.Relation;
+import io.github.qe7.relations.enums.RelationType;
 import io.github.qe7.managers.api.Manager;
 import io.github.qe7.utils.configs.FileUtil;
 

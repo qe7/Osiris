@@ -1,6 +1,6 @@
-package io.github.qe7.features.uis.clickGui.impl;
+package io.github.qe7.uis.clickGui.impl;
 
-import io.github.qe7.features.uis.clickGui.impl.panel.Panel;
+import io.github.qe7.uis.clickGui.impl.panel.Panel;
 import io.github.qe7.Osiris;
 import net.minecraft.src.GuiScreen;
 

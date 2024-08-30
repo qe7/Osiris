@@ -1,4 +1,4 @@
-package io.github.qe7.features.uis.account;
+package io.github.qe7.uis.account;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.GuiButton;

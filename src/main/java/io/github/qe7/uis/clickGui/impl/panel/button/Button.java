@@ -1,4 +1,4 @@
-package io.github.qe7.features.uis.clickGui.impl.panel.button;
+package io.github.qe7.uis.clickGui.impl.panel.button;
 
 import io.github.qe7.Osiris;
 import io.github.qe7.features.modules.api.Module;
@@ -8,11 +8,11 @@ import io.github.qe7.features.modules.api.settings.impl.DoubleSetting;
 import io.github.qe7.features.modules.api.settings.impl.EnumSetting;
 import io.github.qe7.features.modules.api.settings.impl.IntSetting;
 import io.github.qe7.features.modules.impl.render.HUDModule;
-import io.github.qe7.features.uis.clickGui.api.types.Component;
-import io.github.qe7.features.uis.clickGui.impl.panel.button.component.BooleanComponent;
-import io.github.qe7.features.uis.clickGui.impl.panel.button.component.DoubleComponent;
-import io.github.qe7.features.uis.clickGui.impl.panel.button.component.EnumComponent;
-import io.github.qe7.features.uis.clickGui.impl.panel.button.component.IntComponent;
+import io.github.qe7.uis.clickGui.api.types.Component;
+import io.github.qe7.uis.clickGui.impl.panel.button.component.BooleanComponent;
+import io.github.qe7.uis.clickGui.impl.panel.button.component.DoubleComponent;
+import io.github.qe7.uis.clickGui.impl.panel.button.component.EnumComponent;
+import io.github.qe7.uis.clickGui.impl.panel.button.component.IntComponent;
 import io.github.qe7.utils.math.MathUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;
@@ -24,7 +24,7 @@ import java.util.List;
 
 public class Button {
 
-    private final List<Component> components = new ArrayList<>();
+    private final List<io.github.qe7.uis.clickGui.api.types.Component> components = new ArrayList<>();
 
     private final Module module;
 
@@ -76,7 +76,7 @@ public class Button {
         this.totalHeight = height;
         if (this.extended) {
             this.totalHeight += 1.0f;
-            for (Component component : components) {
+            for (io.github.qe7.uis.clickGui.api.types.Component component : components) {
                 if (component.getSetting().shouldHide()) continue;
                 component.drawScreen(par1, par2, x + 2, y + totalHeight);
                 this.totalHeight += component.getHeight();
@@ -105,7 +105,7 @@ public class Button {
         }
 
         if (this.extended) {
-            for (Component component : components) {
+            for (io.github.qe7.uis.clickGui.api.types.Component component : components) {
                 if (component.getSetting().shouldHide()) continue;
                 component.mouseClicked(par1, par2, par3);
             }
@@ -114,7 +114,7 @@ public class Button {
 
     public void mouseReleased(int par1, int par2, int par3) {
         if (this.extended) {
-            for (Component component : components) {
+            for (io.github.qe7.uis.clickGui.api.types.Component component : components) {
                 if (component.getSetting().shouldHide()) continue;
                 component.mouseReleased(par1, par2, par3);
             }
