@@ -1,6 +1,6 @@
 package io.github.qe7.uis.clickGui.api.types;
 
-import io.github.qe7.features.modules.api.settings.api.Setting;
+import io.github.qe7.features.impl.modules.api.settings.api.Setting;
 import io.github.qe7.utils.math.MathUtil;
 import lombok.Getter;
 

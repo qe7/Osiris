@@ -7,19 +7,19 @@ import io.github.qe7.Osiris;
 import io.github.qe7.events.api.EventLink;
 import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.game.KeyInputEvent;
-import io.github.qe7.features.modules.api.Module;
-import io.github.qe7.features.modules.api.settings.api.Setting;
-import io.github.qe7.features.modules.impl.chat.*;
-import io.github.qe7.features.modules.impl.combat.CriticalsModule;
-import io.github.qe7.features.modules.impl.combat.KillAuraModule;
-import io.github.qe7.features.modules.impl.combat.VelocityModule;
-import io.github.qe7.features.modules.impl.exploit.AntiHungerModule;
-import io.github.qe7.features.modules.impl.exploit.FastUseModule;
-import io.github.qe7.features.modules.impl.exploit.LightningTrackerModule;
-import io.github.qe7.features.modules.impl.exploit.RegenModule;
-import io.github.qe7.features.modules.impl.misc.*;
-import io.github.qe7.features.modules.impl.movement.*;
-import io.github.qe7.features.modules.impl.render.*;
+import io.github.qe7.features.impl.modules.api.Module;
+import io.github.qe7.features.impl.modules.api.settings.api.Setting;
+import io.github.qe7.features.impl.modules.impl.chat.*;
+import io.github.qe7.features.impl.modules.impl.misc.*;
+import io.github.qe7.features.impl.modules.impl.movement.*;
+import io.github.qe7.features.impl.modules.impl.render.*;
+import io.github.qe7.features.impl.modules.impl.combat.CriticalsModule;
+import io.github.qe7.features.impl.modules.impl.combat.KillAuraModule;
+import io.github.qe7.features.impl.modules.impl.combat.VelocityModule;
+import io.github.qe7.features.impl.modules.impl.exploit.AntiHungerModule;
+import io.github.qe7.features.impl.modules.impl.exploit.FastUseModule;
+import io.github.qe7.features.impl.modules.impl.exploit.LightningTrackerModule;
+import io.github.qe7.features.impl.modules.impl.exploit.RegenModule;
 import io.github.qe7.managers.api.Manager;
 import io.github.qe7.utils.configs.FileUtil;
 import lombok.Getter;
@@ -114,8 +114,8 @@ public final class ModuleManager extends Manager<Class<? extends Module>, Module
         }
     }
 
-    public List<Setting<?>> getSettingsByFeature(Module feature) {
-        return setting.getOrDefault(feature, Collections.emptyList());
+    public List<Setting<?>> getSettingsByModule(Module module) {
+        return setting.getOrDefault(module, Collections.emptyList());
     }
 
     public void addSetting(Module feature, Setting<?> property) {

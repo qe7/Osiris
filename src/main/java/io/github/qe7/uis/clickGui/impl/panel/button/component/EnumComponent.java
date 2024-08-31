@@ -1,7 +1,7 @@
 package io.github.qe7.uis.clickGui.impl.panel.button.component;
 
 import io.github.qe7.uis.clickGui.api.types.Component;
-import io.github.qe7.features.modules.api.settings.impl.EnumSetting;
+import io.github.qe7.features.impl.modules.api.settings.impl.EnumSetting;
 import io.github.qe7.utils.math.MathUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;

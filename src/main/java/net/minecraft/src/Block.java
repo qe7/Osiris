@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
 import io.github.qe7.Osiris;
-import io.github.qe7.features.modules.impl.render.XRayModule;
+import io.github.qe7.features.impl.modules.impl.render.XRayModule;
 
 import java.util.ArrayList;
 import java.util.Random;

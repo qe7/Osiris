@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
 import io.github.qe7.Osiris;
-import io.github.qe7.features.modules.impl.misc.AntiPortalModule;
+import io.github.qe7.features.impl.modules.impl.misc.AntiPortalModule;
 
 import java.util.Random;
 

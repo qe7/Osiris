@@ -2,9 +2,9 @@ package io.github.qe7.uis.clickGui.impl.panel;
 
 import com.google.gson.JsonObject;
 import io.github.qe7.Osiris;
-import io.github.qe7.features.modules.api.Module;
-import io.github.qe7.features.modules.api.enums.ModuleCategory;
-import io.github.qe7.features.modules.impl.render.HUDModule;
+import io.github.qe7.features.impl.modules.api.Module;
+import io.github.qe7.features.impl.modules.api.enums.ModuleCategory;
+import io.github.qe7.features.impl.modules.impl.render.HUDModule;
 import io.github.qe7.uis.clickGui.impl.panel.button.Button;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;

@@ -4,8 +4,9 @@ import io.github.qe7.Osiris;
 import io.github.qe7.events.api.EventLink;
 import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.packet.OutgoingPacketEvent;
-import io.github.qe7.features.commands.api.Command;
-import io.github.qe7.features.commands.impl.*;
+import io.github.qe7.features.impl.commands.api.Command;
+import io.github.qe7.features.impl.commands.impl.*;
+import io.github.qe7.features.impl.modules.api.Module;
 import io.github.qe7.managers.api.Manager;
 import io.github.qe7.utils.local.ChatUtil;
 import net.minecraft.src.Packet;
@@ -27,7 +28,11 @@ public final class CommandManager extends Manager<Class<? extends Command>, Comm
         commands.add(new ModulesCommand());
         commands.add(new ToggleCommand());
 
+        // Register commands
         commands.forEach(command -> register(command.getClass()));
+
+        // Add modules to map, as they are commands
+        Osiris.getInstance().getModuleManager().getMap().values().forEach(module -> getMap().putIfAbsent(module.getClass(), module));
 
         Osiris.getInstance().getEventBus().register(this);
         System.out.println("CommandManager initialised!");
@@ -65,7 +70,7 @@ public final class CommandManager extends Manager<Class<? extends Command>, Comm
                 return;
             }
 
-            if (!command.getName().equalsIgnoreCase(args[0])) continue;
+            if (!command.getName().replace(" ", "").equalsIgnoreCase(args[0])) continue;
 
             command.execute(args);
             return;

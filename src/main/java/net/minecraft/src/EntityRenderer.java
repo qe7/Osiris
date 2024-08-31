@@ -3,7 +3,7 @@ package net.minecraft.src;
 import io.github.qe7.Osiris;
 import io.github.qe7.events.impl.render.RenderHurtCamEvent;
 import io.github.qe7.events.impl.render.RenderThirdPersonClipEvent;
-import io.github.qe7.features.modules.impl.render.CameraModule;
+import io.github.qe7.features.impl.modules.impl.render.CameraModule;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;

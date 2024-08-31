@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.*;
-import io.github.qe7.features.modules.impl.misc.WorldDLModule;
+import io.github.qe7.features.impl.modules.impl.misc.WorldDLModule;
 
 public class NetClientHandler extends NetHandler {
     /**

@@ -2,7 +2,7 @@ package net.minecraft.src;
 
 import java.util.*;
 
-import io.github.qe7.features.modules.impl.misc.WorldDLModule;
+import io.github.qe7.features.impl.modules.impl.misc.WorldDLModule;
 
 public class WorldClient extends World
 {

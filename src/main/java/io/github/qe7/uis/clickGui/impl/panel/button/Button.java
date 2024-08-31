@@ -1,13 +1,13 @@
 package io.github.qe7.uis.clickGui.impl.panel.button;
 
 import io.github.qe7.Osiris;
-import io.github.qe7.features.modules.api.Module;
-import io.github.qe7.features.modules.api.settings.api.Setting;
-import io.github.qe7.features.modules.api.settings.impl.BooleanSetting;
-import io.github.qe7.features.modules.api.settings.impl.DoubleSetting;
-import io.github.qe7.features.modules.api.settings.impl.EnumSetting;
-import io.github.qe7.features.modules.api.settings.impl.IntSetting;
-import io.github.qe7.features.modules.impl.render.HUDModule;
+import io.github.qe7.features.impl.modules.api.Module;
+import io.github.qe7.features.impl.modules.api.settings.api.Setting;
+import io.github.qe7.features.impl.modules.api.settings.impl.BooleanSetting;
+import io.github.qe7.features.impl.modules.api.settings.impl.DoubleSetting;
+import io.github.qe7.features.impl.modules.api.settings.impl.EnumSetting;
+import io.github.qe7.features.impl.modules.api.settings.impl.IntSetting;
+import io.github.qe7.features.impl.modules.impl.render.HUDModule;
 import io.github.qe7.uis.clickGui.api.types.Component;
 import io.github.qe7.uis.clickGui.impl.panel.button.component.BooleanComponent;
 import io.github.qe7.uis.clickGui.impl.panel.button.component.DoubleComponent;
@@ -39,7 +39,7 @@ public class Button {
     public Button(Module module) {
         this.module = module;
 
-        for (Setting<?> setting : Osiris.getInstance().getModuleManager().getSettingsByFeature(module)) {
+        for (Setting<?> setting : Osiris.getInstance().getModuleManager().getSettingsByModule(module)) {
             if (setting instanceof BooleanSetting) {
                 components.add(new BooleanComponent((BooleanSetting) setting));
             }
@@ -69,7 +69,7 @@ public class Button {
 
         fontRenderer.drawStringWithShadow(module.getName(), positionX + 3, positionY + 3, -1);
 
-        if (!Osiris.getInstance().getModuleManager().getSettingsByFeature(this.module).isEmpty()) {
+        if (!Osiris.getInstance().getModuleManager().getSettingsByModule(this.module).isEmpty()) {
             fontRenderer.drawStringWithShadow(extended ? "-" : "+", positionX + width - 10.5f, positionY + 3.5f, -1);
         }
 
@@ -94,7 +94,7 @@ public class Button {
                 break;
             case 1:
                 if (this.isHovering(par1, par2)) {
-                    if (Osiris.getInstance().getModuleManager().getSettingsByFeature(this.module).isEmpty()) {
+                    if (Osiris.getInstance().getModuleManager().getSettingsByModule(this.module).isEmpty()) {
                         this.extended = false;
                         return;
                     }

@@ -1,8 +1,8 @@
 package net.minecraft.src;
 
 import io.github.qe7.Osiris;
-import io.github.qe7.features.modules.impl.combat.VelocityModule;
-import io.github.qe7.features.modules.impl.misc.ScaffoldModule;
+import io.github.qe7.features.impl.modules.impl.combat.VelocityModule;
+import io.github.qe7.features.impl.modules.impl.misc.ScaffoldModule;
 
 import java.util.List;
 import java.util.Random;
