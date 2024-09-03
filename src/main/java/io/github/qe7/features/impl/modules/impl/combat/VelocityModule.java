@@ -1,12 +1,12 @@
 package io.github.qe7.features.impl.modules.impl.combat;
 
-import io.github.qe7.events.api.EventLink;
-import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.packet.IncomingPacketEvent;
 import io.github.qe7.features.impl.modules.api.Module;
 import io.github.qe7.features.impl.modules.api.enums.ModuleCategory;
 import io.github.qe7.features.impl.modules.api.settings.impl.BooleanSetting;
 import io.github.qe7.features.impl.modules.api.settings.impl.IntSetting;
+import me.zero.alpine.listener.Listener;
+import me.zero.alpine.listener.Subscribe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Packet;
 import net.minecraft.src.Packet28EntityVelocity;
@@ -22,8 +22,8 @@ public class VelocityModule extends Module {
         super("Velocity", "Manipulates velocity given to local player", ModuleCategory.COMBAT);
     }
 
-    @EventLink
-    public final Listener<IncomingPacketEvent> incomingPacketListener = event -> {
+    @Subscribe
+    public final Listener<IncomingPacketEvent> incomingPacketListener = new Listener<>(event -> {
         final Packet eventPacket = event.getPacket();
 
         if (eventPacket instanceof Packet28EntityVelocity) {
@@ -37,5 +37,5 @@ public class VelocityModule extends Module {
             velocity.motionY = (int) (velocity.motionY * (vertical.getValue() / 100.0));
             velocity.motionZ = (int) (velocity.motionZ * (horizontal.getValue() / 100.0));
         }
-    };
+    });
 }

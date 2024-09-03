@@ -1,10 +1,10 @@
 package io.github.qe7.features.impl.modules.impl.render;
 
-import io.github.qe7.events.api.EventLink;
-import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.render.RenderScreenEvent;
 import io.github.qe7.features.impl.modules.api.Module;
 import io.github.qe7.features.impl.modules.api.enums.ModuleCategory;
+import me.zero.alpine.listener.Listener;
+import me.zero.alpine.listener.Subscribe;
 import net.minecraft.client.Minecraft;
 
 public class BrightnessModule extends Module {
@@ -29,6 +29,8 @@ public class BrightnessModule extends Module {
         Minecraft.getMinecraft().gameSettings.gammaSetting = oldGamma;
     }
 
-    @EventLink
-    public final Listener<RenderScreenEvent> renderScreenListener = event -> Minecraft.getMinecraft().gameSettings.gammaSetting = 1000;
+    @Subscribe
+    public final Listener<RenderScreenEvent> renderScreenListener = new Listener<>(event -> {
+        Minecraft.getMinecraft().gameSettings.gammaSetting = 1000.0f;
+    });
 }

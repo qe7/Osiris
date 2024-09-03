@@ -1,9 +1,10 @@
 package io.github.qe7;
 
-import io.github.qe7.events.api.EventBus;
 import io.github.qe7.managers.impl.*;
 import io.github.qe7.utils.configs.FileUtil;
 import lombok.Getter;
+import me.zero.alpine.bus.EventBus;
+import me.zero.alpine.bus.EventManager;
 
 /**
  * Main class for the client
@@ -16,7 +17,7 @@ public final class Osiris {
 
     private final String name, version;
 
-    private final EventBus eventBus;
+    private final EventBus eventBus = EventManager.builder().setName("Noble").build();
 
     private final AccountManager accountManager;
     private final WaypointManager waypointManager;
@@ -31,8 +32,6 @@ public final class Osiris {
 
         this.name = "Osiris";
         this.version = "1.0.5";
-
-        this.eventBus = new EventBus();
 
         this.accountManager = new AccountManager();
         this.waypointManager = new WaypointManager();

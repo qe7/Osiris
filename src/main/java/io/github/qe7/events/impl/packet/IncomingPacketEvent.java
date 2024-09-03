@@ -1,7 +1,7 @@
 package io.github.qe7.events.impl.packet;
 
-import io.github.qe7.events.api.types.CancellableEvent;
 import lombok.Getter;
+import me.zero.alpine.event.CancellableEvent;
 import net.minecraft.src.Packet;
 
 @Getter

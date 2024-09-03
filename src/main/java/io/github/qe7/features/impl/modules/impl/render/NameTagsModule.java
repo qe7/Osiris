@@ -1,12 +1,12 @@
 package io.github.qe7.features.impl.modules.impl.render;
 
-import io.github.qe7.events.api.EventLink;
-import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.render.RenderLivingLabelEvent;
 import io.github.qe7.features.impl.modules.api.Module;
 import io.github.qe7.features.impl.modules.api.enums.ModuleCategory;
 import io.github.qe7.features.impl.modules.api.settings.impl.DoubleSetting;
 import io.github.qe7.utils.render.OpenGLRenderUtil;
+import me.zero.alpine.listener.Listener;
+import me.zero.alpine.listener.Subscribe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.EntityPlayer;
 
@@ -18,8 +18,8 @@ public class NameTagsModule extends Module {
         super("Name Tags", "Displays a name plate", ModuleCategory.RENDER);
     }
 
-    @EventLink
-    public final Listener<RenderLivingLabelEvent> renderLivingLabelEventListener = event -> {
+    @Subscribe
+    public final Listener<RenderLivingLabelEvent> renderLivingLabelEventListener = new Listener<>(event -> {
         if (Minecraft.getMinecraft().theWorld == null) {
             return;
         }
@@ -30,5 +30,5 @@ public class NameTagsModule extends Module {
 
         OpenGLRenderUtil.drawName(player, event.getRenderManager(), event.getX(), event.getY(), event.getZ(), scale.getValue().floatValue());
         event.setCancelled(true);
-    };
+    });
 }

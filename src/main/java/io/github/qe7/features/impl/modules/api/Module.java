@@ -12,11 +12,12 @@ import io.github.qe7.utils.configs.Serialized;
 import io.github.qe7.utils.local.ChatUtil;
 import lombok.Getter;
 import lombok.Setter;
+import me.zero.alpine.listener.Subscriber;
 
 import java.util.Objects;
 
 @Getter
-public abstract class Module extends Command implements Serialized {
+public abstract class Module extends Command implements Serialized, Subscriber {
 
     private final ModuleCategory category;
 
@@ -35,11 +36,11 @@ public abstract class Module extends Command implements Serialized {
     }
 
     public void onEnable() {
-        Osiris.getInstance().getEventBus().register(this);
+        Osiris.getInstance().getEventBus().subscribe(this);
     }
 
     public void onDisable() {
-        Osiris.getInstance().getEventBus().unregister(this);
+        Osiris.getInstance().getEventBus().unsubscribe(this);
     }
 
     public void setEnabled(boolean enabled) {

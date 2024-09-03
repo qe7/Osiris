@@ -1,21 +1,21 @@
 package io.github.qe7.managers.impl;
 
 import io.github.qe7.Osiris;
-import io.github.qe7.events.api.EventLink;
-import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.packet.OutgoingPacketEvent;
 import io.github.qe7.features.impl.commands.api.Command;
 import io.github.qe7.features.impl.commands.impl.*;
-import io.github.qe7.features.impl.modules.api.Module;
 import io.github.qe7.managers.api.Manager;
 import io.github.qe7.utils.local.ChatUtil;
+import me.zero.alpine.listener.Listener;
+import me.zero.alpine.listener.Subscribe;
+import me.zero.alpine.listener.Subscriber;
 import net.minecraft.src.Packet;
 import net.minecraft.src.Packet3Chat;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class CommandManager extends Manager<Class<? extends Command>, Command> {
+public final class CommandManager extends Manager<Class<? extends Command>, Command> implements Subscriber {
 
     public void initialise() {
         List<Command> commands = new ArrayList<>();
@@ -34,7 +34,7 @@ public final class CommandManager extends Manager<Class<? extends Command>, Comm
         // Add modules to map, as they are commands
         Osiris.getInstance().getModuleManager().getMap().values().forEach(module -> getMap().putIfAbsent(module.getClass(), module));
 
-        Osiris.getInstance().getEventBus().register(this);
+        Osiris.getInstance().getEventBus().subscribe(this);
         System.out.println("CommandManager initialised!");
     }
 
@@ -48,8 +48,8 @@ public final class CommandManager extends Manager<Class<? extends Command>, Comm
         }
     }
 
-    @EventLink
-    public final Listener<OutgoingPacketEvent> outgoingPacketListener = event -> {
+    @Subscribe
+    public final Listener<OutgoingPacketEvent> outgoingPacketListener = new Listener<>(event -> {
         final Packet packet = event.getPacket();
 
         if (!(packet instanceof Packet3Chat)) return;
@@ -77,5 +77,5 @@ public final class CommandManager extends Manager<Class<? extends Command>, Comm
         }
 
         ChatUtil.addPrefixedMessage("Command Manager", "Unknown command: " + args[0]);
-    };
+    });
 }

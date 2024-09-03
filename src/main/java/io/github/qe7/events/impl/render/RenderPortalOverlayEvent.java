@@ -1,5 +1,5 @@
 package io.github.qe7.events.impl.render;
 
-import io.github.qe7.events.api.types.CancellableEvent;
+import me.zero.alpine.event.CancellableEvent;
 
 public class RenderPortalOverlayEvent extends CancellableEvent { }

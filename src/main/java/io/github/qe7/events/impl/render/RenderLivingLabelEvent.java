@@ -1,6 +1,6 @@
 package io.github.qe7.events.impl.render;
 
-import io.github.qe7.events.api.types.CancellableEvent;
+import me.zero.alpine.event.CancellableEvent;
 import lombok.Getter;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.RenderManager;

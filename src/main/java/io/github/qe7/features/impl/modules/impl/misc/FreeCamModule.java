@@ -1,13 +1,13 @@
 package io.github.qe7.features.impl.modules.impl.misc;
 
-import io.github.qe7.events.api.EventLink;
-import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.packet.OutgoingPacketEvent;
 import io.github.qe7.events.impl.player.LivingUpdateEvent;
 import io.github.qe7.events.impl.render.RenderInsideBlockOverlayEvent;
 import io.github.qe7.features.impl.modules.api.Module;
 import io.github.qe7.features.impl.modules.api.enums.ModuleCategory;
 import io.github.qe7.utils.local.MovementUtil;
+import me.zero.alpine.listener.Listener;
+import me.zero.alpine.listener.Subscribe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Packet10Flying;
 import org.lwjgl.input.Keyboard;
@@ -57,8 +57,8 @@ public class FreeCamModule extends Module {
         mc.thePlayer.setPositionAndRotation(this.x, this.y, this.z, this.yaw, this.pitch);
     }
 
-    @EventLink
-    public final Listener<LivingUpdateEvent> livingUpdateEventListener = event -> {
+    @Subscribe
+    public final Listener<LivingUpdateEvent> livingUpdateEventListener = new Listener<>(event -> {
         if (mc.thePlayer == null) return;
 
         mc.thePlayer.noClip = true;
@@ -81,19 +81,19 @@ public class FreeCamModule extends Module {
         } else {
             MovementUtil.setSpeed(0.0);
         }
-    };
+    });
 
-    @EventLink
-    public final Listener<OutgoingPacketEvent> outgoingPacketEventListener = event -> {
+    @Subscribe
+    public final Listener<OutgoingPacketEvent> outgoingPacketEventListener = new Listener<>(event -> {
         if (mc.thePlayer == null) return;
 
         if (event.getPacket() instanceof Packet10Flying) {
             event.setCancelled(true);
         }
-    };
+    });
 
-    @EventLink
-    public final Listener<RenderInsideBlockOverlayEvent> renderInsideBlockOverlayEventListener = event -> {
+    @Subscribe
+    public final Listener<RenderInsideBlockOverlayEvent> renderInsideBlockOverlayEventListener = new Listener<>(event -> {
         event.setCancelled(true);
-    };
+    });
 }

@@ -1,13 +1,13 @@
 package io.github.qe7.features.impl.modules.impl.chat;
 
 import io.github.qe7.Osiris;
-import io.github.qe7.events.api.EventLink;
-import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.packet.IncomingPacketEvent;
 import io.github.qe7.accounts.Account;
 import io.github.qe7.features.impl.modules.api.Module;
 import io.github.qe7.features.impl.modules.api.enums.ModuleCategory;
 import io.github.qe7.utils.local.ChatUtil;
+import me.zero.alpine.listener.Listener;
+import me.zero.alpine.listener.Subscribe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Packet3Chat;
 
@@ -17,8 +17,8 @@ public class AutoLoginModule extends Module {
         super("Auto Login", "Automatically logins in, FOR LAZY PEOPLE", ModuleCategory.CHAT);
     }
 
-    @EventLink
-    public final Listener<IncomingPacketEvent> incomingPacketEvent = event -> {
+    @Subscribe
+    public final Listener<IncomingPacketEvent> incomingPacketEvent = new Listener<>(event -> {
         if (Minecraft.getMinecraft().theWorld == null) {
             return;
         }
@@ -39,5 +39,5 @@ public class AutoLoginModule extends Module {
                 }
             }
         }
-    };
+    });
 }

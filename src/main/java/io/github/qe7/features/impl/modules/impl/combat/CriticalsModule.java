@@ -1,12 +1,12 @@
 package io.github.qe7.features.impl.modules.impl.combat;
 
-import io.github.qe7.events.api.EventLink;
-import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.packet.OutgoingPacketEvent;
 import io.github.qe7.features.impl.modules.api.Module;
 import io.github.qe7.features.impl.modules.api.enums.ModuleCategory;
 import io.github.qe7.utils.local.PacketUtil;
 import io.github.qe7.utils.math.Stopwatch;
+import me.zero.alpine.listener.Listener;
+import me.zero.alpine.listener.Subscribe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Packet11PlayerPosition;
 import net.minecraft.src.Packet7UseEntity;
@@ -19,8 +19,8 @@ public class CriticalsModule extends Module {
         super("Criticals", "Automatically crits on hit", ModuleCategory.COMBAT);
     }
 
-    @EventLink
-    public final Listener<OutgoingPacketEvent> outgoingPacketEventListener = event -> {
+    @Subscribe
+    public final Listener<OutgoingPacketEvent> outgoingPacketEventListener = new Listener<>(event -> {
         final Minecraft mc = Minecraft.getMinecraft();
 
         if (mc.thePlayer == null) return;
@@ -34,5 +34,5 @@ public class CriticalsModule extends Module {
                 stopwatch.reset();
             }
         }
-    };
+    });
 }

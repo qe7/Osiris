@@ -1,8 +1,6 @@
 package io.github.qe7.features.impl.modules.impl.combat;
 
 import io.github.qe7.Osiris;
-import io.github.qe7.events.api.EventLink;
-import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.player.MotionEvent;
 import io.github.qe7.events.impl.player.PostMotionEvent;
 import io.github.qe7.events.impl.render.RenderItemEvent;
@@ -13,6 +11,8 @@ import io.github.qe7.features.impl.modules.api.settings.impl.BooleanSetting;
 import io.github.qe7.features.impl.modules.api.settings.impl.DoubleSetting;
 import io.github.qe7.utils.local.PacketUtil;
 import io.github.qe7.utils.math.Stopwatch;
+import me.zero.alpine.listener.Listener;
+import me.zero.alpine.listener.Subscribe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.*;
 
@@ -65,8 +65,8 @@ public class KillAuraModule extends Module {
         }
     }
 
-    @EventLink
-    public final Listener<MotionEvent> motionListener = event -> {
+    @Subscribe
+    public final Listener<MotionEvent> motionListener = new Listener<>(event -> {
         final Minecraft mc = Minecraft.getMinecraft();
 
         if (mc.theWorld == null) return;
@@ -139,10 +139,10 @@ public class KillAuraModule extends Module {
             }
         }
         target = null;
-    };
+    });
 
-    @EventLink
-    public final Listener<PostMotionEvent> postMotionListener = event -> {
+    @Subscribe
+    public final Listener<PostMotionEvent> postMotionListener = new Listener<>(event -> {
         final Minecraft mc = Minecraft.getMinecraft();
 
         if (shouldBlock) {
@@ -151,23 +151,23 @@ public class KillAuraModule extends Module {
             }
             shouldBlock = false;
         }
-    };
+    });
 
-    @EventLink
-    public final Listener<RenderItemEvent> renderItemListener = event -> {
+    @Subscribe
+    public final Listener<RenderItemEvent> renderItemListener = new Listener<>(event -> {
         if (this.autoBlock.getValue() && !this.targets.isEmpty()) {
             event.setUseItemCount(1000);
             event.setAction(EnumAction.block);
         }
-    };
+    });
 
-    @EventLink
-    public final Listener<RenderItemThirdPersonEvent> renderItemThirdPersonListener = event -> {
+    @Subscribe
+    public final Listener<RenderItemThirdPersonEvent> renderItemThirdPersonListener = new Listener<>(event -> {
         if (this.autoBlock.getValue() && !this.targets.isEmpty()) {
             event.setUseItemCount(1000);
             event.setHeldItemRight(1);
         }
-    };
+    });
 
     private void handleTargets(final Minecraft mc) {
         this.targets.clear();

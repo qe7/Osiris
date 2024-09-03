@@ -1,10 +1,10 @@
 package io.github.qe7.features.impl.modules.impl.misc;
 
-import io.github.qe7.events.api.EventLink;
-import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.packet.OutgoingPacketEvent;
 import io.github.qe7.features.impl.modules.api.Module;
 import io.github.qe7.features.impl.modules.api.enums.ModuleCategory;
+import me.zero.alpine.listener.Listener;
+import me.zero.alpine.listener.Subscribe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
 import net.minecraft.src.ItemStack;
@@ -16,8 +16,8 @@ public class AutoToolModule extends Module {
         super("Auto Tool", "Automatically switches to the best tool", ModuleCategory.MISC);
     }
 
-    @EventLink
-    public final Listener<OutgoingPacketEvent> outgoingPacketEventListener = event -> {
+    @Subscribe
+    public final Listener<OutgoingPacketEvent> outgoingPacketEventListener = new Listener<>(event -> {
         if (event.getPacket() instanceof Packet14BlockDig) {
 
             final Packet14BlockDig blockDig = (Packet14BlockDig) event.getPacket();
@@ -42,5 +42,5 @@ public class AutoToolModule extends Module {
                 Minecraft.getMinecraft().thePlayer.inventory.currentItem = bestToolSlot;
             }
         }
-    };
+    });
 }

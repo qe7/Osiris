@@ -1,11 +1,11 @@
 package io.github.qe7.features.impl.modules.impl.misc;
 
-import io.github.qe7.events.api.EventLink;
-import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.player.LivingUpdateEvent;
 import io.github.qe7.features.impl.modules.api.enums.ModuleCategory;
 import io.github.qe7.features.impl.modules.api.Module;
 import io.github.qe7.features.impl.modules.api.settings.impl.IntSetting;
+import me.zero.alpine.listener.Listener;
+import me.zero.alpine.listener.Subscribe;
 import net.minecraft.client.Minecraft;
 
 public class FastPlaceModule extends Module {
@@ -16,8 +16,8 @@ public class FastPlaceModule extends Module {
         super("Fast Place", "Allows the player to place blocks faster", ModuleCategory.MISC);
     }
 
-    @EventLink
-    public final Listener<LivingUpdateEvent> livingUpdateListener = event -> {
+    @Subscribe
+    public final Listener<LivingUpdateEvent> livingUpdateListener = new Listener<>(event -> {
         final Minecraft mc = Minecraft.getMinecraft();
 
         if (mc.thePlayer.capabilities.isCreativeMode) {
@@ -27,5 +27,5 @@ public class FastPlaceModule extends Module {
         if (mc.rightClickDelayTimer > speed.getValue()) {
             mc.rightClickDelayTimer = speed.getValue();
         }
-    };
+    });
 }

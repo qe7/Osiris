@@ -1,11 +1,11 @@
 package io.github.qe7.features.impl.modules.impl.misc;
 
-import io.github.qe7.events.api.EventLink;
-import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.player.MotionEvent;
 import io.github.qe7.features.impl.modules.api.Module;
 import io.github.qe7.features.impl.modules.api.enums.ModuleCategory;
 import io.github.qe7.features.impl.modules.api.settings.impl.BooleanSetting;
+import me.zero.alpine.listener.Listener;
+import me.zero.alpine.listener.Subscribe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.ItemBlock;
 import net.minecraft.src.Vec3D;
@@ -18,8 +18,8 @@ public class ScaffoldModule extends Module {
         super("Scaffold", "Automatically places blocks under the player", ModuleCategory.MISC);
     }
 
-    @EventLink
-    public final Listener<MotionEvent> motionEventListener = event -> {
+    @Subscribe
+    public final Listener<MotionEvent> motionEventListener = new Listener<>(event -> {
         final Minecraft mc = Minecraft.getMinecraft();
 
         Vec3D vec = new Vec3D(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ);
@@ -40,7 +40,7 @@ public class ScaffoldModule extends Module {
 
         mc.thePlayer.swingItem();
         mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.inventory.getCurrentItem(), placement.getX(), placement.getY(), placement.getZ(), placement.getSide());
-    };
+    });
 
     private boolean isAirOrLiquid(Vec3D pos) {
         Minecraft mc = Minecraft.getMinecraft();

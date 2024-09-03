@@ -8,6 +8,11 @@ version = "1.0.4-SNAPSHOT"
 
 repositories {
     mavenCentral()
+
+    maven {
+        name = 'impactdevelopment-repo'
+        url = 'https://impactdevelopment.github.io/maven/'
+    }
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -26,7 +31,10 @@ tasks.withType(JavaExec).configureEach {
 dependencies {
     implementation 'com.google.code.gson:gson:2.11.0'
     implementation 'commons-io:commons-io:2.16.1'
+    implementation 'com.github.ZeroMemes:Alpine:3.1.0'
+
     implementation fileTree(dir: 'workspace/bin', include: ['*.jar'])
+
     compileOnly 'org.projectlombok:lombok:1.18.16'
     annotationProcessor 'org.projectlombok:lombok:1.18.16'
 

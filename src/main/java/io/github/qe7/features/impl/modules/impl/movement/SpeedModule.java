@@ -1,7 +1,5 @@
 package io.github.qe7.features.impl.modules.impl.movement;
 
-import io.github.qe7.events.api.EventLink;
-import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.player.LivingUpdateEvent;
 import io.github.qe7.features.impl.modules.api.Module;
 import io.github.qe7.features.impl.modules.api.enums.ModuleCategory;
@@ -9,6 +7,8 @@ import io.github.qe7.features.impl.modules.api.settings.impl.BooleanSetting;
 import io.github.qe7.features.impl.modules.api.settings.impl.EnumSetting;
 import io.github.qe7.features.impl.modules.api.settings.impl.interfaces.IEnumSetting;
 import io.github.qe7.utils.local.MovementUtil;
+import me.zero.alpine.listener.Listener;
+import me.zero.alpine.listener.Subscribe;
 import net.minecraft.client.Minecraft;
 
 public class SpeedModule extends Module {
@@ -32,8 +32,8 @@ public class SpeedModule extends Module {
         }
     }
 
-    @EventLink
-    public final Listener<LivingUpdateEvent> livingUpdateListener = event -> {
+    @Subscribe
+    public final Listener<LivingUpdateEvent> livingUpdateListener = new Listener<>(event -> {
 
         final Minecraft mc = Minecraft.getMinecraft();
 
@@ -66,7 +66,7 @@ public class SpeedModule extends Module {
                 Minecraft.timer.timerSpeed = 1.2F;
             }
         }
-    };
+    });
 
     private enum Mode implements IEnumSetting {
         STRAFE("Strafe"), LOW_HOP("LowHop");

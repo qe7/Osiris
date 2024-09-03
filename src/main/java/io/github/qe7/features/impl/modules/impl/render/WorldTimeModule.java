@@ -1,12 +1,12 @@
 package io.github.qe7.features.impl.modules.impl.render;
 
-import io.github.qe7.events.api.EventLink;
-import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.packet.IncomingPacketEvent;
 import io.github.qe7.events.impl.render.RenderScreenEvent;
 import io.github.qe7.features.impl.modules.api.Module;
 import io.github.qe7.features.impl.modules.api.enums.ModuleCategory;
 import io.github.qe7.features.impl.modules.api.settings.impl.IntSetting;
+import me.zero.alpine.listener.Listener;
+import me.zero.alpine.listener.Subscribe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Packet4UpdateTime;
 
@@ -18,8 +18,8 @@ public class WorldTimeModule extends Module {
         super("World Time", "Sets the time of the world!", ModuleCategory.RENDER);
     }
 
-    @EventLink
-    public final Listener<RenderScreenEvent> renderScreenEvent = event -> {
+    @Subscribe
+    public final Listener<RenderScreenEvent> renderScreenEvent = new Listener<>(event -> {
         final Minecraft mc = Minecraft.getMinecraft();
 
         if (mc.theWorld == null) {
@@ -27,12 +27,12 @@ public class WorldTimeModule extends Module {
         }
 
         mc.theWorld.setWorldTime(time.getValue());
-    };
+    });
 
-    @EventLink
-    public final Listener<IncomingPacketEvent> incomingPacketEvent = event -> {
+    @Subscribe
+    public final Listener<IncomingPacketEvent> incomingPacketEvent = new Listener<>(event -> {
         if (event.getPacket() instanceof Packet4UpdateTime) {
             event.setCancelled(true);
         }
-    };
+    });
 }

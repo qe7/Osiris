@@ -1,11 +1,11 @@
 package io.github.qe7.features.impl.modules.impl.misc;
 
-import io.github.qe7.events.api.EventLink;
-import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.player.LivingUpdateEvent;
 import io.github.qe7.features.impl.modules.api.Module;
 import io.github.qe7.features.impl.modules.api.enums.ModuleCategory;
 import io.github.qe7.features.impl.modules.api.settings.impl.BooleanSetting;
+import me.zero.alpine.listener.Listener;
+import me.zero.alpine.listener.Subscribe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.EntityPlayerSP;
 
@@ -18,15 +18,15 @@ public class SprintModule extends Module {
         super("Sprint", "Automatically sprints for the player", ModuleCategory.MISC);
     }
 
-    @EventLink
-    public final Listener<LivingUpdateEvent> listener = event -> {
+    @Subscribe
+    public final Listener<LivingUpdateEvent> listener = new Listener<>(event -> {
         final Minecraft mc = Minecraft.getMinecraft();
         final EntityPlayerSP player = mc.thePlayer;
 
         if (player == null) return;
 
         Minecraft.getMinecraft().thePlayer.setSprinting(shouldSprint());
-    };
+    });
 
     private boolean shouldSprint() {
         final Minecraft mc = Minecraft.getMinecraft();

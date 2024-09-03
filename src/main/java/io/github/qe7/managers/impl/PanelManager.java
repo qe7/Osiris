@@ -8,8 +8,9 @@ import io.github.qe7.features.impl.modules.api.enums.ModuleCategory;
 import io.github.qe7.uis.clickGui.impl.panel.Panel;
 import io.github.qe7.managers.api.Manager;
 import io.github.qe7.utils.configs.FileUtil;
+import me.zero.alpine.listener.Subscriber;
 
-public final class PanelManager extends Manager<ModuleCategory, Panel> {
+public final class PanelManager extends Manager<ModuleCategory, Panel> implements Subscriber {
 
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
@@ -28,7 +29,7 @@ public final class PanelManager extends Manager<ModuleCategory, Panel> {
 
 		this.loadPanels();
 
-		Osiris.getInstance().getEventBus().register(this);
+		Osiris.getInstance().getEventBus().subscribe(this);
 		System.out.println("PanelManager initialised!");
 	}
 

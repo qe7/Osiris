@@ -1,13 +1,14 @@
 package io.github.qe7.features.impl.modules.impl.chat;
+
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import io.github.qe7.events.api.EventLink;
-import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.packet.IncomingPacketEvent;
 import io.github.qe7.features.impl.modules.api.Module;
 import io.github.qe7.features.impl.modules.api.enums.ModuleCategory;
+import me.zero.alpine.listener.Listener;
+import me.zero.alpine.listener.Subscribe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Packet3Chat;
 import java.io.File;
@@ -29,13 +30,13 @@ public class ChatLoggerModule extends Module {
         super("Chat Logger", "Logs chat messages", ModuleCategory.CHAT);
     }
 
-    @EventLink
-    public final Listener<IncomingPacketEvent> incomingPacketEventListener = event -> {
+    @Subscribe
+    public final Listener<IncomingPacketEvent> incomingPacketEventListener = new Listener<>(event -> {
         if (event.getPacket() instanceof Packet3Chat) {
             final Packet3Chat packet = (Packet3Chat) event.getPacket();
             chatLogger.info(packet.message);
         }
-    };
+    });
 
     static class ConsoleLogManager {
         public static Logger logger = Logger.getLogger("OsirisLogger");

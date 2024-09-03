@@ -1,5 +1,5 @@
 package io.github.qe7.events.impl.player;
 
-import io.github.qe7.events.api.types.CancellableEvent;
+import me.zero.alpine.event.CancellableEvent;
 
 public class SlowdownEvent extends CancellableEvent { }

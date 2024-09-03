@@ -1,8 +1,6 @@
 package io.github.qe7.features.impl.modules.impl.render;
 
 import io.github.qe7.Osiris;
-import io.github.qe7.events.api.EventLink;
-import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.render.RenderScreenEvent;
 import io.github.qe7.features.impl.modules.api.Module;
 import io.github.qe7.features.impl.modules.api.enums.ModuleCategory;
@@ -10,6 +8,8 @@ import io.github.qe7.features.impl.modules.api.settings.impl.BooleanSetting;
 import io.github.qe7.features.impl.modules.api.settings.impl.DoubleSetting;
 import io.github.qe7.features.impl.modules.api.settings.impl.IntSetting;
 import io.github.qe7.utils.render.ColourUtil;
+import me.zero.alpine.listener.Listener;
+import me.zero.alpine.listener.Subscribe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.GuiChat;
@@ -57,8 +57,8 @@ public class HUDModule extends Module {
         super("HUD", "Displays an interface that holds important client information", ModuleCategory.RENDER);
     }
 
-    @EventLink
-    public final Listener<RenderScreenEvent> renderScreenListener = event -> {
+    @Subscribe
+    public final Listener<RenderScreenEvent> renderScreenListener = new Listener<>(event -> {
         final ScaledResolution scaledResolution = event.getScaledResolution();
         final FontRenderer fontRenderer = mc.fontRenderer;
 
@@ -188,7 +188,7 @@ public class HUDModule extends Module {
 
             fontRenderer.drawStringWithShadow(display + " §7" + mc.thePlayer.username + "§r!", (float) (scaledResolution.getScaledWidth() / 2 - fontRenderer.getStringWidth(display + " §7" + mc.thePlayer.username + "§r!") / 2), (float) 5, getColour(5).getRGB());
         }
-    };
+    });
 
     private static String getWelcomeMessage() {
         String display;

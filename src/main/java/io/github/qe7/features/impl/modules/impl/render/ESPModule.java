@@ -1,13 +1,13 @@
 package io.github.qe7.features.impl.modules.impl.render;
 
 import io.github.qe7.Osiris;
-import io.github.qe7.events.api.EventLink;
-import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.render.RenderEntityEvent;
 import io.github.qe7.features.impl.modules.api.Module;
 import io.github.qe7.features.impl.modules.api.enums.ModuleCategory;
 import io.github.qe7.features.impl.modules.api.settings.impl.BooleanSetting;
 import io.github.qe7.utils.render.OpenGLRenderUtil;
+import me.zero.alpine.listener.Listener;
+import me.zero.alpine.listener.Subscribe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.*;
 
@@ -33,8 +33,8 @@ public class ESPModule extends Module {
         super("ESP", "Displays shit.. idfk.", ModuleCategory.RENDER);
     }
 
-    @EventLink
-    public final Listener<RenderEntityEvent> renderEntityListener = event -> {
+    @Subscribe
+    public final Listener<RenderEntityEvent> renderEntityListener = new Listener<>(event -> {
         if (Minecraft.getMinecraft().theWorld == null) {
             return;
         }
@@ -99,7 +99,7 @@ public class ESPModule extends Module {
                 OpenGLRenderUtil.drawBlockESP(x, y, z, this.getTileEntityColor(tileEntity), 1.0f);
             }
         }
-    };
+    });
 
     private Color getEntityColor(Entity entity) {
         if (entity instanceof EntityPlayer) {

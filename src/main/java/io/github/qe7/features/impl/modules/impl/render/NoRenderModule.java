@@ -1,11 +1,11 @@
 package io.github.qe7.features.impl.modules.impl.render;
 
-import io.github.qe7.events.api.EventLink;
-import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.render.*;
 import io.github.qe7.features.impl.modules.api.Module;
 import io.github.qe7.features.impl.modules.api.enums.ModuleCategory;
 import io.github.qe7.features.impl.modules.api.settings.impl.BooleanSetting;
+import me.zero.alpine.listener.Listener;
+import me.zero.alpine.listener.Subscribe;
 import net.minecraft.client.Minecraft;
 
 public class NoRenderModule extends Module {
@@ -24,43 +24,41 @@ public class NoRenderModule extends Module {
         super("No Render", "Disabled rendering for shit", ModuleCategory.RENDER);
     }
 
-    @EventLink
-    public final Listener<RenderScreenEvent> renderScreenEventListener = event -> {
-        if (Minecraft.getMinecraft().theWorld == null) return;
-        if (!noWeather.getValue()) {
-            Minecraft.getMinecraft().theWorld.noRenderWeather = false;
-        } else
-            Minecraft.getMinecraft().theWorld.noRenderWeather = true;
-    };
-
-    @EventLink
-    public final Listener<RenderPumpkinOverlayEvent> renderPumpkinOverlayEventListener = event -> event.setCancelled(noPumpkinOverlay.getValue());
-
-    @EventLink
-    public final Listener<RenderPortalOverlayEvent> renderPortalOverlayEventListener = event -> event.setCancelled(noPortalOverlay.getValue());
-
-    @EventLink
-    public final Listener<RenderWaterOverlayEvent> renderWaterOverlayEventListener = event -> event.setCancelled(noWaterOverlay.getValue());
-
-    @EventLink
-    public final Listener<RenderInsideBlockOverlayEvent> renderInsideBlockOverlayEventListener = event -> event.setCancelled(noInsideBlockOverlay.getValue());
-
-    @EventLink
-    public final Listener<RenderFireFirstPersonEvent> renderFireFirstPersonEventListener = event -> event.setCancelled(noFireOverlay.getValue());
-
-    @EventLink
-    public final Listener<RenderGuiAchievementEvent> renderGuiAchievementEventListener = event -> event.setCancelled(achievementNotice.getValue());
-
-    @EventLink
-    public final Listener<RenderHurtCamEvent> renderHurtCamEventListener = event -> event.setCancelled(noHurtCameraEffect.getValue());
-
-    @EventLink
-    public final Listener<RenderBlockBreakingParticlesEvent> renderBlockBreakingParticlesEventListener = event -> event.setCancelled(noBlockBreakingParticles.getValue());
-
     @Override
     public void onDisable() {
         super.onDisable();
+
         if (Minecraft.getMinecraft().theWorld == null) return;
-            Minecraft.getMinecraft().theWorld.noRenderWeather = false;
+        Minecraft.getMinecraft().theWorld.noRenderWeather = false;
     }
+
+    @Subscribe
+    public final Listener<RenderScreenEvent> renderScreenEventListener = new Listener<>(event -> {
+        if (Minecraft.getMinecraft().theWorld == null) return;
+        Minecraft.getMinecraft().theWorld.noRenderWeather = noWeather.getValue();
+    });
+
+    @Subscribe
+    public final Listener<RenderPumpkinOverlayEvent> renderPumpkinOverlayEventListener = new Listener<>(event -> event.setCancelled(noPumpkinOverlay.getValue()));
+
+    @Subscribe
+    public final Listener<RenderPortalOverlayEvent> renderPortalOverlayEventListener = new Listener<>(event -> event.setCancelled(noPortalOverlay.getValue()));
+
+    @Subscribe
+    public final Listener<RenderWaterOverlayEvent> renderWaterOverlayEventListener = new Listener<>(event -> event.setCancelled(noWaterOverlay.getValue()));
+
+    @Subscribe
+    public final Listener<RenderInsideBlockOverlayEvent> renderInsideBlockOverlayEventListener = new Listener<>(event -> event.setCancelled(noInsideBlockOverlay.getValue()));
+
+    @Subscribe
+    public final Listener<RenderFireFirstPersonEvent> renderFireFirstPersonEventListener = new Listener<>(event -> event.setCancelled(noFireOverlay.getValue()));
+
+    @Subscribe
+    public final Listener<RenderGuiAchievementEvent> renderGuiAchievementEventListener = new Listener<>(event -> event.setCancelled(achievementNotice.getValue()));
+
+    @Subscribe
+    public final Listener<RenderHurtCamEvent> renderHurtCamEventListener = new Listener<>(event -> event.setCancelled(noHurtCameraEffect.getValue()));
+
+    @Subscribe
+    public final Listener<RenderBlockBreakingParticlesEvent> renderBlockBreakingParticlesEventListener = new Listener<>(event -> event.setCancelled(noBlockBreakingParticles.getValue()));
 }

@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import io.github.qe7.Osiris;
-import io.github.qe7.events.api.EventLink;
-import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.game.KeyInputEvent;
 import io.github.qe7.features.impl.modules.api.Module;
 import io.github.qe7.features.impl.modules.api.settings.api.Setting;
@@ -23,11 +21,14 @@ import io.github.qe7.features.impl.modules.impl.exploit.RegenModule;
 import io.github.qe7.managers.api.Manager;
 import io.github.qe7.utils.configs.FileUtil;
 import lombok.Getter;
+import me.zero.alpine.listener.Listener;
+import me.zero.alpine.listener.Subscribe;
+import me.zero.alpine.listener.Subscriber;
 
 import java.lang.reflect.Field;
 import java.util.*;
 
-public final class ModuleManager extends Manager<Class<? extends Module>, Module> {
+public final class ModuleManager extends Manager<Class<? extends Module>, Module> implements Subscriber {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
@@ -91,7 +92,7 @@ public final class ModuleManager extends Manager<Class<? extends Module>, Module
 
         this.loadModules();
 
-        Osiris.getInstance().getEventBus().register(this);
+        Osiris.getInstance().getEventBus().subscribe(this);
         System.out.println("ModuleManager initialised!");
     }
 
@@ -153,12 +154,12 @@ public final class ModuleManager extends Manager<Class<? extends Module>, Module
         }
     }
 
-    @EventLink
-    public final Listener<KeyInputEvent> keyInputListener = event -> {
+    @Subscribe
+    public final Listener<KeyInputEvent> keyInputListener = new Listener<>(event -> {
         for (Module module : this.getMap().values()) {
             if (module.getKeyCode() == event.getKeyCode()) {
                 module.setEnabled(!module.isEnabled());
             }
         }
-    };
+    });
 }

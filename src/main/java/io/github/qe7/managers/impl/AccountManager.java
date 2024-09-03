@@ -4,21 +4,22 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import io.github.qe7.Osiris;
-import io.github.qe7.events.api.EventLink;
-import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.packet.IncomingPacketEvent;
 import io.github.qe7.events.impl.packet.OutgoingPacketEvent;
 import io.github.qe7.accounts.Account;
 import io.github.qe7.managers.api.Manager;
 import io.github.qe7.utils.configs.FileUtil;
 import io.github.qe7.utils.local.ChatUtil;
+import me.zero.alpine.listener.Listener;
+import me.zero.alpine.listener.Subscribe;
+import me.zero.alpine.listener.Subscriber;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Packet;
 import net.minecraft.src.Packet3Chat;
 
 import java.util.Objects;
 
-public final class AccountManager extends Manager<String, Account> {
+public final class AccountManager extends Manager<String, Account> implements Subscriber {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
@@ -28,7 +29,7 @@ public final class AccountManager extends Manager<String, Account> {
 
         this.loadAccounts();
 
-        Osiris.getInstance().getEventBus().register(this);
+        Osiris.getInstance().getEventBus().subscribe(this);
         System.out.println("AccountManager initialised!");
     }
 
@@ -65,8 +66,8 @@ public final class AccountManager extends Manager<String, Account> {
         }
     }
 
-    @EventLink
-    public final Listener<IncomingPacketEvent> incomingPacketListener = event -> {
+    @Subscribe
+    public final Listener<IncomingPacketEvent> incomingPacketListener = new Listener<>(event -> {
         final Packet packet = event.getPacket();
 
         if (packet instanceof Packet3Chat) {
@@ -97,10 +98,10 @@ public final class AccountManager extends Manager<String, Account> {
                 this.possiblePassword = "";
             }
         }
-    };
+    });
 
-    @EventLink
-    public final Listener<OutgoingPacketEvent> outgoingPacketListener = event -> {
+    @Subscribe
+    public final Listener<OutgoingPacketEvent> outgoingPacketListener = new Listener<>(event -> {
         final Packet packet = event.getPacket();
 
         if (packet instanceof Packet3Chat) {
@@ -114,5 +115,5 @@ public final class AccountManager extends Manager<String, Account> {
                 }
             }
         }
-    };
+    });
 }

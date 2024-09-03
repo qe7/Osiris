@@ -1,10 +1,10 @@
 package io.github.qe7.features.impl.modules.impl.movement;
 
-import io.github.qe7.events.api.EventLink;
-import io.github.qe7.events.api.Listener;
 import io.github.qe7.events.impl.player.LivingUpdateEvent;
 import io.github.qe7.features.impl.modules.api.Module;
 import io.github.qe7.features.impl.modules.api.enums.ModuleCategory;
+import me.zero.alpine.listener.Listener;
+import me.zero.alpine.listener.Subscribe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.GuiChat;
 import org.lwjgl.input.Keyboard;
@@ -22,12 +22,12 @@ public class InventoryMoveModule extends Module {
         updateKeyBinds();
     }
 
-    @EventLink
-    public final Listener<LivingUpdateEvent> livingUpdateListener = event -> {
+    @Subscribe
+    public final Listener<LivingUpdateEvent> livingUpdateListener = new Listener<>(event -> {
         if (Minecraft.getMinecraft().currentScreen != null && !(Minecraft.getMinecraft().currentScreen instanceof GuiChat)) {
             updateKeyBinds();
         }
-    };
+    });
 
     public void updateKeyBinds() {
         Minecraft.getMinecraft().gameSettings.keyBindForward.pressed = Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindForward.keyCode);
