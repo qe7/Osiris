@@ -31,7 +31,7 @@ public final class Osiris {
         System.out.println("Osiris instance created!");
 
         this.name = "Osiris";
-        this.version = "1.0.5";
+        this.version = "1.0.6";
 
         this.accountManager = new AccountManager();
         this.waypointManager = new WaypointManager();
