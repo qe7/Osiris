@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import io.github.qe7.Osiris;
 import io.github.qe7.events.impl.game.KeyInputEvent;
+import io.github.qe7.events.impl.packet.IncomingPacketEvent;
 import io.github.qe7.features.impl.modules.api.Module;
 import io.github.qe7.features.impl.modules.api.settings.api.Setting;
 import io.github.qe7.features.impl.modules.impl.chat.*;
@@ -59,6 +60,7 @@ public final class ModuleManager extends Manager<Class<? extends Module>, Module
         modules.add(new WorldDLModule());
         modules.add(new AntiPortalModule());
         modules.add(new PortalGuiModule());
+        modules.add(new AutoReconnectModule());
         modules.add(new AutoDisconnectModule());
         modules.add(new AutoToolModule());
         modules.add(new AutoWalkModule());
@@ -155,7 +157,7 @@ public final class ModuleManager extends Manager<Class<? extends Module>, Module
     }
 
     @Subscribe
-    public final Listener<KeyInputEvent> keyInputListener = new Listener<>(event -> {
+    public final Listener<KeyInputEvent> keyInputListener = new Listener<>(KeyInputEvent.class, event -> {
         for (Module module : this.getMap().values()) {
             if (module.getKeyCode() == event.getKeyCode()) {
                 module.setEnabled(!module.isEnabled());

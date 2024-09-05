@@ -14,7 +14,7 @@ public class YawModule extends Module {
     }
 
     @Subscribe
-    public final Listener<LivingUpdateEvent> livingUpdateEventListener = new Listener<>(event -> {
+    public final Listener<LivingUpdateEvent> livingUpdateEventListener = new Listener<>(LivingUpdateEvent.class, event -> {
         final Minecraft mc = Minecraft.getMinecraft();
 
         if (mc.thePlayer == null) return;

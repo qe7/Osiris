@@ -19,7 +19,7 @@ public class CameraModule extends Module {
     }
 
     @Subscribe
-    public final Listener<RenderThirdPersonClipEvent> renderThirdPersonClipEventListener = new Listener<>(event -> {
+    public final Listener<RenderThirdPersonClipEvent> renderThirdPersonClipEventListener = new Listener<>(RenderThirdPersonClipEvent.class, event -> {
         if (cameraClip.getValue()) {
             event.setCancelled(true);
         }

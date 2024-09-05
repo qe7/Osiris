@@ -49,7 +49,7 @@ public final class CommandManager extends Manager<Class<? extends Command>, Comm
     }
 
     @Subscribe
-    public final Listener<OutgoingPacketEvent> outgoingPacketListener = new Listener<>(event -> {
+    public final Listener<OutgoingPacketEvent> outgoingPacketListener = new Listener<>(OutgoingPacketEvent.class, event -> {
         final Packet packet = event.getPacket();
 
         if (!(packet instanceof Packet3Chat)) return;

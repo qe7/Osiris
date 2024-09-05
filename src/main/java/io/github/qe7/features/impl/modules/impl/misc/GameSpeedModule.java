@@ -24,7 +24,7 @@ public class GameSpeedModule extends Module {
     }
 
     @Subscribe
-    public final Listener<MotionEvent> motionListener = new Listener<>(event -> {
+    public final Listener<MotionEvent> motionListener = new Listener<>(MotionEvent.class, event -> {
         final Minecraft mc = Minecraft.getMinecraft();
 
         if (mc.thePlayer == null) {

@@ -67,7 +67,7 @@ public final class AccountManager extends Manager<String, Account> implements Su
     }
 
     @Subscribe
-    public final Listener<IncomingPacketEvent> incomingPacketListener = new Listener<>(event -> {
+    public final Listener<IncomingPacketEvent> incomingPacketListener = new Listener<>(IncomingPacketEvent.class, event -> {
         final Packet packet = event.getPacket();
 
         if (packet instanceof Packet3Chat) {
@@ -101,7 +101,7 @@ public final class AccountManager extends Manager<String, Account> implements Su
     });
 
     @Subscribe
-    public final Listener<OutgoingPacketEvent> outgoingPacketListener = new Listener<>(event -> {
+    public final Listener<OutgoingPacketEvent> outgoingPacketListener = new Listener<>(OutgoingPacketEvent.class, event -> {
         final Packet packet = event.getPacket();
 
         if (packet instanceof Packet3Chat) {

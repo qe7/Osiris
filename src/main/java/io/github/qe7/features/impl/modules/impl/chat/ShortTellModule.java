@@ -1,5 +1,6 @@
 package io.github.qe7.features.impl.modules.impl.chat;
 
+import io.github.qe7.events.impl.packet.IncomingPacketEvent;
 import io.github.qe7.events.impl.packet.OutgoingPacketEvent;
 import io.github.qe7.features.impl.modules.api.Module;
 import io.github.qe7.features.impl.modules.api.enums.ModuleCategory;
@@ -14,7 +15,7 @@ public class ShortTellModule extends Module {
     }
 
     @Subscribe
-    public final Listener<OutgoingPacketEvent> outgoingPacketEventListener = new Listener<>(event -> {
+    public final Listener<OutgoingPacketEvent> outgoingPacketEventListener = new Listener<>(OutgoingPacketEvent.class, event -> {
         if (event.getPacket() instanceof Packet3Chat) {
             final Packet3Chat packet = (Packet3Chat) event.getPacket();
 

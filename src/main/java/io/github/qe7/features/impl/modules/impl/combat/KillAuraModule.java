@@ -1,6 +1,7 @@
 package io.github.qe7.features.impl.modules.impl.combat;
 
 import io.github.qe7.Osiris;
+import io.github.qe7.events.impl.packet.IncomingPacketEvent;
 import io.github.qe7.events.impl.player.MotionEvent;
 import io.github.qe7.events.impl.player.PostMotionEvent;
 import io.github.qe7.events.impl.render.RenderItemEvent;
@@ -66,7 +67,7 @@ public class KillAuraModule extends Module {
     }
 
     @Subscribe
-    public final Listener<MotionEvent> motionListener = new Listener<>(event -> {
+    public final Listener<MotionEvent> motionListener = new Listener<>(MotionEvent.class, event -> {
         final Minecraft mc = Minecraft.getMinecraft();
 
         if (mc.theWorld == null) return;
@@ -142,7 +143,7 @@ public class KillAuraModule extends Module {
     });
 
     @Subscribe
-    public final Listener<PostMotionEvent> postMotionListener = new Listener<>(event -> {
+    public final Listener<PostMotionEvent> postMotionListener = new Listener<>(PostMotionEvent.class, event -> {
         final Minecraft mc = Minecraft.getMinecraft();
 
         if (shouldBlock) {
@@ -154,7 +155,7 @@ public class KillAuraModule extends Module {
     });
 
     @Subscribe
-    public final Listener<RenderItemEvent> renderItemListener = new Listener<>(event -> {
+    public final Listener<RenderItemEvent> renderItemListener = new Listener<>(RenderItemEvent.class, event -> {
         if (this.autoBlock.getValue() && !this.targets.isEmpty()) {
             event.setUseItemCount(1000);
             event.setAction(EnumAction.block);
@@ -162,7 +163,7 @@ public class KillAuraModule extends Module {
     });
 
     @Subscribe
-    public final Listener<RenderItemThirdPersonEvent> renderItemThirdPersonListener = new Listener<>(event -> {
+    public final Listener<RenderItemThirdPersonEvent> renderItemThirdPersonListener = new Listener<>(RenderItemThirdPersonEvent.class, event -> {
         if (this.autoBlock.getValue() && !this.targets.isEmpty()) {
             event.setUseItemCount(1000);
             event.setHeldItemRight(1);

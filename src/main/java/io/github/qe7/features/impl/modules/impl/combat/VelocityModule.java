@@ -23,7 +23,7 @@ public class VelocityModule extends Module {
     }
 
     @Subscribe
-    public final Listener<IncomingPacketEvent> incomingPacketListener = new Listener<>(event -> {
+    public final Listener<IncomingPacketEvent> incomingPacketListener = new Listener<>(IncomingPacketEvent.class, event -> {
         final Packet eventPacket = event.getPacket();
 
         if (eventPacket instanceof Packet28EntityVelocity) {

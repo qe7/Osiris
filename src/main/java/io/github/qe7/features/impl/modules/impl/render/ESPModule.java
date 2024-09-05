@@ -34,7 +34,7 @@ public class ESPModule extends Module {
     }
 
     @Subscribe
-    public final Listener<RenderEntityEvent> renderEntityListener = new Listener<>(event -> {
+    public final Listener<RenderEntityEvent> renderEntityListener = new Listener<>(RenderEntityEvent.class, event -> {
         if (Minecraft.getMinecraft().theWorld == null) {
             return;
         }

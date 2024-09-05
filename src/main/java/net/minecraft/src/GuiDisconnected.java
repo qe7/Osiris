@@ -1,5 +1,8 @@
 package net.minecraft.src;
 
+import io.github.qe7.Osiris;
+import io.github.qe7.features.impl.modules.impl.misc.AutoReconnectModule;
+
 public class GuiDisconnected extends GuiScreen
 {
     /** The error message. */
@@ -45,6 +48,10 @@ public class GuiDisconnected extends GuiScreen
         StringTranslate stringtranslate = StringTranslate.getInstance();
         controlList.clear();
         controlList.add(new GuiButton(0, width / 2 - 100, height / 4 + 120 + 12, stringtranslate.translateKey("gui.toMenu")));
+        if(Osiris.getInstance().getModuleManager().getMap().get(AutoReconnectModule.class).isEnabled()) {
+        	controlList.add(new GuiSmallButton(1, width / 2 - 75, height / 4 + 80 + 12, "Stop auto reconnect"));
+        } else
+        	controlList.add(new GuiSmallButton(1, width / 2 - 75, height / 4 + 80 + 12, "Start auto reconnect"));
     }
 
     /**
@@ -55,6 +62,18 @@ public class GuiDisconnected extends GuiScreen
         if (par1GuiButton.id == 0)
         {
             mc.displayGuiScreen(new GuiMainMenu());
+        }
+        if (par1GuiButton.id == 1)
+        {
+        	if(Osiris.getInstance().getModuleManager().getMap().get(AutoReconnectModule.class).isEnabled()) {
+        		Osiris.getInstance().getModuleManager().getMap().get(AutoReconnectModule.class).setEnabled(false);
+        		this.mc.needToReconnect = false;
+        		((GuiSmallButton)this.controlList.get(1)).displayString = "Start auto reconnect";
+        	} else {
+        		Osiris.getInstance().getModuleManager().getMap().get(AutoReconnectModule.class).setEnabled(true);
+        		this.mc.needToReconnect = true;
+        		((GuiSmallButton)this.controlList.get(1)).displayString = "Stop auto reconnect";
+        	}
         }
     }
 

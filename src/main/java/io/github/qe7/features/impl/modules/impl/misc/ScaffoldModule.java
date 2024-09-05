@@ -19,7 +19,7 @@ public class ScaffoldModule extends Module {
     }
 
     @Subscribe
-    public final Listener<MotionEvent> motionEventListener = new Listener<>(event -> {
+    public final Listener<MotionEvent> motionEventListener = new Listener<>(MotionEvent.class, event -> {
         final Minecraft mc = Minecraft.getMinecraft();
 
         Vec3D vec = new Vec3D(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ);

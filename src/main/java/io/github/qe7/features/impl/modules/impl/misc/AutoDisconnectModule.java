@@ -13,6 +13,8 @@ import me.zero.alpine.listener.Subscribe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.GuiMainMenu;
+import net.minecraft.src.GuiMultiplayer;
 
 public class AutoDisconnectModule extends Module {
 
@@ -26,29 +28,35 @@ public class AutoDisconnectModule extends Module {
     }
 
     @Subscribe
-    public final Listener<LivingUpdateEvent> livingUpdateListener = new Listener<>(event -> {
+    public final Listener<LivingUpdateEvent> livingUpdateListener = new Listener<>(LivingUpdateEvent.class, event -> {
         final Minecraft mc = Minecraft.getMinecraft();
 
         switch (mode.getValue()) {
             case Health:
                 if (mc.thePlayer.getHealth() <= health.getValue()) {
                     mc.theWorld.sendQuittingDisconnectingPacket();
+                    mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
                 }
                 break;
             case Player:
                 for (Entity entity : mc.theWorld.loadedEntityList) {
                     if (entity instanceof EntityPlayer) {
                         EntityPlayer entityPlayer = (EntityPlayer) entity;
+                        if(entityPlayer == Minecraft.getMinecraft().thePlayer)
+                        	return;
                         if (Osiris.getInstance().getRelationManager().isFriend(entityPlayer.username) && !this.excludeFriends.getValue()) {
                             mc.theWorld.sendQuittingDisconnectingPacket();
+                            mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
                             break;
                         }
                         if (!Osiris.getInstance().getRelationManager().isFriend(entityPlayer.username) && !Osiris.getInstance().getRelationManager().isEnemy(entityPlayer.username) && !this.onlyEnemies.getValue()) {
                             mc.theWorld.sendQuittingDisconnectingPacket();
+                            mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
                             break;
                         }
                         if (Osiris.getInstance().getRelationManager().isEnemy(entityPlayer.username)) {
                             mc.theWorld.sendQuittingDisconnectingPacket();
+                            mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
                             break;
                         }
                     }
@@ -57,20 +65,24 @@ public class AutoDisconnectModule extends Module {
             case HealthAndPlayer:
                 if (mc.thePlayer.getHealth() <= health.getValue()) {
                     mc.theWorld.sendQuittingDisconnectingPacket();
+                    mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
                 } else {
                     for (Entity entity : mc.theWorld.loadedEntityList) {
-                        if (entity instanceof EntityPlayer) {
+                        if (entity instanceof EntityPlayer && ((EntityPlayer) entity != Minecraft.getMinecraft().thePlayer)) {
                             EntityPlayer entityPlayer = (EntityPlayer) entity;
                             if (Osiris.getInstance().getRelationManager().isFriend(entityPlayer.username) && !this.excludeFriends.getValue()) {
                                 mc.theWorld.sendQuittingDisconnectingPacket();
+                                mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
                                 break;
                             }
                             if (!Osiris.getInstance().getRelationManager().isFriend(entityPlayer.username) && !Osiris.getInstance().getRelationManager().isEnemy(entityPlayer.username) && !this.onlyEnemies.getValue()) {
                                 mc.theWorld.sendQuittingDisconnectingPacket();
+                                mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
                                 break;
                             }
                             if (Osiris.getInstance().getRelationManager().isEnemy(entityPlayer.username)) {
                                 mc.theWorld.sendQuittingDisconnectingPacket();
+                                mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
                                 break;
                             }
                         }

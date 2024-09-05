@@ -19,7 +19,7 @@ public class NameTagsModule extends Module {
     }
 
     @Subscribe
-    public final Listener<RenderLivingLabelEvent> renderLivingLabelEventListener = new Listener<>(event -> {
+    public final Listener<RenderLivingLabelEvent> renderLivingLabelEventListener = new Listener<>(RenderLivingLabelEvent.class, event -> {
         if (Minecraft.getMinecraft().theWorld == null) {
             return;
         }

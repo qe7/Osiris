@@ -19,7 +19,7 @@ public class FastBreakModule extends Module {
     }
 
     @Subscribe
-    public final Listener<LivingUpdateEvent> livingUpdateListener = new Listener<>(event -> {
+    public final Listener<LivingUpdateEvent> livingUpdateListener = new Listener<>(LivingUpdateEvent.class, event -> {
         final Minecraft mc = Minecraft.getMinecraft();
 
         if (mc.thePlayer.capabilities.isCreativeMode) {

@@ -14,7 +14,7 @@ public class GreenTextModule extends Module {
     }
 
     @Subscribe
-    public final Listener<OutgoingPacketEvent> outgoingPacketEventListener =  new Listener<>(event -> {
+    public final Listener<OutgoingPacketEvent> outgoingPacketEventListener =  new Listener<>(OutgoingPacketEvent.class, event -> {
         if (event.getPacket() instanceof Packet3Chat) {
             final Packet3Chat packet = (Packet3Chat) event.getPacket();
 

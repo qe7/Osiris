@@ -58,7 +58,7 @@ public class FreeCamModule extends Module {
     }
 
     @Subscribe
-    public final Listener<LivingUpdateEvent> livingUpdateEventListener = new Listener<>(event -> {
+    public final Listener<LivingUpdateEvent> livingUpdateEventListener = new Listener<>(LivingUpdateEvent.class, event -> {
         if (mc.thePlayer == null) return;
 
         mc.thePlayer.noClip = true;
@@ -84,7 +84,7 @@ public class FreeCamModule extends Module {
     });
 
     @Subscribe
-    public final Listener<OutgoingPacketEvent> outgoingPacketEventListener = new Listener<>(event -> {
+    public final Listener<OutgoingPacketEvent> outgoingPacketEventListener = new Listener<>(OutgoingPacketEvent.class, event -> {
         if (mc.thePlayer == null) return;
 
         if (event.getPacket() instanceof Packet10Flying) {
@@ -93,7 +93,7 @@ public class FreeCamModule extends Module {
     });
 
     @Subscribe
-    public final Listener<RenderInsideBlockOverlayEvent> renderInsideBlockOverlayEventListener = new Listener<>(event -> {
+    public final Listener<RenderInsideBlockOverlayEvent> renderInsideBlockOverlayEventListener = new Listener<>(RenderInsideBlockOverlayEvent.class, event -> {
         event.setCancelled(true);
     });
 }

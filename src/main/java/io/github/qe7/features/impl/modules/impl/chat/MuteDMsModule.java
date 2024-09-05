@@ -21,7 +21,7 @@ public class MuteDMsModule extends Module {
     }
 
     @Subscribe
-    public final Listener<IncomingPacketEvent> incomingPacketEventListener = new Listener<>(event -> {
+    public final Listener<IncomingPacketEvent> incomingPacketEventListener = new Listener<>(IncomingPacketEvent.class, event -> {
         if (event.getPacket() instanceof Packet3Chat) {
             final Packet3Chat packet = (Packet3Chat) event.getPacket();
 

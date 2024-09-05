@@ -16,7 +16,7 @@ public class NoFallDamageModule extends Module {
     }
 
     @Subscribe
-    public final Listener<MotionEvent> motionEventListener = new Listener<>(event -> {
+    public final Listener<MotionEvent> motionEventListener = new Listener<>(MotionEvent.class, event -> {
         final Minecraft minecraft = Minecraft.getMinecraft();
 
         if (minecraft.thePlayer.fallDistance >= 2.5f) {

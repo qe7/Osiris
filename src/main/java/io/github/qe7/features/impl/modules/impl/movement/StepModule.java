@@ -38,7 +38,7 @@ public class StepModule extends Module {
     }
 
     @Subscribe
-    public final Listener<RenderScreenEvent> renderScreenListener = new Listener<>(event -> {
+    public final Listener<RenderScreenEvent> renderScreenListener = new Listener<>(RenderScreenEvent.class, event -> {
         if (Minecraft.getMinecraft().thePlayer == null) {
             return;
         }

@@ -18,7 +18,7 @@ public class AutoLoginModule extends Module {
     }
 
     @Subscribe
-    public final Listener<IncomingPacketEvent> incomingPacketEvent = new Listener<>(event -> {
+    public final Listener<IncomingPacketEvent> incomingPacketEvent = new Listener<>(IncomingPacketEvent.class, event -> {
         if (Minecraft.getMinecraft().theWorld == null) {
             return;
         }

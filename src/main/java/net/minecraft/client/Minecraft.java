@@ -19,6 +19,8 @@ import java.io.File;
 import java.text.DecimalFormat;
 
 public abstract class Minecraft implements Runnable {
+	public boolean needToReconnect = false;
+	
     public static byte field_28006_b[] = new byte[0xa00000];
 
     /**
@@ -1281,6 +1283,13 @@ public abstract class Minecraft implements Runnable {
      * Runs the current tick.
      */
     public void runTick() {
+    	if(this.needToReconnect && !(this.currentScreen instanceof GuiDisconnected))
+    		this.needToReconnect = false;
+    	if(this.needToReconnect && this.currentScreen instanceof GuiDisconnected) {
+    		if(this.gameSettings.lastServer.isEmpty())
+    			this.needToReconnect = false;
+    		this.displayGuiScreen(new GuiConnecting(this, this.gameSettings.lastServer.split(":")[0], Integer.parseInt(this.gameSettings.lastServer.split(":")[1])));
+    	}
         if (rightClickDelayTimer > 0) {
             rightClickDelayTimer--;
         }

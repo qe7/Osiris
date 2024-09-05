@@ -20,10 +20,10 @@ public class NoSlowdownModule extends Module {
     }
 
     @Subscribe
-    public final Listener<SlowdownEvent> slowdownListener = new Listener<>(Cancellable::cancel);
+    public final Listener<SlowdownEvent> slowdownListener = new Listener<>(SlowdownEvent.class, Cancellable::cancel);
 
     @Subscribe
-    public final Listener<MotionEvent> motionListener = new Listener<>(event -> {
+    public final Listener<MotionEvent> motionListener = new Listener<>(MotionEvent.class, event -> {
         final Minecraft mc = Minecraft.getMinecraft();
 
         if (mc.thePlayer.isBlocking()) {
@@ -32,7 +32,7 @@ public class NoSlowdownModule extends Module {
     });
 
     @Subscribe
-    public final Listener<PostMotionEvent> postMotionListener = new Listener<>(event -> {
+    public final Listener<PostMotionEvent> postMotionListener = new Listener<>(PostMotionEvent.class, event -> {
         final Minecraft mc = Minecraft.getMinecraft();
 
         if (mc.thePlayer.isBlocking()) {

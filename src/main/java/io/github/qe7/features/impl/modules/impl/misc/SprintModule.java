@@ -19,7 +19,7 @@ public class SprintModule extends Module {
     }
 
     @Subscribe
-    public final Listener<LivingUpdateEvent> listener = new Listener<>(event -> {
+    public final Listener<LivingUpdateEvent> listener = new Listener<>(LivingUpdateEvent.class, event -> {
         final Minecraft mc = Minecraft.getMinecraft();
         final EntityPlayerSP player = mc.thePlayer;
 

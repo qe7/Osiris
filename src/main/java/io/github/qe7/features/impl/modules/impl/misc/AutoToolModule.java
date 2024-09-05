@@ -17,7 +17,7 @@ public class AutoToolModule extends Module {
     }
 
     @Subscribe
-    public final Listener<OutgoingPacketEvent> outgoingPacketEventListener = new Listener<>(event -> {
+    public final Listener<OutgoingPacketEvent> outgoingPacketEventListener = new Listener<>(OutgoingPacketEvent.class, event -> {
         if (event.getPacket() instanceof Packet14BlockDig) {
 
             final Packet14BlockDig blockDig = (Packet14BlockDig) event.getPacket();

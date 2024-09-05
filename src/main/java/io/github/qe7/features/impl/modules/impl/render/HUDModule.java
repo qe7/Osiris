@@ -58,7 +58,7 @@ public class HUDModule extends Module {
     }
 
     @Subscribe
-    public final Listener<RenderScreenEvent> renderScreenListener = new Listener<>(event -> {
+    public final Listener<RenderScreenEvent> renderScreenListener = new Listener<>(RenderScreenEvent.class, event -> {
         final ScaledResolution scaledResolution = event.getScaledResolution();
         final FontRenderer fontRenderer = mc.fontRenderer;
 

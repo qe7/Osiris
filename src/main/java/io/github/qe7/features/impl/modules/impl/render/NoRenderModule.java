@@ -33,32 +33,32 @@ public class NoRenderModule extends Module {
     }
 
     @Subscribe
-    public final Listener<RenderScreenEvent> renderScreenEventListener = new Listener<>(event -> {
+    public final Listener<RenderScreenEvent> renderScreenEventListener = new Listener<>(RenderScreenEvent.class, event -> {
         if (Minecraft.getMinecraft().theWorld == null) return;
         Minecraft.getMinecraft().theWorld.noRenderWeather = noWeather.getValue();
     });
 
     @Subscribe
-    public final Listener<RenderPumpkinOverlayEvent> renderPumpkinOverlayEventListener = new Listener<>(event -> event.setCancelled(noPumpkinOverlay.getValue()));
+    public final Listener<RenderPumpkinOverlayEvent> renderPumpkinOverlayEventListener = new Listener<>(RenderPumpkinOverlayEvent.class, event -> event.setCancelled(noPumpkinOverlay.getValue()));
 
     @Subscribe
-    public final Listener<RenderPortalOverlayEvent> renderPortalOverlayEventListener = new Listener<>(event -> event.setCancelled(noPortalOverlay.getValue()));
+    public final Listener<RenderPortalOverlayEvent> renderPortalOverlayEventListener = new Listener<>(RenderPortalOverlayEvent.class, event -> event.setCancelled(noPortalOverlay.getValue()));
 
     @Subscribe
-    public final Listener<RenderWaterOverlayEvent> renderWaterOverlayEventListener = new Listener<>(event -> event.setCancelled(noWaterOverlay.getValue()));
+    public final Listener<RenderWaterOverlayEvent> renderWaterOverlayEventListener = new Listener<>(RenderWaterOverlayEvent.class, event -> event.setCancelled(noWaterOverlay.getValue()));
 
     @Subscribe
-    public final Listener<RenderInsideBlockOverlayEvent> renderInsideBlockOverlayEventListener = new Listener<>(event -> event.setCancelled(noInsideBlockOverlay.getValue()));
+    public final Listener<RenderInsideBlockOverlayEvent> renderInsideBlockOverlayEventListener = new Listener<>(RenderInsideBlockOverlayEvent.class, event -> event.setCancelled(noInsideBlockOverlay.getValue()));
 
     @Subscribe
-    public final Listener<RenderFireFirstPersonEvent> renderFireFirstPersonEventListener = new Listener<>(event -> event.setCancelled(noFireOverlay.getValue()));
+    public final Listener<RenderFireFirstPersonEvent> renderFireFirstPersonEventListener = new Listener<>(RenderFireFirstPersonEvent.class, event -> event.setCancelled(noFireOverlay.getValue()));
 
     @Subscribe
-    public final Listener<RenderGuiAchievementEvent> renderGuiAchievementEventListener = new Listener<>(event -> event.setCancelled(achievementNotice.getValue()));
+    public final Listener<RenderGuiAchievementEvent> renderGuiAchievementEventListener = new Listener<>(RenderGuiAchievementEvent.class, event -> event.setCancelled(achievementNotice.getValue()));
 
     @Subscribe
-    public final Listener<RenderHurtCamEvent> renderHurtCamEventListener = new Listener<>(event -> event.setCancelled(noHurtCameraEffect.getValue()));
+    public final Listener<RenderHurtCamEvent> renderHurtCamEventListener = new Listener<>(RenderHurtCamEvent.class, event -> event.setCancelled(noHurtCameraEffect.getValue()));
 
     @Subscribe
-    public final Listener<RenderBlockBreakingParticlesEvent> renderBlockBreakingParticlesEventListener = new Listener<>(event -> event.setCancelled(noBlockBreakingParticles.getValue()));
+    public final Listener<RenderBlockBreakingParticlesEvent> renderBlockBreakingParticlesEventListener = new Listener<>(RenderBlockBreakingParticlesEvent.class, event -> event.setCancelled(noBlockBreakingParticles.getValue()));
 }

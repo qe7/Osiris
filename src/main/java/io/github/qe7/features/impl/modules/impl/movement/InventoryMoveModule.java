@@ -23,7 +23,7 @@ public class InventoryMoveModule extends Module {
     }
 
     @Subscribe
-    public final Listener<LivingUpdateEvent> livingUpdateListener = new Listener<>(event -> {
+    public final Listener<LivingUpdateEvent> livingUpdateListener = new Listener<>(LivingUpdateEvent.class, event -> {
         if (Minecraft.getMinecraft().currentScreen != null && !(Minecraft.getMinecraft().currentScreen instanceof GuiChat)) {
             updateKeyBinds();
         }

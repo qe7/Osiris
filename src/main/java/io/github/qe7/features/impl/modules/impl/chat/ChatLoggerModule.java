@@ -5,8 +5,10 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import io.github.qe7.events.impl.packet.IncomingPacketEvent;
+import io.github.qe7.events.impl.packet.OutgoingPacketEvent;
 import io.github.qe7.features.impl.modules.api.Module;
 import io.github.qe7.features.impl.modules.api.enums.ModuleCategory;
+import io.github.qe7.utils.local.ChatUtil;
 import me.zero.alpine.listener.Listener;
 import me.zero.alpine.listener.Subscribe;
 import net.minecraft.client.Minecraft;
@@ -27,18 +29,30 @@ public class ChatLoggerModule extends Module {
 	}
 
     public ChatLoggerModule() {
-        super("Chat Logger", "Logs chat messages", ModuleCategory.CHAT);
+        super("Chat Logger", "Logs chat messages.", ModuleCategory.CHAT);
+    }
+    
+    @Override
+    public void onEnable() {
+    	super.onEnable();
+    	ChatUtil.addPrefixedMessage("Chat Logger", "Started chat logging.");
+    }
+    
+    @Override
+    public void onDisable() {
+    	super.onDisable();
+    	ChatUtil.addPrefixedMessage("Chat Logger", "Stopped chat logging.");
     }
 
     @Subscribe
-    public final Listener<IncomingPacketEvent> incomingPacketEventListener = new Listener<>(event -> {
+    public final Listener<IncomingPacketEvent> incomingPacketEventListener = new Listener<>(IncomingPacketEvent.class, event -> {
         if (event.getPacket() instanceof Packet3Chat) {
             final Packet3Chat packet = (Packet3Chat) event.getPacket();
             chatLogger.info(packet.message);
         }
     });
-
-    static class ConsoleLogManager {
+}
+class ConsoleLogManager {
         public static Logger logger = Logger.getLogger("OsirisLogger");
 
         public static void init() {
@@ -54,20 +68,24 @@ public class ChatLoggerModule extends Module {
 
             logger.addHandler(consoleHandler1);
 
-            String logName = dateFormat.format(System.currentTimeMillis()) + "_bot.log";
+            String logName = dateFormat.format(System.currentTimeMillis()) + "_logger.log";
 
             try {
+            	if(!new File("OsirisChatLogs").exists()) {
+            		new File("OsirisChatLogs").mkdir();
+            	}
                 FileHandler fileHandler = new FileHandler("OsirisChatLogs" + File.separator + logName, true);
                 fileHandler.setFormatter(consoleLogFormatter0);
                 logger.addHandler(fileHandler);
             } catch (Exception exception3) {
+            	exception3.printStackTrace();
                 logger.log(Level.WARNING, "Failed to log to " + "OsirisChatLogs" + File.separator + logName, exception3);
             }
 
         }
     }
 
-    static class ConsoleLogFormatter extends Formatter {
+    final class ConsoleLogFormatter extends Formatter {
 
         private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
 
@@ -89,4 +107,3 @@ public class ChatLoggerModule extends Module {
             return stringBuilder.toString();
         }
     }
-}

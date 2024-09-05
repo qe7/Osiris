@@ -19,7 +19,7 @@ public class WorldTimeModule extends Module {
     }
 
     @Subscribe
-    public final Listener<RenderScreenEvent> renderScreenEvent = new Listener<>(event -> {
+    public final Listener<RenderScreenEvent> renderScreenEvent = new Listener<>(RenderScreenEvent.class, event -> {
         final Minecraft mc = Minecraft.getMinecraft();
 
         if (mc.theWorld == null) {
@@ -30,7 +30,7 @@ public class WorldTimeModule extends Module {
     });
 
     @Subscribe
-    public final Listener<IncomingPacketEvent> incomingPacketEvent = new Listener<>(event -> {
+    public final Listener<IncomingPacketEvent> incomingPacketEvent = new Listener<>(IncomingPacketEvent.class, event -> {
         if (event.getPacket() instanceof Packet4UpdateTime) {
             event.setCancelled(true);
         }

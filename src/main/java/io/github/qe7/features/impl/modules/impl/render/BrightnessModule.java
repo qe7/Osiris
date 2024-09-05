@@ -30,7 +30,7 @@ public class BrightnessModule extends Module {
     }
 
     @Subscribe
-    public final Listener<RenderScreenEvent> renderScreenListener = new Listener<>(event -> {
+    public final Listener<RenderScreenEvent> renderScreenListener = new Listener<>(RenderScreenEvent.class, event -> {
         Minecraft.getMinecraft().gameSettings.gammaSetting = 1000.0f;
     });
 }

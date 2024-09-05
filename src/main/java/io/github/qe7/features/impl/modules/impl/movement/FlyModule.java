@@ -16,7 +16,7 @@ public class FlyModule extends Module {
     }
 
     @Subscribe
-    public final Listener<MotionEvent> motionEventListener = new Listener<>(event -> {
+    public final Listener<MotionEvent> motionEventListener = new Listener<>(MotionEvent.class, event -> {
         final Minecraft mc = Minecraft.getMinecraft();
 
         if (mc.thePlayer == null) return;
