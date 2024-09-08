@@ -5,6 +5,7 @@ import io.github.qe7.features.impl.modules.impl.misc.AutoReconnectModule;
 
 public class GuiDisconnected extends GuiScreen
 {
+	private int ticksBeforeReconnect = -2;
     /** The error message. */
     private String errorMessage;
 
@@ -68,6 +69,7 @@ public class GuiDisconnected extends GuiScreen
         	if(Osiris.getInstance().getModuleManager().getMap().get(AutoReconnectModule.class).isEnabled()) {
         		Osiris.getInstance().getModuleManager().getMap().get(AutoReconnectModule.class).setEnabled(false);
         		this.mc.needToReconnect = false;
+        		this.ticksBeforeReconnect = -2;
         		((GuiSmallButton)this.controlList.get(1)).displayString = "Start auto reconnect";
         	} else {
         		Osiris.getInstance().getModuleManager().getMap().get(AutoReconnectModule.class).setEnabled(true);
@@ -82,6 +84,16 @@ public class GuiDisconnected extends GuiScreen
      */
     public void drawScreen(int par1, int par2, float par3)
     {
+    	if(Osiris.getInstance().getModuleManager().getMap().get(AutoReconnectModule.class).isEnabled() && this.ticksBeforeReconnect == -2) {
+    		this.ticksBeforeReconnect = ((AutoReconnectModule) Osiris.getInstance().getModuleManager().getMap().get(AutoReconnectModule.class)).getSeconds() * 20;
+    	}
+    	if(this.ticksBeforeReconnect > 0)
+    		this.ticksBeforeReconnect--;
+    	if(this.ticksBeforeReconnect == 0) 
+    		this.mc.needToReconnect = true;
+    	if(Osiris.getInstance().getModuleManager().getMap().get(AutoReconnectModule.class).isEnabled()) {
+    		((GuiSmallButton)this.controlList.get(1)).displayString = "Stop auto reconnect " + (int)(this.ticksBeforeReconnect / 20);
+    	}
         drawDefaultBackground();
         drawCenteredString(fontRenderer, errorMessage, width / 2, height / 2 - 50, 0xffffff);
         drawCenteredString(fontRenderer, errorDetail, width / 2, height / 2 - 10, 0xffffff);

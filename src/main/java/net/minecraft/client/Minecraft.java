@@ -1,6 +1,7 @@
 package net.minecraft.client;
 
 import io.github.qe7.Osiris;
+import io.github.qe7.features.impl.modules.impl.render.ReduceFPSModule;
 import io.github.qe7.events.impl.game.KeyInputEvent;
 import net.minecraft.src.*;
 import org.lwjgl.LWJGLException;
@@ -19,6 +20,10 @@ import java.io.File;
 import java.text.DecimalFormat;
 
 public abstract class Minecraft implements Runnable {
+	//ReduceFPS Module
+	public int fpt = 0;
+	public int prevTicksRan = 0;
+	
 	public boolean needToReconnect = false;
 	
     public static byte field_28006_b[] = new byte[0xa00000];
@@ -721,6 +726,7 @@ public abstract class Minecraft implements Runnable {
         long l = System.nanoTime();
         Profiler.startSection("tick");
 
+        this.prevTicksRan = this.ticksRan;
         for (int i = 0; i < timer.elapsedTicks; i++) {
             ticksRan++;
 
@@ -736,6 +742,17 @@ public abstract class Minecraft implements Runnable {
         }
 
         Profiler.endSection();
+        if((Osiris.getInstance().getModuleManager().getMap().get(ReduceFPSModule.class).isEnabled() && 
+        		this.fpt == ((ReduceFPSModule) Osiris.getInstance().getModuleManager().getMap().get(ReduceFPSModule.class)).getFpt()) &&
+        		this.prevTicksRan != this.ticksRan) {
+        	this.fpt = 0;
+        	this.prevTicksRan = this.ticksRan;
+        }
+        if(!Osiris.getInstance().getModuleManager().getMap().get(ReduceFPSModule.class).isEnabled() || 
+        		(Osiris.getInstance().getModuleManager().getMap().get(ReduceFPSModule.class).isEnabled() && 
+        		this.fpt < ((ReduceFPSModule) Osiris.getInstance().getModuleManager().getMap().get(ReduceFPSModule.class)).getFpt())) {
+        if(Osiris.getInstance().getModuleManager().getMap().get(ReduceFPSModule.class).isEnabled())
+        	this.fpt++;
         long l1 = System.nanoTime() - l;
         checkGLError("Pre render");
         RenderBlocks.fancyGrass = gameSettings.fancyGraphics;
@@ -830,8 +847,9 @@ public abstract class Minecraft implements Runnable {
             debugUpdateTime += 1000L;
             fpsCounter = 0;
         }
-
         Profiler.endSection();
+    	}
+
     }
 
     public void freeMemory() {
