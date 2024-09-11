@@ -41,12 +41,12 @@ public final class ChatUtil extends UtilBase {
         mc.thePlayer.sendChatMessage(message);
     }
 
-    /**
+    /**clif
      * Separates username and message from chat message
      *
      * @param message to separate
      */
-    public static String[] getUsernameAndMessage(String message) {
+	public static String[] getUsernameAndMessage(String message) {
         if ((message.startsWith("§7") || message.startsWith("§d"))) {
             boolean isTell = message.startsWith("§7");
             try {
@@ -58,9 +58,16 @@ public final class ChatUtil extends UtilBase {
                     String text = message.split(" whispers ")[1];
                     return new String[]{text, playerNickname};
                 } else {
-                    String playerNickname = (message.split(" "))[1].substring(0, (message.split(" "))[1].indexOf(":"));
-                    String text = message.substring(8 + playerNickname.length());
-                    return new String[]{text, playerNickname};
+                	if(message.startsWith("§dTo ")) {
+                        String playerNickname = (message.split(" "))[1].substring(0, (message.split(" "))[1].indexOf(":"));
+                        String text = message.substring(6 + playerNickname.length());
+                        return new String[]{text, playerNickname};
+                	} else if(message.startsWith("§dFrom ")) {
+                		String playerNickname = (message.split(" "))[1].substring(0, (message.split(" "))[1].indexOf(":"));
+                    	String text = message.substring(8 + playerNickname.length());
+                    	return new String[]{text, playerNickname};
+                	} else 
+                		return null;
                 }
             } catch (Exception ex) {
                 return null;
@@ -76,5 +83,36 @@ public final class ChatUtil extends UtilBase {
         } else {
             return null;
         }
+    }
+    
+    public static int isDMMessage(String message) {
+       if ((message.startsWith("§7") || message.startsWith("§d"))) {
+           boolean isTell = message.startsWith("§7");
+                try {
+                    if (isTell) {
+                        if (message.split(" whispers ").length <= 1) {
+                            return -1;
+                        }
+                        String playerNickname = (message.split(" "))[0].substring(2);
+                        String text = message.split(" whispers ")[1];
+                        return 1;
+                    } else {
+                    	if(message.startsWith("§dTo ")) {
+                            String playerNickname = (message.split(" "))[1].substring(0, (message.split(" "))[1].indexOf(":"));
+                            String text = message.substring(6 + playerNickname.length());
+                    		return 2;
+                    	} else if(message.startsWith("§dFrom ")) {
+                    		String playerNickname = (message.split(" "))[1].substring(0, (message.split(" "))[1].indexOf(":"));
+                        	String text = message.substring(8 + playerNickname.length());
+                        	return 1;
+                    	} else {
+                    		return -1;
+                    	}
+                    }
+                } catch (Exception ex) {
+                    return -1;
+                }
+        } else 
+        	return -1;
     }
 }

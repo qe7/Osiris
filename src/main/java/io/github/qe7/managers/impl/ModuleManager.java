@@ -42,6 +42,7 @@ public final class ModuleManager extends Manager<Class<? extends Module>, Module
 
         modules.add(new ShortTellModule());
         modules.add(new ChatLoggerModule());
+        modules.add(new BetterChatModule());
         modules.add(new MuteDMsModule());
         modules.add(new HideChatModule());
         modules.add(new AutoLoginModule());

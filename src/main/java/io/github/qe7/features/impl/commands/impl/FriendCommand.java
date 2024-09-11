@@ -52,7 +52,7 @@ public class FriendCommand extends Command {
                     return;
                 }
                 Osiris.getInstance().getRelationManager().removeRelation(args[2]);
-                ChatUtil.addPrefixedMessage("Friend", "Removed " + args[2] + "from friends");
+                ChatUtil.addPrefixedMessage("Friend", "Removed " + args[2] + " from friends");
                 break;
             }
             case "list": {

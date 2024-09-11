@@ -52,7 +52,7 @@ public class EnemyCommand extends Command {
                     return;
                 }
                 Osiris.getInstance().getRelationManager().removeRelation(args[2]);
-                ChatUtil.addPrefixedMessage("Enemy", "Removed " + args[2] + "from enemies");
+                ChatUtil.addPrefixedMessage("Enemy", "Removed " + args[2] + " from enemies");
                 break;
             }
             case "list": {
