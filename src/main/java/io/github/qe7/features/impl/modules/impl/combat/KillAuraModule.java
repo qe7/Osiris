@@ -117,11 +117,10 @@ public class KillAuraModule extends Module {
 
         // auto block
         if (this.autoBlock.getValue()) {
-//            if (mc.thePlayer.getHeldItem() != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
-//                ChatUtil.addMessage("Blocking");
+            if (mc.thePlayer.inventory.getCurrentItem() != null && mc.thePlayer.inventory.getCurrentItem().getItem() != null && mc.thePlayer.inventory.getCurrentItem().getItem() instanceof ItemSword) {
                 PacketUtil.sendPacket(new Packet15Place());
                 shouldBlock = true;
-//            }
+            }
         }
 
         // if the player is out of APS, return
@@ -149,7 +148,7 @@ public class KillAuraModule extends Module {
         final Minecraft mc = Minecraft.getMinecraft();
 
         if (shouldBlock) {
-            if (mc.thePlayer.getHeldItem().getItem() != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
+            if (mc.thePlayer.inventory.getCurrentItem() != null && mc.thePlayer.inventory.getCurrentItem().getItem() != null && mc.thePlayer.inventory.getCurrentItem().getItem() instanceof ItemSword) {
                 PacketUtil.sendPacket(new Packet14BlockDig(5, 0, 0, 0, 0));
             }
             shouldBlock = false;
