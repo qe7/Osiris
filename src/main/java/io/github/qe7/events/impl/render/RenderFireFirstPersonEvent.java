@@ -2,4 +2,4 @@ package io.github.qe7.events.impl.render;
 
 import me.zero.alpine.event.CancellableEvent;
 
-public class RenderFireFirstPersonEvent extends CancellableEvent { }
+public final class RenderFireFirstPersonEvent extends CancellableEvent { }

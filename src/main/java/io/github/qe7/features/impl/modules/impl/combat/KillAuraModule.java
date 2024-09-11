@@ -10,6 +10,7 @@ import io.github.qe7.features.impl.modules.api.Module;
 import io.github.qe7.features.impl.modules.api.enums.ModuleCategory;
 import io.github.qe7.features.impl.modules.api.settings.impl.BooleanSetting;
 import io.github.qe7.features.impl.modules.api.settings.impl.DoubleSetting;
+import io.github.qe7.utils.local.ChatUtil;
 import io.github.qe7.utils.local.PacketUtil;
 import io.github.qe7.utils.math.Stopwatch;
 import me.zero.alpine.listener.Listener;
@@ -116,10 +117,11 @@ public class KillAuraModule extends Module {
 
         // auto block
         if (this.autoBlock.getValue()) {
-            if (mc.thePlayer.getHeldItem() != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
-                PacketUtil.sendPacket(new Packet15Place(0, 0, 0, 0, mc.thePlayer.inventory.getCurrentItem()));
+//            if (mc.thePlayer.getHeldItem() != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
+//                ChatUtil.addMessage("Blocking");
+                PacketUtil.sendPacket(new Packet15Place());
                 shouldBlock = true;
-            }
+//            }
         }
 
         // if the player is out of APS, return
@@ -147,7 +149,7 @@ public class KillAuraModule extends Module {
         final Minecraft mc = Minecraft.getMinecraft();
 
         if (shouldBlock) {
-            if (mc.thePlayer.getHeldItem() != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
+            if (mc.thePlayer.getHeldItem().getItem() != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
                 PacketUtil.sendPacket(new Packet14BlockDig(5, 0, 0, 0, 0));
             }
             shouldBlock = false;

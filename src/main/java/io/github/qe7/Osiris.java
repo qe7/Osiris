@@ -57,18 +57,20 @@ public final class Osiris {
         this.getPanelManager().initialise();
 
         // register shutdown hook, save configs on shutdown
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            System.out.println("Osiris shutting down!");
-
-            this.getAccountManager().saveAccounts();
-            this.getRelationManager().saveRelations();
-            this.getWaypointManager().saveWaypoints();
-            this.getModuleManager().saveModules();
-            this.getPanelManager().savePanels();
-
-            System.out.println("Osiris shut down!");
-        }));
+        Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
 
         System.out.println("Osiris initialised!");
+    }
+
+    public void shutdown() {
+        System.out.println("Osiris shutting down!");
+
+        this.getAccountManager().saveAccounts();
+        this.getRelationManager().saveRelations();
+        this.getWaypointManager().saveWaypoints();
+        this.getModuleManager().saveModules();
+        this.getPanelManager().savePanels();
+
+        System.out.println("Osiris shut down!");
     }
 }
