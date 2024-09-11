@@ -410,13 +410,6 @@ public class EntityRenderer {
     }
 
     private void hurtCameraEffect(float par1) {
-        final RenderHurtCamEvent event = new RenderHurtCamEvent();
-        Osiris.getInstance().getEventBus().post(event);
-
-        if (event.isCancelled()) {
-            return;
-        }
-
         EntityLiving entityliving = mc.renderViewEntity;
         float f = (float) entityliving.hurtTime - par1;
 
@@ -589,10 +582,16 @@ public class EntityRenderer {
             GL11.glTranslatef((float) (par2 * 2 - 1) * 0.1F, 0.0F, 0.0F);
         }
 
-        hurtCameraEffect(par1);
+        final RenderHurtCamEvent event = new RenderHurtCamEvent();
+        Osiris.getInstance().getEventBus().post(event);
+
+        if (!event.isCancelled()) {
+            hurtCameraEffect(par1);
+        }
+
 
         if (mc.gameSettings.viewBobbing) {
-            setupViewBobbing(par1);
+//            setupViewBobbing(par1);
         }
 
         float f2 = mc.thePlayer.prevTimeInPortal + (mc.thePlayer.timeInPortal - mc.thePlayer.prevTimeInPortal) * par1;
