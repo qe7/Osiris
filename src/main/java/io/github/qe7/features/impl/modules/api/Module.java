@@ -156,12 +156,12 @@ public abstract class Module extends Command implements Serialized, Subscriber {
 
     @Override
     public JsonObject serialize() {
-        JsonObject object = new JsonObject();
+        final JsonObject object = new JsonObject();
 
         object.addProperty("enabled", this.enabled);
         object.addProperty("keyCode", this.keyCode);
 
-        JsonObject settings = new JsonObject();
+        final JsonObject settings = new JsonObject();
 
         for (Setting<?> setting : Osiris.getInstance().getModuleManager().getSettingsByModule(this)) {
             settings.add(setting.getName(), setting.serialize());

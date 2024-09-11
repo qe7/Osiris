@@ -60,7 +60,7 @@ public class KillAuraModule extends Module {
         final Minecraft mc = Minecraft.getMinecraft();
 
         if (this.shouldBlock) {
-            if (mc.thePlayer.getHeldItem() != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
+            if (mc.thePlayer.inventory.getCurrentItem() != null && mc.thePlayer.inventory.getCurrentItem().getItem() != null && mc.thePlayer.inventory.getCurrentItem().getItem() instanceof ItemSword) {
                 PacketUtil.sendPacket(new Packet15Place());
             }
             this.shouldBlock = false;

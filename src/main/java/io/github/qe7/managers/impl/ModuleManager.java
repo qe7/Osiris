@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import io.github.qe7.Osiris;
 import io.github.qe7.events.impl.game.KeyInputEvent;
-import io.github.qe7.events.impl.packet.IncomingPacketEvent;
 import io.github.qe7.features.impl.modules.api.Module;
 import io.github.qe7.features.impl.modules.api.settings.api.Setting;
 import io.github.qe7.features.impl.modules.impl.chat.*;
@@ -18,7 +17,6 @@ import io.github.qe7.features.impl.modules.impl.combat.VelocityModule;
 import io.github.qe7.features.impl.modules.impl.exploit.AntiHungerModule;
 import io.github.qe7.features.impl.modules.impl.exploit.FastPortalModule;
 import io.github.qe7.features.impl.modules.impl.exploit.FastUseModule;
-import io.github.qe7.features.impl.modules.impl.exploit.LightningTrackerModule;
 import io.github.qe7.features.impl.modules.impl.exploit.RegenModule;
 import io.github.qe7.managers.api.Manager;
 import io.github.qe7.utils.configs.FileUtil;
@@ -57,7 +55,6 @@ public final class ModuleManager extends Manager<Class<? extends Module>, Module
         modules.add(new AntiHungerModule());
         modules.add(new FastPortalModule());
         modules.add(new FastUseModule());
-        modules.add(new LightningTrackerModule());
         modules.add(new RegenModule());
 
         modules.add(new WorldDLModule());
