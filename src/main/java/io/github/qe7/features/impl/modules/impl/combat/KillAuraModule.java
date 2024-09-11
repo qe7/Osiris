@@ -117,7 +117,12 @@ public class KillAuraModule extends Module {
 
         // auto block
         if (this.autoBlock.getValue()) {
+<<<<<<< HEAD
             if (mc.thePlayer.inventory.getCurrentItem() != null && mc.thePlayer.inventory.getCurrentItem().getItem() != null && mc.thePlayer.inventory.getCurrentItem().getItem() instanceof ItemSword) {
+=======
+            if (mc.thePlayer.getHeldItem() != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
+//                ChatUtil.addMessage("Blocking");
+>>>>>>> fd5eba3767abf74de14f49a82321270d7162b3e5
                 PacketUtil.sendPacket(new Packet15Place());
                 shouldBlock = true;
             }
