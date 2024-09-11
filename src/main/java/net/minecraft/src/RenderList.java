@@ -3,6 +3,9 @@ package net.minecraft.src;
 import java.nio.IntBuffer;
 import org.lwjgl.opengl.GL11;
 
+import io.github.qe7.Osiris;
+import io.github.qe7.features.impl.modules.impl.render.YesJitterModule;
+
 public class RenderList
 {
     private int field_1242_a;
@@ -11,6 +14,9 @@ public class RenderList
     private double field_1239_d;
     private double field_1238_e;
     private double field_1237_f;
+    private double field_1239_d1;
+    private double field_1238_e1;
+    private double field_1237_f1;
     private IntBuffer field_1236_g;
     private boolean field_1235_h;
     private boolean field_1234_i;
@@ -32,6 +38,9 @@ public class RenderList
         field_1239_d = par4;
         field_1238_e = par6;
         field_1237_f = par8;
+        field_1239_d1 = (float)par4;
+        field_1238_e1 = (float)par6;
+        field_1237_f1 = (float)par8;
     }
 
     public boolean func_862_a(int par1, int par2, int par3)
@@ -72,7 +81,11 @@ public class RenderList
         if (field_1236_g.remaining() > 0)
         {
             GL11.glPushMatrix();
-            GL11.glTranslatef((float)((double)field_1242_a - field_1239_d), (float)((double)field_1241_b - field_1238_e), (float)((double)field_1240_c - field_1237_f));
+            if (Osiris.getInstance().getModuleManager().getMap().get(YesJitterModule.class).isEnabled()) {
+            	GL11.glTranslatef((float)(this.field_1242_a - this.field_1239_d1), (float)(this.field_1241_b - this.field_1238_e1), (float)(this.field_1240_c - this.field_1237_f1));
+            } else {
+                GL11.glTranslatef((float)((double)field_1242_a - field_1239_d), (float)((double)field_1241_b - field_1238_e), (float)((double)field_1240_c - field_1237_f));
+            }
             GL11.glCallLists(field_1236_g);
             GL11.glPopMatrix();
         }

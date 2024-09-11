@@ -16,6 +16,7 @@ import io.github.qe7.features.impl.modules.impl.combat.CriticalsModule;
 import io.github.qe7.features.impl.modules.impl.combat.KillAuraModule;
 import io.github.qe7.features.impl.modules.impl.combat.VelocityModule;
 import io.github.qe7.features.impl.modules.impl.exploit.AntiHungerModule;
+import io.github.qe7.features.impl.modules.impl.exploit.FastPortalModule;
 import io.github.qe7.features.impl.modules.impl.exploit.FastUseModule;
 import io.github.qe7.features.impl.modules.impl.exploit.LightningTrackerModule;
 import io.github.qe7.features.impl.modules.impl.exploit.RegenModule;
@@ -53,6 +54,7 @@ public final class ModuleManager extends Manager<Class<? extends Module>, Module
         modules.add(new VelocityModule());
 
         modules.add(new AntiHungerModule());
+        modules.add(new FastPortalModule());
         modules.add(new FastUseModule());
         modules.add(new LightningTrackerModule());
         modules.add(new RegenModule());
@@ -80,6 +82,8 @@ public final class ModuleManager extends Manager<Class<? extends Module>, Module
         modules.add(new StepModule());
 
         modules.add(new BrightnessModule());
+        modules.add(new ReduceFPSModule());
+        modules.add(new YesJitterModule());
         modules.add(new CameraModule());
         modules.add(new ClickGUIModule());
         modules.add(new ESPModule());
