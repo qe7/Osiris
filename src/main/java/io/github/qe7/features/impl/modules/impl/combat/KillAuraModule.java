@@ -117,11 +117,11 @@ public class KillAuraModule extends Module {
 
         // auto block
         if (this.autoBlock.getValue()) {
-//            if (mc.thePlayer.getHeldItem() != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
+            if (mc.thePlayer.getHeldItem() != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
 //                ChatUtil.addMessage("Blocking");
                 PacketUtil.sendPacket(new Packet15Place());
                 shouldBlock = true;
-//            }
+            }
         }
 
         // if the player is out of APS, return
