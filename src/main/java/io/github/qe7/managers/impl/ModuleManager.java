@@ -75,6 +75,7 @@ public final class ModuleManager extends Manager<Class<? extends Module>, Module
 
         modules.add(new FlyModule());
         modules.add(new InventoryMoveModule());
+        modules.add(new JesusModule());
         modules.add(new NoSlowdownModule());
         modules.add(new SpeedModule());
         modules.add(new StepModule());
