@@ -22,7 +22,7 @@ public class RenderBlocks
     /**
      * If true, renders all faces on all blocks rather than using the logic in Block.shouldSideBeRendered.  Unused.
      */
-    private boolean renderAllFaces;
+    public boolean renderAllFaces;
 
     /** Fancy grass side matching biome */
     public static boolean fancyGrass = true;

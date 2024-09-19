@@ -1158,6 +1158,8 @@ public class EntityRenderer {
                 GL11.glPopMatrix();
             }
 
+            lunatrius.schematica.Render.INSTANCE.onRenderWorldLast(renderglobal, par1);
+            
             Profiler.endStartSection("hand");
 
             if (cameraZoom == 1.0D) {

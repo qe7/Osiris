@@ -3,6 +3,7 @@ package io.github.qe7;
 import io.github.qe7.managers.impl.*;
 import io.github.qe7.utils.configs.FileUtil;
 import lombok.Getter;
+import lunatrius.schematica.SchematicaLoader;
 import me.zero.alpine.bus.EventBus;
 import me.zero.alpine.bus.EventManager;
 
@@ -25,7 +26,7 @@ public final class Osiris {
     private final ModuleManager moduleManager;
     private final CommandManager commandManager;
     private final PanelManager panelManager;
-
+    
     // Private constructor, to prevent instantiation
     private Osiris() {
         System.out.println("Osiris instance created!");
@@ -55,7 +56,8 @@ public final class Osiris {
         this.getModuleManager().initialise();
         this.getCommandManager().initialise();
         this.getPanelManager().initialise();
-
+        SchematicaLoader.load();
+        
         // register shutdown hook, save configs on shutdown
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
 
