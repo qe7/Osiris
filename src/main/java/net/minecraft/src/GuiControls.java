@@ -42,7 +42,7 @@ public class GuiControls extends GuiScreen
             controlList.add(new GuiSmallButton(j, i + (j % 2) * 160, height / 6 + 24 * (j >> 1), 70, 20, options.getOptionDisplayString(j)));
         }
 
-        controlList.add(new GuiButton(200, width / 2 - 100, height / 6 + 168, stringtranslate.translateKey("gui.done")));
+        controlList.add(new GuiButton(200, width / 2 - 100, height - 100, stringtranslate.translateKey("gui.done")));
         screenTitle = stringtranslate.translateKey("controls.title");
     }
 

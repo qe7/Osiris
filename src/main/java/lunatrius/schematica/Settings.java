@@ -18,7 +18,7 @@ public class Settings
     public Vector3i renderRange;
     public KeyBinding keyBindings[] =
     {
-        new KeyBinding("key.schematic.load", 181), new KeyBinding("key.schematic.save", 55), new KeyBinding("key.schematic.control", 74)
+        new KeyBinding("Schematica Load", 181), new KeyBinding("Schematica Save", 55), new KeyBinding("Schematica Control", 74)
     };
     public static final File schematicDirectory = new File(Minecraft.getMinecraftDir(), "/schematics/");
     public static final File textureDirectory = new File(Minecraft.getMinecraftDir(), "/resources/mod/schematica/");
