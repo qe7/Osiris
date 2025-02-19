@@ -4,7 +4,7 @@ A 1.2.5 Minecraft utility client, designed for use on the server "nadir.2beta2t.
 Taking an "extended" break (retiring project probably) - Shae
 
 [![version](https://img.shields.io/badge/release-1.0.6-green.svg)](https://github.com/qe7/Osiris/releases/tag/1.0.6)
-[![discord](https://img.shields.io/badge/Discord-join-7289DA.svg)](https://discord.gg/wkMNNMJFp4)
+[![discord](https://img.shields.io/badge/Discord-join-7289DA.svg)](https://discord.gg/88rmYJQAEf)
 [![license](https://img.shields.io/badge/License-GPL_3.0-blue.svg)](https://github.com/qe7/Osiris/blob/main/LICENSE)
 
 ## Requirements
